@@ -69,20 +69,10 @@ body {
   color: #4a4a4a;
 }
 
-/* --- Footer --- */
-footer {
-  text-align: center;
-  padding: 25px;
-  background: #e0e0e0;
-  border-top: 2px solid #c2c2c2;
-  font-size: 0.95rem;
-  color: #2e2e2e;
-}
-
 /* --- Call to Action Button --- */
 .cta-button {
   display: inline-block;
-  background-color: #9c6644; 
+  background-color: #E2725B; 
   color: white;
   padding: 12px 25px;
   border-radius: 6px;
@@ -97,47 +87,459 @@ footer {
   transform: scale(1.05);
 }
 
-/* --- Features Section --- */
+/* --- Call to Action Button --- */
+.cta-button-b {
+  display: inline-block;
+  background-color: #FFFFFF; 
+  color: #E2725B;
+  padding: 12px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button-b:hover {
+  background-color: #E2725B;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* --- Call to Action Button --- */
+.cta-button-c {
+  display: inline-block;
+  background-color: #D9D9D9; 
+  color: #000000;
+  padding: 12px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button-c:hover {
+  background-color: #E2725B;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* --- Features Section/Filter Buttons --- */
 .features {
-  background: #f0f0f0;
-  padding: 80px 20px;
+  background: #F4F1EA;
   text-align: center;
+  padding: 60px 20px;
 }
 
 .features h2 {
   font-size: 2rem;
-  margin-bottom: 40px;
-  color: #2c2c2c;
+  color: #2b2118;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.feature-container {
+.features hr {
+  width: 80px;
+  height: 3px;
+  background: #E2725B;
+  border: none;
+  margin: 15px auto 30px;
+  border-radius: 3px;
+}
+
+/* --- Filter Buttons --- */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter {
+  padding: 10px 25px;
+  border-radius: 8px;
+  background: #e6e6e6;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.filter:hover,
+.filter.active {
+  background: #E2725B;
+  color: white;
+}
+
+
+/* --- Recipe Cards --- */
+.recipe-grid{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 25px;
+}
+
+.recipe-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover {
+  transform:  translateY(-5px);
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.recipe-info {
+  text-align: left;
+  padding: 20px;
+}
+
+.recipe-info h3{
+  color: #000000;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.recipe-info p{
+  font-size: 0.9rem;
+  color: #36454F;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.tag , .tag.dessert { 
+  background: #D9D9D9;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.time {
+  font-size: 0.85rem;
+  color: #000000;
+}
+
+.view-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: #E2725B;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.view-btn:hover {
+  background: #c95a44;
+}
+
+/* --- View All --- */
+.view-all-container {
+  margin-top: 40px;
+}
+
+.view-all {
+  background: #D9D9D9;
+  color: #000000;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight:  500;
+  transition:  background 0.3s ease;
+}
+
+.view-all:hover {
+  background: #bdbdbd;
+}
+/* --- Search Section --- */
+.recipe-search {
+  background: #CBB9A4; /* your site background color */
+  padding: 60px 10px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.recipe-search h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2b2118;
+  margin-bottom: 30px;
+}
+
+/* --- Recipe Box --- */
+.recipe-box {
+  background: #FAF9F6;
   display: inline-block;
+  padding: 30px 40px;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 50px;
+}
+
+/* --- Label --- */
+.recipe-box label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #2b2118;
+}
+
+/* --- Input Group --- */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #aaa;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.add-btn {
+  background: #CC5500;
+  color: #FFFFFF;
+  border: 2px;
+  padding: 12px 25px;
+  border-radius: 0 20px 20px 0;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #a85c20;
+}
+
+/* --- Search Button --- */
+.search-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #E67656;
+  color: white;
+  font-weight: 200;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #d35a3a;
+}
+
+/* --- tutorial Section --- */
+.tutorial-section {
+  text-align: center;
+  background-color: #F4F1EA;
+  padding: 60px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.tutorial-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.tutorial-container {
+  display: flex;
   justify-content: center;
   gap: 30px;
-  
+  flex-wrap: wrap;
 }
 
-.feature {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  max-width: 300px;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  flex: 1 1 250px;  /* allows shrinking/growing neatly */
+.tutorial-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  width: 320px;
+  transition:  transform 0.3s ease;
 }
 
-.feature:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+.tutorial-card:hover {
+  transform:  translateY(-5px);
 }
 
-.feature h3 {
-  margin-bottom: 10px;
-  color: #9c6644; /* accent color */
+.tutorial-image {
+  position: relative;
 }
 
-.feature p {
-  color: #4a4a4a;
+.tutorial-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tutorial-content {
+  padding: 20px;
+  text-align: left;
+}
+
+.tutorial-content h3 {
+  font-size: 1.2rem;
+  font-weight:  700;
+  margin-bottom:  10px;
+}
+
+.tutorial-content p {
   font-size: 0.95rem;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.tutorial-time {
+  font-size: 0.9rem;
+  color: #000000;
+}
+
+.browse-tutorials {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.browse-btn {
+  background-color: #E2725B;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding:  12px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition:  background-color 0.3s ease;
+}
+
+.browse-btn:hover {
+  background-color: #d67652;
+}
+
+/* --- Community Section --- */
+.community-section {
+  background-color: #db6b55; 
+  text-align: center;
+  padding: 70px 0;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.community-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #ffffff;
+}
+
+.community-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.community-card {
+  background-color: #fff;
+  color: #222;
+  border-radius: 20px;
+  width: 400px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-5px);
+}
+
+.community-icon {
+  background-color: #f4e8e2;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.community-icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.community-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.community-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.join-community {
+  margin-top: 40px;
+}
+
+.join-community-btn {
+  background-color: #e9e9e9;
+  color: #222;
+  padding: 12px 30px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.join-community-btn:hover {
+  background-color: #ccc;
+}
+
+
+/* --- Footer --- */
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #36454F;
+  border-top: 2px solid #c2c2c2;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+footer hr {
+  border: none;
+  height: 2px;
+  background: #FFFFFF;
+  margin: 25px auto;
+  width: 75%;
+  border-radius: 8px;
 }
