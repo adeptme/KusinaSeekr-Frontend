@@ -37,16 +37,16 @@ To implement a learning system that adapts to users’ needs by:
 
 ---
 
-## Technologies Used
+## Techstack Used
 - HTML5 / CSS3 / JavaScript  
 - (Optionally) Python / Flask / Node.js for backend  
-- MySQL or Firebase for data storage  
+- MySQL for database deployed in Supabase  
 
 ---
 
 ##  Authors
 **Developed by:**  
-- *Sean Lucino (Leader)*
+- *Sean Lucino (Project Manager)*
 - *Frank Eliel Gasta*
 - *Martin Josh de Leon*
 - *Ralf Neis*
