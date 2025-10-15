@@ -16,7 +16,7 @@ body {
 /* --- Header --- */
 .site-header {
   background: #e6dbc9;
-  padding: 15px 60px;
+  padding: 10px 60px;
   display: flex;
   justify-content: space-between; /* title on left, nav on right */
   align-items: center;
@@ -69,6 +69,24 @@ body {
   color: #4a4a4a;
 }
 
+/* --- for log in --- */
+.lg-button {
+  display: inline-block;
+  background-color: #E2725B; 
+  color: white;
+  padding: 5px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.lg-button:hover {
+  background-color: #cc5500;
+  transform: scale(1.05);
+}
+
 /* --- Call to Action Button --- */
 .cta-button {
   display: inline-block;
@@ -83,7 +101,7 @@ body {
 }
 
 .cta-button:hover {
-  background-color: #7a5034; 
+  background-color: #cc5500;
   transform: scale(1.05);
 }
 
@@ -542,4 +560,198 @@ footer hr {
   margin: 25px auto;
   width: 75%;
   border-radius: 8px;
+}
+
+/* for tutorial page - ralf */
+
+/* Main container */
+.tutorial-container {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+/* Header Section (Image + Info) */
+.tutorial-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.tutorial-image img {
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  object-fit: cover;
+}
+
+.tutorial-info {
+  flex: 1;
+  padding: 25px;
+}
+
+.tutorial-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.tutorial-description {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Steps Section */
+.tutorial-steps {
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.tutorial-steps h3 {
+  color: #E2725B;
+  margin-bottom: 15px;
+}
+
+.tutorial-steps ol {
+  margin-left: 20px;
+  color: #444;
+  line-height: 1.8;
+}
+
+/* Equipment Section */
+.tutorial-equipment {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
+.tutorial-equipment h3 {
+  color: #E2725B;
+  margin-bottom: 15px;
+}
+
+.tutorial-equipment ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #444;
+  line-height: 1.8;
+}
+
+/* Related Tutorials */
+.related-tutorials {
+  margin-bottom: 60px;
+}
+
+.related-tutorials h3 {
+  color: #E2725B;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.related-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.related-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.related-card h4 {
+  padding: 15px;
+  color: #333;
+}
+
+.related-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Footer */
+.site-footer {
+  background-color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* --- Video modal --- */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.video-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.close-modal:hover {
+  color: #E2725B;
+}
+
+.tutorial-image {
+  position: relative;
+  cursor: pointer;
+}
+
+.tutorial-image::after {
+  content: '▶';
+  position: absolute;
+  font-size: 3rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px 20px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
