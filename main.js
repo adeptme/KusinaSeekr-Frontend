@@ -25,3 +25,11 @@ window.addEventListener('click', (e) => {
     videoModal.style.display = 'none';
   }
 });
+
+//for saving recipe  
+
+document.querySelectorAll(".save-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    alert("Recipe saved!");
+  });
+});
