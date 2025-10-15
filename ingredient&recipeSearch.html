@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KusinaSeekr | Recipe Search</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>KusinaSeekr</h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#" class="active">Search</a></li>
+        <li><a href="#">Recipes</a></li>
+        <li><a href="#">Tutorials</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="search-section">
+    <h2>Find Recipes Your Way</h2>
+
+    <div class="toggle-container">
+      <button id="recipeToggle" class="toggle-btn active">Recipe Search</button>
+      <button id="ingredientToggle" class="toggle-btn">Ingredient Search</button>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search for a recipe...">
+      <button id="searchBtn" class="search-btn">Search</button>
+    </div>
+
+    <p id="searchDescription" class="search-description">
+      Search by recipe name to find what you want to cook.
+    </p>
+  </section>
+
+  <section class="search-results">
+    <h3>Results</h3>
+    <div class="results-grid">
+      <div class="result-card">
+        <img src="#" alt="Adobo">
+        <h4>Chicken Adobo</h4>
+        <p>Classic Filipino dish with soy sauce, vinegar, and garlic.</p>
+      </div>
+      <div class="result-card">
+        <img src="#" alt="Sinigang">
+        <h4>Sinigang na Baboy</h4>
+        <p>Tamarind-based soup that’s savory, sour, and comforting.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 KusinaSeekr. All Rights Reserved.
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

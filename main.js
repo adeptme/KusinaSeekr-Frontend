@@ -33,3 +33,7 @@ document.querySelectorAll(".save-btn").forEach(btn => {
     alert("Recipe saved!");
   });
 });
+
+
+//for search ingeredients
+
