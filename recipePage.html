@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe | KusinaSeekr</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="responsive.css">
+  </head>
+
+  <body>
+    <header class="site-header">
+        <h1>KusinaSeekr</h1>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Recipes</a></li>
+                <li><a href="#">Cooking Tutorials</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#" onclick="gotologinpage()" class="lg-button">Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- main -->
+    <main class="recipe-container">
+      <section class="recipe-hero">
+        <img src="images/pork-adobo.jpg" alt="Pork Adobo" class="recipe-image" />
+        <div class="recipe-info">
+          <h1 class="recipe-title">Pork Adobo</h1>
+          <p class="recipe-desc">
+            Pork Adobo is pork cooked in soy sauce, vinegar, and garlic. It’s considered
+            as the Philippines’ national dish because of its popularity.
+          </p>
+          <div class="recipe-meta">
+            <span>40 mins</span>
+            <span>4 servings</span>
+            <span>4.8 (100 reviews)</span>
+          </div>
+          <div class="recipe-actions">
+            <button class="save-btn">Save</button>
+            <button class="share-btn">Share</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="recipe-details">
+        <div class="ingredients">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>2 lbs chicken thighs and drumsticks</li>
+            <li>1/2 cup soy sauce</li>
+            <li>1/2 cup white vinegar</li>
+            <li>1 head garlic, minced</li>
+            <li>1 tsp whole black peppercorns</li>
+            <li>3 bay leaves</li>
+            <li>1 tbsp brown sugar</li>
+            <li>1 cup water</li>
+            <li>2 tbsp vegetable oil</li>
+            <li>Steamed white rice</li>
+          </ul>
+        </div>
+
+        <div class="instructions">
+          <h3>Instructions</h3>
+          <ol>
+            <li>Marinate the chicken in soy sauce, garlic, and peppercorns for 30 mins.</li>
+            <li>Heat oil in a pan and brown the chicken on all sides.</li>
+            <li>Add the reserved marinade, water, bay leaves, and brown sugar.</li>
+            <li>Simmer for 30 minutes until tender and sauce thickens.</li>
+            <li>Serve hot with steamed rice.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="related-recipes">
+        <h2>You Might Also Like</h2>
+        <div class="related-list">
+          <div class="recipe-card">
+            <img src="images/pork-adobo.jpg" alt="Pork Adobo" />
+            <h4>Pork Adobo</h4>
+            <p>Classic Filipino comfort food with soy sauce, vinegar, and garlic.</p>
+            <button class="view-btn">View Recipe</button>
+          </div>
+          <div class="recipe-card">
+            <img src="images/pork-adobo.jpg" alt="Pork Adobo" />
+            <h4>Pork Adobo</h4>
+            <p>Classic Filipino comfort food with soy sauce, vinegar, and garlic.</p>
+            <button class="view-btn">View Recipe</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Faa -->
+    <footer>
+      <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
