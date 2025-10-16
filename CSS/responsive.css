@@ -1,0 +1,86 @@
+
+@media (max-width: 768px) {
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem 0.5rem;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navbar a {
+    font-size: 0.95rem;
+  }
+
+  /* Sections */
+  section {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Toggle Buttons */
+  .toggle-container {
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto 1rem;
+  }
+
+  .toggle-btn {
+    width: 100%;
+    margin: 0.3rem 0;
+  }
+
+  /* Search Bar */
+  .search-bar input {
+    width: 95%;
+    font-size: 0.95rem;
+  }
+
+  /* Cards / Lists */
+  .recipe-card,
+  .tutorial-card {
+    width: 90%;
+    margin: 1rem auto;
+  }
+
+  /* Text and Headings */
+  h1,
+  h2,
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  /* Footer */
+  footer {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+}
+
+/* mas maliit */
+@media (max-width: 480px) {
+  .navbar h1.logo {
+    font-size: 1.2rem;
+  }
+
+  .toggle-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  input[type="text"],
+  input[type="search"] {
+    font-size: 0.9rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+  }
+}
