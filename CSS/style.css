@@ -572,7 +572,7 @@ body {
 footer {
   text-align: center;
   padding: 25px;
-  background: red;
+  background: #36454F;
   border-top: 2px solid #c2c2c2;
   font-size: 0.95rem;
   color: #ffffff;
@@ -712,17 +712,6 @@ footer hr {
 .related-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-}
-
-/* Footer */
-.site-footer {
-  background-color: #fff;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  border-top: 1px solid #ddd;
-  color: #555;
-  font-size: 0.9rem;
 }
 
 /* --- Video modal --- */
@@ -890,14 +879,7 @@ footer hr {
 }
 
 /* Faa */
-footer {
-  background-color: white;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 0.9rem;
-  color: #3b2f2f;
-  margin-top: 40px;
-}
+
 
 /*for searching pages */
 
