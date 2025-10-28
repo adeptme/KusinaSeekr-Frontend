@@ -18,7 +18,7 @@ body {
   background: #e6dbc9;
   padding: 10px 60px;
   display: flex;
-  justify-content: space-between; /* title on left, nav on right */
+  justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #c2c2c2;
 }
@@ -31,6 +31,7 @@ body {
 
 /* nav inside header */
 .navbar ul {
+  margin-left: 550px;
   list-style: none;
   display: flex;
   gap: 25px;
@@ -49,24 +50,49 @@ body {
 
 /* --- Intro Section --- */
 .intro {
+  position: relative;
+  background-image: url("Page/images/sisig.jpg");
+  background-size: cover;
+  background-position: center;
   text-align: center;
-  padding: 80px 20px;
-  background: #f0f0f0;
-  border-radius: 10px;
-  margin: 40px auto;
-  max-width: 800px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+.intro .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 20px;
 }
 
 .intro h1 {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: #2c2c2c;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 1.2;
+  color: #3b1f16;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .intro p {
+  font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
-  color: #4a4a4a;
+  color: #36454F;
+  margin-bottom: 25px;
 }
 
 /* --- for log in --- */
@@ -78,7 +104,6 @@ body {
   border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
-  margin-top: px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -689,17 +714,6 @@ footer hr {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
-/* Footer */
-.site-footer {
-  background-color: #fff;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  border-top: 1px solid #ddd;
-  color: #555;
-  font-size: 0.9rem;
-}
-
 /* --- Video modal --- */
 .video-modal {
   display: none;
@@ -865,14 +879,7 @@ footer hr {
 }
 
 /* Faa */
-footer {
-  background-color: white;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 0.9rem;
-  color: #3b2f2f;
-  margin-top: 40px;
-}
+
 
 /*for searching pages */
 
@@ -1094,3 +1101,17 @@ footer {
   color: #333;
   margin: 0 10px 15px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
