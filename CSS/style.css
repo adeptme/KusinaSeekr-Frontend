@@ -18,7 +18,7 @@ body {
   background: #e6dbc9;
   padding: 10px 60px;
   display: flex;
-  justify-content: space-between; /* title on left, nav on right */
+  justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #c2c2c2;
 }
@@ -31,6 +31,7 @@ body {
 
 /* nav inside header */
 .navbar ul {
+  margin-left: 550px;
   list-style: none;
   display: flex;
   gap: 25px;
@@ -50,7 +51,7 @@ body {
 /* --- Intro Section --- */
 .intro {
   position: relative;
-  background-image: url("images/sisig.jpeg");
+  background-image: url("Page/images/sisig.jpg");
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -90,7 +91,7 @@ body {
 .intro p {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
-  color: #2c2c2c;
+  color: #36454F;
   margin-bottom: 25px;
 }
 
@@ -103,7 +104,6 @@ body {
   border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
-  margin-top: px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -572,7 +572,7 @@ body {
 footer {
   text-align: center;
   padding: 25px;
-  background: #36454F;
+  background: red;
   border-top: 2px solid #c2c2c2;
   font-size: 0.95rem;
   color: #ffffff;
