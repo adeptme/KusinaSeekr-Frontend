@@ -1,0 +1,181 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light gray background for the page */
+    margin: 0;
+    padding: 0;
+}
+
+.site-header {
+  background: #e6dbc9;
+  padding: 10px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #c2c2c2;
+}
+
+.site-header h1 {
+  font-size: 1.5rem;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+/* nav inside header */
+.navbar ul {
+  margin-left: 550px;
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #2c2c2c;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.navbar a:hover {
+  color: #9c6644;
+}
+
+/* --- Container for the Feed Content --- */
+.feed-container {
+    width: 100%;
+    max-width: 650px; /* Constrain the width to look like a social media feed */
+    background-color: #ffffff; /* White background for the main content area */
+    padding-top: 50px; /* Space below the fixed header */
+
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-btn {
+    background-color: #cc5500;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- Post Creation Box --- */
+.new-post-box {
+    background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px;
+}
+
+.user-input-area {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-input-area input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Rounded input field */
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.post-to-community-btn {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- Post & Comment Base Styles --- */
+.post, .comment {
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* --- Post Header (Shared by Post and Comment) --- */
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Makes the avatar circular */
+    margin-right: 10px;
+    /* Use a placeholder background color for now */
+    background-color: #ccc; 
+}
+
+.username {
+    font-weight: bold;
+    color: #333;
+    display: block;
+}
+
+.time-ago {
+    font-size: 12px;
+    color: #888;
+}
+
+/* --- Post Content --- */
+.post-content {
+    padding: 0 15px 15px;
+}
+
+.post-content p {
+    margin-top: 0;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px; /* Limit the height of the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* --- Comment Box Specific Styling --- */
+.comment {
+    /* Style the comment box to look slightly different, as in the image */
+    background-color: #f9f9f9; 
+    border-left: 5px solid #cc5500; /* Vertical line on the left */
+    margin-top: -15px; /* Pull it slightly up to align with the post */
+    margin-bottom: 25px; 
+}
+
+.comment-text {
+    padding: 0 15px 15px 15px;
+    font-style: italic;
+    color: #555;
+    font-size: 14px;
+}
+
+.comment .post-header {
+    padding: 10px 15px 5px;
+}
