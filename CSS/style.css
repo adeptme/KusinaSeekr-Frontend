@@ -31,7 +31,8 @@ body {
 
 /* nav inside header */
 .navbar ul {
-  margin-left: 550px;
+  margin-left: auto; /* Changed to auto for better responsiveness */
+  margin-right: 50px;
   list-style: none;
   display: flex;
   gap: 25px;
@@ -48,10 +49,10 @@ body {
   color: #9c6644;
 }
 
-/* --- Intro Section --- */
+/* --- Intro Section (Home) --- */
 .intro {
   position: relative;
-  background-image: url("Page/images/sisig.jpg");
+  background-image: url("Page/images/sisig.jpg"); /* Ensure this path is correct relative to CSS */
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -91,11 +92,11 @@ body {
 .intro p {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
-  color: #36454F;
+  color: #f0f0f0; /* Lighter text for dark overlay */
   margin-bottom: 25px;
 }
 
-/* --- for log in --- */
+/* --- Buttons --- */
 .lg-button {
   display: inline-block;
   background-color: #E2725B; 
@@ -112,7 +113,6 @@ body {
   transform: scale(1.05);
 }
 
-/* --- Call to Action Button --- */
 .cta-button {
   display: inline-block;
   background-color: #E2725B; 
@@ -130,7 +130,6 @@ body {
   transform: scale(1.05);
 }
 
-/* --- Call to Action Button --- */
 .cta-button-b {
   display: inline-block;
   background-color: #FFFFFF; 
@@ -149,7 +148,6 @@ body {
   transform: scale(1.05);
 }
 
-/* --- Call to Action Button --- */
 .cta-button-c {
   display: inline-block;
   background-color: #D9D9D9; 
@@ -167,7 +165,7 @@ body {
   transform: scale(1.05);
 }
 
-/* --- Features Section/Filter Buttons --- */
+/* --- Features Section (Home) --- */
 .features {
   background: #F4F1EA;
   text-align: center;
@@ -190,7 +188,6 @@ body {
   border-radius: 3px;
 }
 
-/* --- Filter Buttons --- */
 .filter-buttons {
   display: flex;
   justify-content: center;
@@ -215,9 +212,9 @@ body {
   color: white;
 }
 
-
-/* --- Recipe Cards --- */
-.recipe-grid{
+/* --- Recipe Cards (HOME PAGE VERSION) --- */
+/* Scoped to .features to avoid conflict with Recipe Page */
+.features .recipe-grid {
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -225,37 +222,37 @@ body {
   margin: 25px;
 }
 
-.recipe-card {
+.features .recipe-card {
   background: #FFFFFF;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   overflow: hidden;
-  width: 300px;
+  width: 300px; /* Home page specific width */
   transition: transform 0.3s ease;
 }
 
-.recipe-card:hover {
-  transform:  translateY(-5px);
+.features .recipe-card:hover {
+  transform: translateY(-5px);
 }
 
-.recipe-card img {
+.features .recipe-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
-.recipe-info {
+.features .recipe-info {
   text-align: left;
   padding: 20px;
 }
 
-.recipe-info h3{
+.features .recipe-info h3 {
   color: #000000;
   font-size: 1.25rem;
   margin-bottom: 10px;
 }
 
-.recipe-info p{
+.features .recipe-info p {
   font-size: 0.9rem;
   color: #36454F;
   line-height: 1.4;
@@ -268,7 +265,7 @@ body {
   margin-bottom: 15px;
 }
 
-.tag , .tag.dessert { 
+.tag, .tag.dessert { 
   background: #D9D9D9;
   padding: 5px 12px;
   border-radius: 20px;
@@ -297,7 +294,7 @@ body {
   background: #c95a44;
 }
 
-/* --- View All --- */
+/* --- View All Link --- */
 .view-all-container {
   margin-top: 40px;
 }
@@ -308,16 +305,17 @@ body {
   padding: 12px 25px;
   border-radius: 8px;
   text-decoration: none;
-  font-weight:  500;
-  transition:  background 0.3s ease;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 .view-all:hover {
   background: #bdbdbd;
 }
-/* --- Search Section --- */
+
+/* --- Recipe Search Section (Home - "What Can I Cook Today") --- */
 .recipe-search {
-  background: #CBB9A4; /* your site background color */
+  background: #CBB9A4;
   padding: 60px 10px;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -330,7 +328,6 @@ body {
   margin-bottom: 30px;
 }
 
-/* --- Recipe Box --- */
 .recipe-box {
   background: #FAF9F6;
   display: inline-block;
@@ -343,7 +340,6 @@ body {
   margin-bottom: 50px;
 }
 
-/* --- Label --- */
 .recipe-box label {
   display: block;
   font-size: 1.1rem;
@@ -351,7 +347,6 @@ body {
   color: #2b2118;
 }
 
-/* --- Input Group --- */
 .input-group {
   display: flex;
   align-items: center;
@@ -381,7 +376,7 @@ body {
   background: #a85c20;
 }
 
-/* --- Search Button --- */
+/* Generic Search Button */
 .search-btn {
   width: 100%;
   padding: 14px;
@@ -398,7 +393,7 @@ body {
   background: #d35a3a;
 }
 
-/* --- tutorial Section --- */
+/* --- Tutorial Section (HOME PAGE) --- */
 .tutorial-section {
   text-align: center;
   background-color: #F4F1EA;
@@ -420,18 +415,19 @@ body {
   flex-wrap: wrap;
 }
 
-.tutorial-card {
+/* Scoped to .tutorial-section so it doesn't break Tutorial Search Page */
+.tutorial-section .tutorial-card {
   background: #FFFFFF;
-  border-radius: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   overflow: hidden;
-  width: 320px;
-  transition:  transform 0.3s ease;
+  width: 320px; /* Home page specific width */
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-.tutorial-card:hover {
-  transform:  translateY(-5px);
+.tutorial-section .tutorial-card:hover {
+  transform: translateY(-5px);
 }
 
 .tutorial-image {
@@ -451,8 +447,8 @@ body {
 
 .tutorial-content h3 {
   font-size: 1.2rem;
-  font-weight:  700;
-  margin-bottom:  10px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .tutorial-content p {
@@ -475,10 +471,10 @@ body {
   background-color: #E2725B;
   color: #FFFFFF;
   text-decoration: none;
-  padding:  12px 30px;
+  padding: 12px 30px;
   border-radius: 10px;
   font-weight: 600;
-  transition:  background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .browse-btn:hover {
@@ -587,10 +583,231 @@ footer hr {
   border-radius: 8px;
 }
 
-/* for tutorial page - ralf */
+
+/* ---------------------------------------------------- */
+/* TUTORIAL SEARCH PAGE SPECIFIC             */
+/* ---------------------------------------------------- */
+
+.tutorial-search {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #F4F1EA;
+}
+
+.tutorial-search h2 {
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #2b2118;
+}
+
+/* Scoped search-box for Tutorial Search Page */
+.tutorial-search .search-box {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+  background: white;
+}
+
+.tutorial-search .search-box input {
+  border: none;
+  padding: 12px 20px;
+  width: 280px;
+  outline: none;
+}
+
+.tutorial-search .search-box .search-btn {
+  background: #E2725B;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.tutorial-search .search-box .search-btn:hover {
+  background: #cc5500;
+}
+
+.tutorial-list {
+  padding: 60px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.tutorial-list h2 {
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+}
+
+.tutorial-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Scoped tutorial-card for Tutorial Search Page */
+.tutorial-list .tutorial-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 300px; /* Search page specific width */
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.tutorial-list .tutorial-card:hover {
+  transform: translateY(-5px);
+}
+
+.tutorial-list .tutorial-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tutorial-list .tutorial-card h3 {
+  margin: 15px 10px 5px;
+  color: #E2725B;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.tutorial-list .tutorial-card p {
+  margin: 0 10px 20px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+
+/* ---------------------------------------------------- */
+/* RECIPE SEARCH PAGE SPECIFIC               */
+/* ---------------------------------------------------- */
+
+.search-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #F4F1EA;
+}
+
+.search-section h2 {
+  font-size: 2rem;
+  color: #2b2118;
+  margin-bottom: 30px;
+}
+
+/* --- Toggle Buttons --- */
+.toggle-container {
+  display: inline-flex;
+  border: 2px solid #E2725B;
+  border-radius: 50px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.toggle-btn {
+  background: #fff;
+  color: #E2725B;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+  background: #E2725B;
+  color: #fff;
+}
+
+.toggle-btn:hover {
+  background: #f8d5cc;
+}
+
+/* Scoped search-box for Recipe Search Page */
+.search-section .search-box {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 15px;
+}
+
+.search-section .search-box input {
+  border: none;
+  padding: 12px 20px;
+  width: 280px;
+  outline: none;
+}
+
+.search-description {
+  font-size: 0.95rem;
+  color: #333;
+  margin-top: 15px;
+}
+
+/* --- Results Section --- */
+.search-results {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #fff;
+}
+
+.search-results h3 {
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+  color: #2b2118;
+}
+
+.results-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.result-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 280px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+}
+
+.result-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.result-card h4 {
+  color: #E2725B;
+  margin: 15px 10px 5px;
+  font-weight: 600;
+}
+
+.result-card p {
+  color: #333;
+  margin: 0 10px 15px;
+  font-size: 0.9rem;
+}
+
+
+/* ---------------------------------------------------- */
+/* INDIVIDUAL TUTORIAL PAGE                  */
+/* ---------------------------------------------------- */
 
 /* Main container */
-.tutorial-container {
+.tutorial-container-page {
   max-width: 1100px;
   margin: 60px auto;
   padding: 20px;
@@ -608,15 +825,72 @@ footer hr {
   margin-bottom: 40px;
 }
 
-.tutorial-image img {
+/* Video modal */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
   width: 100%;
-  max-width: 550px;
-  height: auto;
-  object-fit: cover;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
 }
 
-.tutorial-info {
-  flex: 1;
+.video-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.close-modal:hover {
+  color: #E2725B;
+}
+
+.tutorial-header .tutorial-image {
+  position: relative;
+  cursor: pointer;
+  flex: 1 1 500px;
+}
+
+.tutorial-header .tutorial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tutorial-header .tutorial-image::after {
+  content: '▶';
+  position: absolute;
+  font-size: 3rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px 20px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.tutorial-header .tutorial-info {
+  flex: 1 1 400px;
   padding: 25px;
 }
 
@@ -714,66 +988,11 @@ footer hr {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
-/* --- Video modal --- */
-.video-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-}
 
-.video-modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
+/* ---------------------------------------------------- */
+/* INDIVIDUAL RECIPE PAGE                    */
+/* ---------------------------------------------------- */
 
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #333;
-}
-
-.close-modal:hover {
-  color: #E2725B;
-}
-
-.tutorial-image {
-  position: relative;
-  cursor: pointer;
-}
-
-.tutorial-image::after {
-  content: '▶';
-  position: absolute;
-  font-size: 3rem;
-  color: white;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 15px 20px;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-
-/* --- recipePage --- */
-
-/* recipe  */
 .recipe-container {
   width: 90%;
   max-width: 1200px;
@@ -789,13 +1008,13 @@ footer hr {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.recipe-image {
+.recipe-hero .recipe-image {
   width: 100%;
   height: 350px;
   object-fit: cover;
 }
 
-.recipe-info {
+.recipe-hero .recipe-info {
   padding: 20px 30px;
 }
 
@@ -832,18 +1051,20 @@ footer hr {
   justify-content: space-between;
   margin-top: 40px;
   gap: 20px;
+  flex-wrap: wrap; /* Added for responsiveness */
 }
 
 .ingredients,
 .instructions {
   background-color: #fff;
   flex: 1;
+  min-width: 300px; /* Minimum width for responsiveness */
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* related recipes */
+/* Related Recipes (Scoped) */
 .related-recipes {
   margin-top: 50px;
 }
@@ -854,21 +1075,24 @@ footer hr {
   flex-wrap: wrap;
 }
 
-.recipe-card {
+/* Scoped recipe-card for Related Recipes Section */
+.related-recipes .recipe-card {
   background-color: #fff;
   border-radius: 16px;
   padding: 15px;
-  width: 280px;
+  width: 280px; /* Recipe page specific width */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.recipe-card img {
+.related-recipes .recipe-card img {
   width: 100%;
   border-radius: 12px;
+  height: 180px;
+  object-fit: cover;
 }
 
-.view-btn {
+.related-recipes .view-btn {
   background-color: #e07a5f;
   color: white;
   border: none;
@@ -877,241 +1101,3 @@ footer hr {
   cursor: pointer;
   margin-top: 10px;
 }
-
-/* Faa */
-
-
-/*for searching pages */
-
-/* cooking tutorial */
-
-.tutorial-search {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: #F4F1EA;
-}
-
-.tutorial-search h2 {
-  font-size: 2rem;
-  margin-bottom: 25px;
-  color: #2b2118;
-}
-
-.search-box {
-  display: inline-flex;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  overflow: hidden;
-  background: white;
-}
-
-.search-box input {
-  border: none;
-  padding: 12px 20px;
-  width: 280px;
-  outline: none;
-}
-
-.search-box .search-btn {
-  background: #E2725B;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-
-.search-box .search-btn:hover {
-  background: #cc5500;
-}
-
-.tutorial-list {
-  padding: 60px 20px;
-  background: #fff;
-  text-align: center;
-}
-
-.tutorial-list h2 {
-  font-size: 1.8rem;
-  margin-bottom: 40px;
-}
-
-.tutorial-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
-.tutorial-card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 300px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.tutorial-card:hover {
-  transform: translateY(-5px);
-}
-
-.tutorial-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.tutorial-card h3 {
-  margin: 15px 10px 5px;
-  color: #E2725B;
-}
-
-.tutorial-card p {
-  margin: 0 10px 20px;
-  color: #333;
-}
-
-/* recipe search */
-
-.search-section {
-  text-align: center;
-  padding: 80px 20px;
-  background-color: #F4F1EA;
-}
-
-.search-section h2 {
-  font-size: 2rem;
-  color: #2b2118;
-  margin-bottom: 30px;
-}
-
-/* --- Toggle Buttons --- */
-.toggle-container {
-  display: inline-flex;
-  border: 2px solid #E2725B;
-  border-radius: 50px;
-  overflow: hidden;
-  margin-bottom: 30px;
-}
-
-.toggle-btn {
-  background: #fff;
-  color: #E2725B;
-  border: none;
-  padding: 12px 25px;
-  font-size: 1rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.toggle-btn.active {
-  background: #E2725B;
-  color: #fff;
-}
-
-.toggle-btn:hover {
-  background: #f8d5cc;
-}
-
-/* --- Search Bar --- */
-.search-box {
-  display: inline-flex;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  overflow: hidden;
-  background: white;
-  margin-bottom: 15px;
-}
-
-.search-box input {
-  border: none;
-  padding: 12px 20px;
-  width: 280px;
-  outline: none;
-}
-
-.search-btn {
-  background: #E2725B;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-
-.search-btn:hover {
-  background: #cc5500;
-}
-
-.search-description {
-  font-size: 0.95rem;
-  color: #333;
-  margin-top: 15px;
-}
-
-/* --- Results Section --- */
-.search-results {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: #fff;
-}
-
-.search-results h3 {
-  font-size: 1.6rem;
-  margin-bottom: 30px;
-  color: #2b2118;
-}
-
-.results-grid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.result-card {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 280px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.result-card:hover {
-  transform: translateY(-5px);
-}
-
-.result-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.result-card h4 {
-  color: #E2725B;
-  margin: 15px 10px 5px;
-}
-
-.result-card p {
-  color: #333;
-  margin: 0 10px 15px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
