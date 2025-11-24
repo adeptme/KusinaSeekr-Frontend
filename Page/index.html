@@ -5,135 +5,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KusinaSeekr</title>
-    <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/responsive.css">
+
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/responsive.css">
     <link rel="icon" href="#">
+ 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-        <!-- HEADER SECTION -->
 <body>
+    <!-- HEADER SECTION -->
     <header class="site-header">
         <h1>KusinaSeekr</h1>
         <nav class="navbar">
             <ul>
-                <li><a href="#">Recipes</a></li>
-                <li><a href="#">Cooking Tutorials</a></li>
+                <li><a href="recipePage.html">Recipes</a></li>
+                <li><a href="tutorialSearch.html">Cooking Tutorials</a></li>
                 <li><a href="#">Community</a></li>
             </ul>
         </nav>
         <a href="#" onclick="gotologinpage()" class="lg-button">Log In</a>
     </header>
-        <!-- START OF THE MAIN CONTENT -->
+
+    <!-- START OF THE MAIN CONTENT -->
     <main>
         <section class="intro">
-            <h2>DISCOVER AUTHENTIC FILIPINO COOKING</h2>
-            <p>Learn to cook traditional Filipino dishes with a step-by-step tutorials, smart recommendation browsing, and community support</p>
-            <a href="#" class="cta-button">Browse Recipes</a>
-            <a href="#" class="cta-button-b">Find Recipes using Ingredients</a>
+      
+            <div class="overlay"></div>
+            <div class="intro-content">
+                <h2>DISCOVER AUTHENTIC FILIPINO COOKING</h2>
+                <p>Learn to cook traditional Filipino dishes with a step-by-step tutorials, smart recommendation browsing, and community support</p>
+                
+         
+                <div class="intro-buttons" style="text-align: center; margin-top: 30px;">
+                    <a href="ingredient&recipeSearch.html" class="cta-button">Browse Recipes</a>
+                    <a href="ingredient&recipeSearch.html" class="cta-button-b">Find Recipes using Ingredients</a>
+                </div>
+            </div>
         </section>
     </main>
 
-    <!-- Filter Buttons -->
+    <!-- Popular Recipes Section -->
     <section class="features">
         <h2>Popular Filipino Recipes</h2>
+   
         <hr>
+        
+
+        <div class="filter-buttons">
             <a href="#" class="filter active">All</a>
             <a href="#" class="filter">Main Dishes</a>
-            <a href="#" class="filter">Browse Recipes</a>
+            <a href="ingredient&recipeSearch.html" class="filter">Desserts</a>
             <a href="#" class="filter">Snacks</a>
             <a href="#" class="filter">Vegetarian</a>
+        </div>
 
-
-        <!-- Recipe Cards Container -->
+        <!-- Recipe Cards Grid -->
         <div class="recipe-grid">
 
             <!-- Card 1 -->
             <div class="recipe-card">
-                <img src="images/adobo.jpg" alt="Pork Adobo">
+                <img src="images/adobo.jpg" alt="Pork Adobo" onerror="this.src='https://placehold.co/400x300?text=Adobo'">
                 <div class="recipe-info">
                     <h3>Pork Adobo</h3>
                     <p>Pork adobo is cooked in soy sauce, vinegar, and garlic — considered the national dish of the Philippines.</p>
                     <div class="recipe-meta">
                         <span class="tag">Main Dish</span>
-                        <span class="time">45 mins</span>
+                        <span class="time">⏱ 45 mins</span>
                     </div>
-                <a href="#" class="view-btn">View Recipe</a>
+                    <a href="recipePage.html" class="view-btn">View Recipe</a>
                 </div>
             </div>
             
             <!-- Card 2 -->
             <div class="recipe-card">
-                <img src="images/lechon.jpg" alt="Lechon Kawali">
+                <img src="images/lechon.jpg" alt="Lechon Kawali" onerror="this.src='https://placehold.co/400x300?text=Lechon'">
                 <div class="recipe-info">
                     <h3>Lechon Kawali</h3>
                     <p>Crispy deep-fried pork belly with golden skin and juicy meat inside — a Filipino favorite.</p>
                     <div class="recipe-meta">
                         <span class="tag">Main Dish</span>
-                        <span class="time">1 hour</span>
+                        <span class="time">⏱ 1 hour</span>
                     </div>
-                    <a href="#" class="view-btn">View Recipe</a>
+                    <a href="recipePage.html" class="view-btn">View Recipe</a>
                 </div>
             </div>
             
             <!-- Card 3 -->
             <div class="recipe-card">
-                <img src="images/lecheflan.jpg" alt="Leche Flan">
+                <img src="images/lecheflan.jpg" alt="Leche Flan" onerror="this.src='https://placehold.co/400x300?text=Leche+Flan'">
                 <div class="recipe-info">
                     <h3>Leche Flan</h3>
                     <p>A Filipino crème caramel dessert with custard made from egg yolks and caramelized sugar.</p>
                     <div class="recipe-meta">
-                        <scan class="tag dessert">Dessert</scan>
-                        <scan class="time">55 mins</scan>
+                        <span class="tag dessert">Dessert</span>
+                        <span class="time">⏱ 55 mins</span>
                     </div>
-                    <a href="#" class="view-btn">View Recipe</a>
+                    <a href="recipePage.html" class="view-btn">View Recipe</a>
                 </div>
             </div>
         
         </div>
 
-            <div class="view-all-container">
-                <a href="#" class="view-all">View All Recipes</a>
-            </div>
+        <div class="view-all-container">
+            <a href="ingredient&recipeSearch.html" class="view-all">View All Recipes</a>
+        </div>
         
     </section>
 
-    <!-- What Can I Cook Today Container -->
+    
     <section class="recipe-search">
 
     <h2>What Can I Cook Today?</h2>
 
         <div class="recipe-box">
-            <label for="ingredient-input"><b>Enter ingredients you have available:</b></label>
+            <label for="ingredient-input">Enter ingredients you have available:</label>
             <div class="input-group">
-            <input 
-            type="text" 
-            id="ingredient-input" 
-            placeholder="Add ingredient (e.g. chicken, garlic, rice)">
-            <button class="add-btn">Add</button>
+                <input 
+                type="text" 
+                id="ingredient-input" 
+                placeholder="Add ingredient e.g. chicken, garlic, rice">
+                <button class="add-btn">Add</button>
             </div>
             <button class="search-btn">Find Recipes with These Ingredients</button>
         </div>
 
     </section>
 
-    <!-- Learn Cooking Techniques Container -->
+    <!-- Tutorials Section -->
     <section class="tutorial-section">
         <h2>Learn Cooking Techniques</h2>
 
             <div class="tutorial-container">        
                 <!-- Card 1 -->
-                <div class="tutorial-card">
+                <div class="tutorial-card" onclick="window.location.href='tutorialPage.html'">
                     <div class="tutorial-image">
-                    <img src="images/adobo.jpg" alt="Pork Adobo">
+                        <img src="images/knife-skills.jpg" alt="Knife Skills" onerror="this.src='https://placehold.co/400x250?text=Knife+Skills'">
                     </div>
                     <div class="tutorial-content">
                         <h3>Basic Knife Skills</h3>
                         <p>Learn proper cutting techniques</p>
                         <div class="tutorial-time">
-                            <span>15 min tutorial</span>
+                            <span>▶ 15 min tutorial</span>
                         </div>
                     </div>
                 </div>
@@ -141,13 +156,13 @@
                 <!-- Card 2 -->
                 <div class="tutorial-card">
                     <div class="tutorial-image">
-                        <img src="images/adobo.jpg" alt="Pork Adobo">
+                        <img src="images/saute.jpg" alt="Sautéing" onerror="this.src='https://placehold.co/400x250?text=Perfect+Saute'">
                     </div>
                     <div class="tutorial-content">
                         <h3>Perfect Sautéing</h3>
                         <p>Master the art of sautéing.</p>
                         <div class="tutorial-time">
-                            <span>12 min tutorial</span>
+                            <span>▶ 12 min tutorial</span>
                         </div>
                     </div>
                 </div>
@@ -155,13 +170,13 @@
                 <!-- Card 3 -->
                 <div class="tutorial-card">
                     <div class="tutorial-image">
-                        <img src="images/adobo.jpg" alt="Pork Adobo">
+                        <img src="images/simmer.jpg" alt="Simmering" onerror="this.src='https://placehold.co/400x250?text=Simmering'">
                     </div>
                     <div class="tutorial-content">
                         <h3>Simmering Techniques</h3>
                         <p>Learn how to properly simmer soups and stews.</p>
                         <div class="tutorial-time">
-                            <span>18 min tutorial</span>
+                            <span>▶ 18 min tutorial</span>
                         </div>
                     </div>
                 </div>
@@ -169,12 +184,11 @@
             </div>
 
             <div class="browse-tutorials">
-                <a href="#" class="browse-btn">Browse All Tutorials</a>
+                <a href="tutorialSearch.html" class="browse-btn">Browse All Tutorials</a>
             </div>
 
     </section>
 
-    <!-- Join Our Cooking Community -->
     <section class="community-section">
 
             <h2>Join Our Cooking Community</h2>
@@ -183,7 +197,7 @@
                 <!-- Card 1 -->
                 <div class="community-card">
                     <div class="community-icon">
-                        <img src="icons/chat.png" alt="Chat Icon">
+                        <img src="icons/chat.png" alt="Chat Icon" onerror="this.src='https://placehold.co/50?text=Chat'">
                     </div>
                         <h3>Ask Questions</h3>
                         <p>Get help from experienced cooks and share your knowledge</p>
@@ -192,7 +206,7 @@
                 <!-- Card 2 -->
                 <div class="community-card">
                     <div class="community-icon">
-                        <img src="icons/share.png" alt="Share Icon">
+                        <img src="icons/share.png" alt="Share Icon" onerror="this.src='https://placehold.co/50?text=Share'">
                     </div>
                         <h3>Share Recipes</h3>
                         <p>Share your family recipes and cooking secrets with the community</p>
@@ -212,7 +226,7 @@
         <hr>
     </footer>
 
-    <script src="../JS/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
