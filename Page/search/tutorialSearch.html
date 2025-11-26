@@ -3,58 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KusinaSeekr | Cooking Tutorials</title>
-  <link rel="stylesheet" href="../../CSS/style.css">
+  <title>KusinaSeekr | Tutorials</title>
+  <!-- Links to Global and Specific CSS -->
+  <link rel="stylesheet" href="../../CSS/global.css">
+  <link rel="stylesheet" href="../../CSS/tutorial-search.css">
   <link rel="stylesheet" href="../../CSS/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>KusinaSeekr</h1>
-    <nav class="navbar">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">Search</a></li>
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#" class="active">Tutorials</a></li>
-      </ul>
-    </nav>
-  <a href="login.html" class="lg-button">Log In</a>
+    <a href="../index.html" class="logo-container">
+      
+        <h1 class="logo-text">KusinaSeekr</h1>
+    </a>
+    <div class="header-right">
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="ingredient&recipeSearch.html">Recipes</a></li>
+                <li><a href="#" class="active">Cooking Tutorials</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+        <a href="../login.html" class="lg-button">Log In</a>
+    </div>
   </header>
 
-  <section class="tutorial-search">
-    <h2>Find a Cooking Tutorial</h2>
-    <div class="search-box">
-      <input type="text" placeholder="Search for a cooking tutorial...">
-      <button class="search-btn">Search</button>
+  <div class="search-header">
+    <h2>Cooking Tutorials & Techniques</h2>
+    <div class="main-search-bar">
+      <input type="text" placeholder="Search Tutorials">
+    </div>
+  </div>
+
+  <section class="container">
+    <h3 style="text-align:center; margin-bottom:30px; font-family:'Playfair Display', serif; font-size:1.5rem;">Browse by Category</h3>
+    <div class="tutorial-cats">
+        <!-- Added FontAwesome icons back since user asked not to add *new* libraries, but these are standard FA -->
+        <!-- If icons still fail, the circle will just be empty but colored -->
+        <div class="cat-btn">
+            <div class="cat-icon-circle"><i class="fas fa-utensils"></i></div>
+            <span>Knife Skills</span>
+        </div>
+        <div class="cat-btn">
+            <div class="cat-icon-circle"><i class="fas fa-carrot"></i></div>
+            <span>Ingredient Prep</span>
+        </div>
+        <div class="cat-btn">
+            <div class="cat-icon-circle"><i class="fas fa-fire"></i></div>
+            <span>Cooking Methods</span>
+        </div>
+        <div class="cat-btn">
+            <div class="cat-icon-circle"><i class="fas fa-graduation-cap"></i></div>
+            <span>Advance</span>
+        </div>
     </div>
   </section>
 
-  <section class="tutorial-list">
-    <h2>Popular Tutorials</h2>
+  <section class="container">
+    <h3 style="text-align:center; margin-bottom:30px; font-family:'Playfair Display', serif; font-size:1.5rem;">Featured Tutorials</h3>
     <div class="tutorial-grid">
-      <div class="tutorial-card">
-        <img src="#" alt="Tutorial 1" onerror="this.src='https://placehold.co/400x300?text=Tutorial+1'">
-        <h3>How to Cook Adobo</h3>
-        <p>Step-by-step guide to making traditional Filipino Adobo.</p>
+      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
+        <div class="tutorial-img-wrap">
+            <img src="../images/knife-skills.jpg" alt="Tutorial 1" onerror="this.src='https://placehold.co/400x300?text=Knife+Skills'">
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="tutorial-details">
+            <h3>Basic Knife Skills</h3>
+            <p>Learn proper cutting techniques.</p>
+        </div>
       </div>
-      <div class="tutorial-card">
-        <img src="#" alt="Tutorial 2" onerror="this.src='https://placehold.co/400x300?text=Tutorial+2'">
-        <h3>Perfect Sinigang</h3>
-        <p>Learn how to achieve the perfect sour-salty balance.</p>
+      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
+        <div class="tutorial-img-wrap">
+            <img src="../images/saute.jpg" alt="Tutorial 2" onerror="this.src='https://placehold.co/400x300?text=Saute'">
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="tutorial-details">
+            <h3>Perfect Sautéing</h3>
+            <p>Master the art of sautéing.</p>
+        </div>
       </div>
-      <div class="tutorial-card">
-        <img src="#" alt="Tutorial 3" onerror="this.src='https://placehold.co/400x300?text=Tutorial+3'">
-        <h3>Basic Knife Skills</h3>
-        <p>Improve your cutting precision and safety in the kitchen.</p>
+      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
+        <div class="tutorial-img-wrap">
+            <img src="../images/simmer.jpg" alt="Tutorial 3" onerror="this.src='https://placehold.co/400x300?text=Simmer'">
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="tutorial-details">
+            <h3>Simmering 101</h3>
+            <p>How to simmer soups perfectly.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
-    <hr>
-  </footer>
-
+  <footer><p>© 2025 KusinaSeekr. All Rights Reserved.</p><hr></footer>
   <script src="../../JS/main.js"></script>
 </body>
 </html>

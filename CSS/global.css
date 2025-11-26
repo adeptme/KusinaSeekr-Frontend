@@ -1,0 +1,99 @@
+/* --- Reset & Base --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f5f5; /* Default bg */
+  color: #2b2118;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4 {
+  font-family: "Playfair Display", serif;
+  color: #3b1f16;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- Header (Figma Match) --- */
+.site-header {
+  background: #E6DBC9;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-family: "Playfair Display", serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #3b1f16;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 35px;
+}
+
+.navbar a {
+  color: #3b1f16;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.navbar a:hover {
+  color: #E2725B;
+}
+
+/* Login Button */
+.lg-button {
+  background-color: #E2725B; 
+  color: white !important;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.lg-button:hover {
+  background-color: #cc5500;
+}
+
+/* --- Footer (Global) --- */
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 30px;
+  background: #36454F;
+  color: white;
+}
+
+footer hr {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin: 20px auto;
+  width: 80%;
+}

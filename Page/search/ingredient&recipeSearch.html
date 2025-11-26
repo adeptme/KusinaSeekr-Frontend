@@ -3,63 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KusinaSeekr | Recipe Search</title>
-  <link rel="stylesheet" href="../../CSS/style.css">
+  <title>Recipe Search</title>
+  <link rel="stylesheet" href="../../CSS/global.css">
+  <link rel="stylesheet" href="../../CSS/search.css">
   <link rel="stylesheet" href="../../CSS/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
 </head>
 <body>
   <header class="site-header">
-    <h1>KusinaSeekr</h1>
-    <nav class="navbar">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#" class="active">Search</a></li>
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#">Tutorials</a></li>
-      </ul>
-    </nav>
-    <a href="login.html" class="lg-button">Log In</a>
+    <a href="../index.html" class="logo-container">
+        <i class="fas fa-utensils logo-icon"></i>
+        <h1 class="logo-text">KusinaSeekr</h1>
+    </a>
+    <div class="header-right">
+        <nav class="navbar">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" class="active">Recipes</a></li> <!-- Note: Search page basically is recipes -->
+                <li><a href="tutorialSearch.html">Cooking Tutorials</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+        <a href="../login.html" class="lg-button">Log In</a>
+    </div>
   </header>
 
-  <section class="search-section">
-    <h2>Find Recipes Your Way</h2>
-
-    <div class="toggle-container">
-      <button id="recipeToggle" class="toggle-btn active">Recipe Search</button>
-      <button id="ingredientToggle" class="toggle-btn">Ingredient Search</button>
+  <!-- ... Content Remains Same as Previous Working Version ... -->
+  <div class="search-page-header">
+    <h2>Filipino Recipes</h2>
+    <div class="toggle-wrapper">
+        <button id="btn-recipe" class="toggle-btn active">Recipe Search</button>
+        <button id="btn-ingredient" class="toggle-btn">Ingredient Search</button>
     </div>
-
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search for a recipe...">
-      <button id="searchBtn" class="search-btn">Search</button>
+    <div id="recipe-view">
+        <div class="recipe-search-container">
+            <div class="search-input-wrapper">
+                <input type="text" placeholder="Search Recipes">
+            </div>
+        </div>
+        <div class="filters-row">
+            <select><option>Category</option></select>
+            <select><option>Difficulty</option></select>
+            <select><option>Cooking time</option></select>
+        </div>
     </div>
-
-    <p id="searchDescription" class="search-description">
-      Search by recipe name to find what you want to cook.
-    </p>
-  </section>
-
-  <section class="search-results">
-    <h3>Results</h3>
-    <div class="results-grid">
-      <div class="result-card">
-        <img src="#" alt="Adobo" onerror="this.src='https://placehold.co/400x300?text=Adobo'">
-        <h4>Chicken Adobo</h4>
-        <p>Classic Filipino dish with soy sauce, vinegar, and garlic.</p>
-      </div>
-      <div class="result-card">
-        <img src="#" alt="Sinigang" onerror="this.src='https://placehold.co/400x300?text=Sinigang'">
-        <h4>Sinigang na Baboy</h4>
-        <p>Tamarind-based soup that's savory, sour, and comforting.</p>
-      </div>
+    <div id="ingredient-view" style="display: none;">
+        <div class="ingredient-search-box">
+            <label>Enter ingredients you have available:</label>
+            <div class="ing-input-row">
+                <input type="text" placeholder="Add ingredient...">
+                <button class="ing-add-btn">Add</button>
+            </div>
+            <button class="ing-find-btn">Find Recipes</button>
+        </div>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
-    <hr>
-  </footer>
+  <div id="results-section" class="search-results-grid">
+    <div class="s-recipe-card">
+        <img src="../images/pork-adobo.jpg" alt="Adobo" onerror="this.src='https://placehold.co/400x300?text=Adobo'">
+        <div class="s-info">
+            <h3>Pork Adobo</h3>
+            <p>Classic Filipino dish.</p>
+            <div class="s-meta"><span class="s-tag">Main Dish</span><span>45 mins</span></div>
+            <a href="details page/recipePage.html" class="s-btn">View Recipe</a>
+        </div>
+    </div>
+    <div class="s-recipe-card">
+        <img src="../images/lechon.jpg" alt="Lechon" onerror="this.src='https://placehold.co/400x300?text=Lechon'">
+        <div class="s-info">
+            <h3>Lechon Kawali</h3>
+            <p>Crispy pork belly.</p>
+            <div class="s-meta"><span class="s-tag">Main Dish</span><span>1 hr</span></div>
+            <a href="details page/recipePage.html" class="s-btn">View Recipe</a>
+        </div>
+    </div>
+  </div>
 
+  <footer><p>© 2025 KusinaSeekr. All Rights Reserved.</p><hr></footer>
   <script src="../../JS/main.js"></script>
 </body>
 </html>

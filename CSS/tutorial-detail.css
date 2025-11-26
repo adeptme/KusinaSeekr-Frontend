@@ -1,0 +1,74 @@
+/* Base styles inherited from global.css */
+
+.detail-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+/* Vertical Hero */
+.tutorial-hero-vertical {
+  background: white;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.hero-image-wrap { position: relative; height: 400px; cursor: pointer; }
+.hero-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.play-overlay { 
+  position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); 
+  font-family: 'Inter', sans-serif; /* Basic sans for symbol */
+  font-size: 3rem; color: white; background: rgba(0,0,0,0.3); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; 
+}
+
+.hero-content { padding: 30px; }
+.hero-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.hero-header h1 { 
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; 
+  color: var(--text-chocolate);
+  margin: 0; 
+}
+.action-btns button { 
+  background: none; border: none; 
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600; color: #555; cursor: pointer; margin-left: 15px; font-size: 0.9rem; 
+}
+.action-btns button:hover { color: var(--accent-terracotta); }
+
+.hero-stats { 
+  display: flex; gap: 40px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; 
+  font-family: 'Open Sans', sans-serif;
+  color: #444; font-weight: 600; 
+}
+
+/* Content Card */
+.content-card { background: white; padding: 50px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.content-card h2 { 
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem; margin-bottom: 25px; 
+  color: var(--text-chocolate);
+}
+.intro-p { 
+  font-family: 'Lato', sans-serif;
+  margin-bottom: 40px; line-height: 1.8; color: #555; 
+}
+
+/* Skill Blocks */
+.skill-item { background: #fafafa; padding: 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #eee; }
+.skill-item h3 { 
+  font-family: 'Lora', serif; /* Subtitles */
+  font-size: 1.2rem; margin-bottom: 10px; color: var(--text-chocolate); 
+}
+.skill-item ul { padding-left: 20px; color: #555; font-family: 'Lato', sans-serif; }
+.skill-item li { margin-bottom: 5px; }
+
+/* Pro Tip */
+.pro-tip { 
+  background: #FFF8E1; border-left: 4px solid var(--accent-mustard); padding: 15px; margin-top: 15px; 
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; color: #795548; 
+}
+
+/* Modal */
+.video-modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+.video-box { width: 80%; max-width: 800px; aspect-ratio: 16/9; background: black; position: relative; }
+.close { position: absolute; top: -30px; right: 0; color: white; cursor: pointer; font-size: 2rem; }
