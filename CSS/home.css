@@ -1,0 +1,358 @@
+/* --- Intro Section --- */
+.intro {
+  position: relative;
+  background-image: url("../images/sisig.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.intro .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 20px;
+}
+
+.intro h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.intro p {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin-bottom: 35px;
+}
+
+.intro-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.cta-button {
+  background-color: #E2725B; 
+  color: white;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+.cta-button-b {
+  background-color: #FFFFFF; 
+  color: #E2725B;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+/* --- Features Section --- */
+.features {
+  background: #F4F1EA;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.features h2 {
+  font-family: 'Merriweather', serif;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #2b2118;
+}
+
+.features hr {
+  width: 80px;
+  height: 3px;
+  background: #E2725B;
+  border: none;
+  margin: 15px auto 40px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.filter {
+  padding: 10px 25px;
+  border-radius: 20px;
+  background: #e6e6e6;
+  color: #333;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+}
+
+.filter.active, .filter:hover {
+  background: #E2725B;
+  color: white;
+}
+
+/* Recipe Grid (Home) */
+.recipe-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.recipe-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  width: 300px;
+  text-align: left;
+  transition: transform 0.3s;
+}
+
+.recipe-card:hover { transform: translateY(-5px); }
+
+.recipe-card img { width: 100%; height: 180px; object-fit: cover; }
+
+.recipe-info { padding: 20px; }
+
+.recipe-info h3 { 
+  font-family: 'Raleway', sans-serif; 
+  font-size: 1.25rem; 
+  margin-bottom: 10px; 
+  color: #2b2118;
+}
+
+.recipe-info p { 
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem; 
+  color: #666; 
+  margin-bottom: 15px; 
+}
+
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-family: 'Inter', sans-serif; 
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.tag { background: #D9D9D9; padding: 4px 10px; border-radius: 12px; }
+
+.view-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: #E2725B;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+.view-all-btn {
+    background: #ddd; 
+    color: #333; 
+    display: inline-block; 
+    width: auto; 
+    padding: 10px 40px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+}
+
+/* --- Recipe Search Box (Home) --- */
+.home-search-section {
+  background: #CBB9A4;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.home-search-section h2 {
+  font-family: 'Merriweather', serif;
+  color: #2b2118;
+}
+
+.recipe-box {
+  background: #FAF9F6;
+  display: inline-block;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+
+.recipe-box label {
+  display: block;
+  font-family: 'Open Sans', sans-serif; 
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #2b2118;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 30px 0 0 30px;
+  outline: none;
+  font-family: 'Lato', sans-serif;
+}
+
+.add-btn {
+  padding: 15px 25px;
+  background: #CC5500;
+  color: white;
+  border: none;
+  border-radius: 0 30px 30px 0;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.find-btn {
+  width: 100%;
+  padding: 15px;
+  background: #E67656; /* Slightly lighter terracotta */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* --- Tutorial Section (Home) --- */
+.tutorial-section {
+  background-color: #F4F1EA;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.tutorial-section h2 {
+  font-family: 'Merriweather', serif;
+  color: #2b2118;
+  margin-bottom: 40px;
+}
+
+.tutorial-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.home-tutorial-card {
+  background: white;
+  width: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.home-tutorial-card:hover { transform: translateY(-5px); }
+
+.home-tutorial-card img { width: 100%; height: 200px; object-fit: cover; }
+
+.tut-content { padding: 20px; }
+.tut-content h3 { 
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 10px; 
+  color: #2b2118;
+}
+.tut-time { 
+  font-family: 'Inter', sans-serif;
+  color: #666; 
+  font-size: 0.9rem; 
+}
+
+/* --- Community --- */
+.community-section {
+  background-color: #db6b55; /* Custom reddish color */
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+}
+
+.community-section h2 {
+  font-family: 'Merriweather', serif;
+  color: white;
+}
+
+.community-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.comm-card {
+  background: white;
+  color: #2b2118;
+  padding: 30px;
+  border-radius: 20px;
+  width: 300px;
+}
+
+/* FIXED: Added specific style for community circle background to ensure visibility */
+.community-icon {
+  margin: 0 auto 15px;
+  width: 60px;
+  height: 60px;
+  background: #f5f5f5; /* Visible background */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E2725B; /* Placeholder color if no image/icon */
+}
+
+.comm-card h3 { 
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 10px; 
+}
+
+.join-btn {
+  background: #e9e9e9;
+  color: #222;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}

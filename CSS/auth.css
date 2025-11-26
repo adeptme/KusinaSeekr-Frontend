@@ -1,0 +1,121 @@
+/* --- Reset & Fonts --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* Figma Background Color: Soft Sandstone/Creamed Oat blend */
+  background-color: #E6DACB; 
+  color: #5A3D2B; /* Chocolate Brown */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Shared Auth Box --- */
+.auth-container {
+  background-color: #FAF9F6; /* Feather White */
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(90, 61, 43, 0.15); /* Soft Chocolate Shadow */
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  font-family: "Playfair Display", serif; /* Figma Heading Font */
+  font-size: 2.5rem;
+  color: #5A3D2B;
+  margin-bottom: 10px;
+}
+
+.auth-container p {
+  font-family: "Lato", sans-serif;
+  color: #7a5c4a;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+/* --- Form Elements --- */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-family: "Nunito", sans-serif; /* UI Text */
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #5A3D2B;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d1c0b0;
+  background-color: #fff;
+  border-radius: 10px;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #E2725B; /* Terracotta Accent */
+}
+
+/* --- Buttons --- */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #E2725B; /* Terracotta */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 10px;
+}
+
+.auth-btn:hover {
+  background-color: #CC5500; /* Burnt Orange */
+  transform: translateY(-2px);
+}
+
+/* --- Links --- */
+.auth-footer {
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.auth-footer a {
+  color: #E2725B;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+.forgot-pass {
+  display: block;
+  text-align: right;
+  font-size: 0.85rem;
+  color: #7a5c4a;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.forgot-pass:hover {
+  color: #E2725B;
+}

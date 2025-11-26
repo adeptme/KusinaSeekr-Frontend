@@ -3,98 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutorial | KusinaSeekr</title>
-  <link rel="stylesheet" href="../../../CSS/style.css">
+  <title>Tutorial Detail</title>
+  <link rel="stylesheet" href="../../../CSS/global.css">
+  <link rel="stylesheet" href="../../../CSS/tutorial-detail.css">
   <link rel="stylesheet" href="../../../CSS/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
 </head>
 <body>
 
   <header class="site-header">
-    <h1>KusinaSeekr</h1>
-    <nav class="navbar">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#">Cooking Tutorials</a></li>
-        <li><a href="#">Community</a></li>
-      </ul>
-    </nav>
-    <a href="login.html" class="lg-button">Log In</a>
+    <a href="../../index.html" class="logo-container">
+        <i class="fas fa-utensils logo-icon"></i>
+        <h1 class="logo-text">KusinaSeekr</h1>
+    </a>
+    <div class="header-right">
+        <nav class="navbar">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../ingredient&recipeSearch.html">Recipes</a></li>
+                <li><a href="../tutorialSearch.html" class="active">Cooking Tutorials</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+        <a href="../../login.html" class="lg-button">Log In</a>
+    </div>
   </header>
 
- 
-  <main class="tutorial-container-page">
-    
-    <section class="tutorial-header">
-      <div class="tutorial-image">
-        <img src="images/vid-thumb.jpg" alt="Knife Skills Tutorial Thumbnail" id="videoThumbnail" onerror="this.src='https://placehold.co/800x400?text=Video+Thumbnail'">
+  <main class="detail-container">
+    <section class="tutorial-hero-vertical">
+      <div class="hero-image-wrap" id="videoThumbnail">
+        <img src="../../images/vid-thumb.jpg" alt="Knife Skills" onerror="this.src='https://placehold.co/1000x500?text=Knife+Skills'">
+        <div class="play-overlay">▶</div>
       </div>
 
-      <div class="tutorial-info">
-        <h2 class="tutorial-title">Basic Knife Skills</h2>
-        <p class="tutorial-description">
-          Master essential knife handling techniques that make food prep easier, faster, and safer.
-          Learn how to properly hold a knife, practice chopping motions, and maintain your tools.
-        </p>
+      <div class="hero-content">
+        <div class="hero-header">
+            <h1>Basic Knife Skills</h1>
+            <div class="action-btns">
+                <button><i class="far fa-bookmark"></i> Save</button>
+                <button><i class="fas fa-share"></i> Share</button>
+            </div>
+        </div>
+        <p>Master the most important tool in your kitchen.</p>
+        <div class="hero-stats">
+            <span><i class="far fa-clock"></i> 15 min</span>
+            <span><i class="fas fa-signal"></i> Beginner</span>
+            <span><i class="fas fa-star" style="color:orange;"></i> 4.9 (201 reviews)</span>
+        </div>
       </div>
     </section>
 
-    <!-- Video modal di ko pa gets pano to -->
     <div id="videoModal" class="video-modal">
-      <div class="video-modal-content">
-        <span class="close-modal">&times;</span>
-        <iframe width="100%" height="400" src="https://www.youtube.com/embed/8dOIdYgY3rA" 
-          title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+      <div class="video-box">
+        <span class="close">&times;</span>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/8dOIdYgY3rA" frameborder="0" allowfullscreen></iframe>
       </div>
     </div>
 
-    <!---- step by step -->
-    <section class="tutorial-steps">
-      <h3>Step-by-Step Instructions</h3>
-      <ol>
-        <li>Start with a stable cutting board and a sharp knife.</li>
-        <li>Grip the knife with your thumb and index finger on the blade for control.</li>
-        <li>Use a rocking motion when slicing vegetables.</li>
-        <li>Keep your guiding hand in a “claw” shape to protect your fingers.</li>
-        <li>Clean and dry your knife after every use.</li>
-      </ol>
-    </section>
-
-    <!-- required eqip -->
-    <section class="tutorial-equipment">
-      <h3>Required Equipment</h3>
-      <ul>
-        <li>Chef's Knife</li>
-        <li>Cutting Board</li>
-        <li>Kitchen Towels</li>
-        <li>Vegetables or Ingredients for Practice</li>
-        <li>Sharpening Steel (optional)</li>
-      </ul>
-    </section>
-
-    <!-- related -->
-    <section class="related-tutorials">
-      <h3>More Tutorials You Might Like</h3>
-      <div class="related-grid">
-        <div class="related-card">
-          <img src="images/related1.jpg" alt="How to Dice Onions" onerror="this.src='https://placehold.co/400x300?text=Related+1'">
-          <h4>How to Dice Onions Like a Pro</h4>
-        </div>
-        <div class="related-card">
-          <img src="images/related2.jpg" alt="Proper Knife Sharpening" onerror="this.src='https://placehold.co/400x300?text=Related+2'">
-          <h4>Proper Knife Sharpening Techniques</h4>
-        </div>
+    <section class="content-card">
+      <h2>Master These Essential Knife Skills</h2>
+      <p class="intro-p">Proper knife skills are the foundation of all cooking.</p>
+      <div class="skill-item">
+        <h3>1. Choosing the Right Knife</h3>
+        <ul>
+            <li><strong>Chef's Knife:</strong> Workhorse.</li>
+        </ul>
       </div>
     </section>
-
   </main>
 
-  <!-- paa -->
-  <footer>
-    <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
-    <hr>
-  </footer>
-
+  <footer><p>© 2025 KusinaSeekr. All Rights Reserved.</p><hr></footer>
   <script src="../../../JS/main.js"></script>
 </body>
 </html>
