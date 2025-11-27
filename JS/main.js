@@ -9,17 +9,22 @@ function gotosignup(){
 // Video modal function
 const videoThumbnail = document.getElementById('videoThumbnail');
 const videoModal = document.getElementById('videoModal');
-const closeModal = document.querySelector('.close-modal');
+const closeModal = document.querySelector('.close-modal'); // Note: In your tutorialPage.html this class is just "close", but keeping your existing JS logic intact unless it breaks.
 
 // SAFETY CHECK: Only run this if the videoThumbnail exists on this page
-if (videoThumbnail && videoModal && closeModal) {
+if (videoThumbnail && videoModal) {
+    // Check if close element exists, handled flexibly
+    const closeBtn = closeModal || document.querySelector('.close');
+
     videoThumbnail.addEventListener('click', () => {
       videoModal.style.display = 'flex';
     });
 
-    closeModal.addEventListener('click', () => {
-      videoModal.style.display = 'none';
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          videoModal.style.display = 'none';
+        });
+    }
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
@@ -38,16 +43,16 @@ document.querySelectorAll(".save-btn").forEach(btn => {
 
 // --- SEARCH PAGE TOGGLE LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
-    // IDs matching your HTML
-    const btnRecipe = document.getElementById('recipeToggle');
-    const btnIngredient = document.getElementById('ingredientToggle');
+    // IDs matching your HTML (UPDATED to match ingredient&recipeSearch.html)
+    const btnRecipe = document.getElementById('btn-recipe');
+    const btnIngredient = document.getElementById('btn-ingredient');
     
     // IDs matching the new HTML containers
     const recipeView = document.getElementById('recipe-view');
     const ingredientView = document.getElementById('ingredient-view');
     
-    // The results section to show/hide
-    const resultsSection = document.querySelector('.search-results');
+    // The results section to show/hide (UPDATED to match HTML ID)
+    const resultsSection = document.getElementById('results-section');
 
     // Only run if the buttons exist
     if (btnRecipe && btnIngredient) {
@@ -63,8 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ingredientView.style.display = 'none';
             }
             
-            // Show results for recipe search
-            if (resultsSection) resultsSection.style.display = 'block';
+            // Show results for recipe search (Use 'grid' to maintain CSS layout)
+            if (resultsSection) resultsSection.style.display = 'grid';
         });
 
         btnIngredient.addEventListener('click', () => {
@@ -81,5 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Hide results initially for ingredient search
             if (resultsSection) resultsSection.style.display = 'none';
         });
+
+        // Check URL for specific view parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('view') === 'ingredient') {
+            btnIngredient.click();
+        }
     }
 });

@@ -1,0 +1,163 @@
+/* --- Base inherits from global.css --- */
+body {
+    background-color: #F9F5F0; /* Light cream base */
+}
+
+.community-main {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* --- Create Post Widget --- */
+.create-post-card {
+    background-color: #E6DBC9; /* Latte/Beige color from Figma */
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-avatar-sm {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.post-input {
+    flex: 1;
+    background: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: #555;
+    outline: none;
+    resize: none; /* If using textarea */
+}
+
+.action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(90, 61, 43, 0.1);
+}
+
+.media-btns {
+    display: flex;
+    gap: 15px;
+}
+
+.media-btn {
+    background: #E8E8E8;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #3b1f16;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.media-btn:hover {
+    background: #d4d4d4;
+}
+
+.post-submit-btn {
+    background: #E8E8E8; /* Light gray/beige from Figma */
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #3b1f16;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.post-submit-btn:hover {
+    background: #ccc;
+}
+
+/* --- Feed Post Card --- */
+.feed-card {
+    background-color: #CBB9A4; /* Darker beige/brown from Figma */
+    border-radius: 20px;
+    padding: 20px 20px 10px 20px; /* Less padding bottom for line */
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    color: #3b1f16;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.poster-info h4 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0;
+    color: #2b2118;
+}
+
+.poster-info span {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    color: #555; /* Slightly lighter for time */
+}
+
+.post-title {
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2b2118;
+}
+
+.post-image-container {
+    width: calc(100% + 40px); /* Pull image to edges (-20px padding left/right) */
+    margin-left: -20px;
+    margin-bottom: 15px;
+}
+
+.post-image-container img {
+    width: 100%;
+    display: block;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.post-footer-line {
+    border-top: 2px solid rgba(0,0,0,0.1);
+    margin-top: 10px;
+    padding-top: 5px;
+    height: 10px; /* Visual spacing */
+}
+
+/* For text-only posts */
+.text-content {
+    background: transparent;
+    padding-bottom: 10px;
+}
