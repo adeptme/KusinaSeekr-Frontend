@@ -1,86 +1,100 @@
+/* -------------------------------------------------- */
+/* 1. BASE STYLES (Desktop Default)                   */
+/* -------------------------------------------------- */
+.burger-menu {
+  display: none; /* Hidden on very large screens */
+}
 
-@media (max-width: 768px) {
-  /* Navbar */
-  .navbar {
+/* -------------------------------------------------- */
+/* 2. LAPTOPS & TABLETS (max-width: 1280px)           */
+/* CHANGED: Increased trigger from 1024px to 1280px   */
+/* -------------------------------------------------- */
+@media (max-width: 1080px) {
+  
+  /* Global Navigation Changes */
+  .site-header {
+    flex-wrap: wrap; 
+    height: auto;
+    padding: 15px 20px;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* SHOW the Burger Icon */
+  .burger-menu {
+    display: block; /* Force show */
+    font-size: 2rem;
+    color: #3b1f16;
+    background: transparent;
+    border: 2px solid #3b1f16; /* Dark border to make it visible */
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2px 10px;
+    line-height: 1;
+    z-index: 1000;
+  }
+
+  /* HIDE the Normal Text Links */
+  .header-right {
+    display: none; 
     flex-direction: column;
-    text-align: center;
-    padding: 1rem 0.5rem;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    gap: 20px;
+    align-items: center;
+  }
+
+  /* Show Menu when Active */
+  .header-right.active {
+    display: flex;
   }
 
   .navbar ul {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 20px;
+    text-align: center;
+    padding: 0;
   }
 
-  .navbar a {
-    font-size: 0.95rem;
-  }
-
-  /* Sections */
-  section {
-    padding: 1.5rem 1rem;
-  }
-
-  /* Toggle Buttons */
-  .toggle-container {
-    flex-direction: column;
-    width: 90%;
-    margin: 0 auto 1rem;
-  }
-
-  .toggle-btn {
+  .lg-button {
     width: 100%;
-    margin: 0.3rem 0;
+    text-align: center;
+    margin-top: 10px;
+    display: block; 
   }
 
-  /* Search Bar */
-  .search-bar input {
-    width: 95%;
-    font-size: 0.95rem;
+  /* Layout Adjustments */
+  .detail-container, 
+  .community-main {
+    max-width: 90%;
   }
 
-  /* Cards / Lists */
-  .recipe-card,
-  .tutorial-card {
-    width: 90%;
-    margin: 1rem auto;
-  }
-
-  /* Text and Headings */
-  h1,
-  h2,
-  h3 {
-    font-size: 1.4rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-  }
-
-  /* Footer */
-  footer {
-    font-size: 0.85rem;
-    padding: 1rem;
+  .recipe-content-split {
+    grid-template-columns: 1fr; 
   }
 }
 
-/* mas maliit */
+/* -------------------------------------------------- */
+/* 3. MOBILE PHONES (max-width: 768px)                */
+/* -------------------------------------------------- */
+@media (max-width: 768px) {
+  .site-header { padding: 15px; }
+  .toggle-wrapper { flex-direction: column; width: 100%; }
+  .filters-row { flex-direction: column; }
+  .filters-row select { width: 100%; }
+  .ing-input-row { flex-direction: column; }
+  .ing-add-btn { width: 100%; }
+  .action-row { flex-direction: column; }
+  .media-btns { justify-content: space-between; }
+  .auth-container { width: 90%; padding: 30px 20px; }
+}
+
+/* -------------------------------------------------- */
+/* 4. SMALL MOBILE (max-width: 480px)                 */
+/* -------------------------------------------------- */
 @media (max-width: 480px) {
-  .navbar h1.logo {
-    font-size: 1.2rem;
-  }
-
-  .toggle-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem;
-  }
-
-  input[type="text"],
-  input[type="search"] {
-    font-size: 0.9rem;
-  }
-
-  footer {
-    font-size: 0.8rem;
-  }
+  .recipe-grid, .tutorial-grid, .search-results-grid { grid-template-columns: 1fr; }
+  .cat-btn { width: 100%; }
 }

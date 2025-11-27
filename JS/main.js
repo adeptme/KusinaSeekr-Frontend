@@ -9,7 +9,7 @@ function gotosignup(){
 // Video modal function
 const videoThumbnail = document.getElementById('videoThumbnail');
 const videoModal = document.getElementById('videoModal');
-const closeModal = document.querySelector('.close-modal'); // Note: In your tutorialPage.html this class is just "close", but keeping your existing JS logic intact unless it breaks.
+const closeModal = document.querySelector('.close-modal');
 
 // SAFETY CHECK: Only run this if the videoThumbnail exists on this page
 if (videoThumbnail && videoModal) {
@@ -40,6 +40,16 @@ document.querySelectorAll(".save-btn").forEach(btn => {
     alert("Recipe saved!");
   });
 });
+
+// --- BURGER MENU LOGIC ---
+const burgerMenu = document.getElementById('burger-menu');
+const navMenu = document.getElementById('nav-menu');
+
+if (burgerMenu && navMenu) {
+    burgerMenu.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+}
 
 // --- SEARCH PAGE TOGGLE LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
