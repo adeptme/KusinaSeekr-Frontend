@@ -39,26 +39,27 @@
         <button id="btn-ingredient" class="toggle-btn">Ingredient Search</button>
     </div>
     <div id="recipe-view">
-        <div class="recipe-search-container">
+        <form class="recipe-search-container" action="#">
             <div class="search-input-wrapper">
                 <input type="text" placeholder="Search Recipes">
             </div>
-        </div>
+          </form>
         <div class="filters-row">
             <select><option>Category</option></select>
             <select><option>Difficulty</option></select>
             <select><option>Cooking time</option></select>
         </div>
     </div>
+
     <div id="ingredient-view" style="display: none;">
-        <div class="ingredient-search-box">
+        <form class="ingredient-search-box" action="#">
             <label>Enter ingredients you have available:</label>
             <div class="ing-input-row">
                 <input type="text" placeholder="Add ingredient...">
                 <button class="ing-add-btn">Add</button>
             </div>
             <button class="ing-find-btn">Find Recipes</button>
-        </div>
+          </form>
     </div>
   </div>
 
