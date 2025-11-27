@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Code | KusinaSeekr</title>
+  <link rel="stylesheet" href="../CSS/auth.css"> <!-- Reusing Auth CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="auth-container">
+    <h2>Security Check</h2>
+    <p>Please enter the code sent to your email to reset your password.</p>
+
+    <!-- Redirects to the New Password page -->
+    <form action="/newPassword.html"> 
+      <div class="input-group">
+        <label for="reset-code">Verification Code</label>
+        <input type="text" id="reset-code" placeholder="123456" maxlength="6" style="letter-spacing: 5px; text-align: center; font-size: 1.2rem;" required>
+      </div>
+
+      <button type="submit" class="auth-btn">Verify & Continue</button>
+    </form>
+
+    <div class="auth-footer">
+      Didn't receive a code? <a href="#">Resend</a>
+      <br><br>
+      <a href="login.html" style="color: #888; font-weight: normal; font-size: 0.85rem;">Cancel</a>
+    </div>
+  </div>
+
+</body>
+</html>
