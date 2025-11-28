@@ -2,9 +2,11 @@
 
 /* --- Search Header Section --- */
 .search-page-header {
-  text-align: center;
-  padding: 50px 20px;
-  background-color: #f9f5f0;
+    margin-top: 100px; /* Adjust this number if needed */
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Ensures it sits on top */
 }
 
 .search-page-header h2 {

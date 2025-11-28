@@ -9,23 +9,108 @@ let allRecipesData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     
+    // 1. Auth Check (Only if not on login/signup pages)
     if (!document.getElementById('loginForm') && !document.getElementById('signupForm')) {
         checkAuth();
     }
 
+    // 2. Load Data
     await loadRecipes();     
     loadSearchPageRecipes(); 
     loadRecipeDetails();     
     
-    // C. Initialize UI
+    // 3. Initialize UI Toggles
     if (typeof initSearchToggle === "function") {
         initSearchToggle();
     }
     
-    // 🟢 D. Initialize Filters (New!)
-    setupFilters();
+    // 4. Initialize Filters
+    if (typeof setupFilters === "function") {
+        setupFilters();
+    }
+
+    // 🟢 5. INGREDIENT SEARCH LISTENER (New!)
+    const ingForm = document.getElementById('ingredientSearchForm');
+    const btnAdd = document.getElementById('btnAddIng');
+
+    if (ingForm) {
+        console.log("✅ Ingredient Form Found!"); 
+        
+        ingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputVal = document.getElementById('ingredientSearchInput').value;
+            
+            if (!inputVal.trim()) {
+                alert("Please enter ingredients!");
+                return;
+            }
+            console.log("Searching for:", inputVal);
+            await searchByIngredients(inputVal);
+        });
+    }
+
+    // Make the "Add" button trigger the search immediately
+    if (btnAdd && ingForm) {
+        btnAdd.addEventListener('click', () => {
+            // Trigger the form submit manually
+            ingForm.dispatchEvent(new Event('submit'));
+        });
+    }
 });
 
+// Function to search recipes by ingredients
+async function searchByIngredients(ingredientString) {
+    const container = document.getElementById('results-section');
+    
+    // 1. Safety Check: Does the container exist?
+    if (!container) {
+        console.error("❌ Error: Could not find element with ID 'results-section'");
+        return;
+    }
+
+    console.log("🔍 Searching for:", ingredientString);
+
+    // 2. 🟢 FORCE VISIBILITY (The likely fix)
+    container.style.display = 'grid'; 
+    container.style.opacity = '1'; // Just in case it was faded out
+
+    container.innerHTML = '<p style="text-align:center; width:100%; grid-column: span 3;">Searching...</p>';
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/search-by-ing`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ingredients: ingredientString })
+        });
+
+        const data = await response.json();
+        console.log("✅ Backend Response:", data); // Check this in console!
+
+        container.innerHTML = ''; 
+
+        // 3. Handle No Results
+        if (!response.ok || !data.recipes || data.recipes.length === 0) {
+            container.innerHTML = `
+                <div style="text-align:center; width:100%; grid-column: span 3;">
+                    <h3>No recipes found 😔</h3>
+                    <p>Try searching for "Chicken" or "Pork"</p>
+                </div>`;
+            return;
+        }
+
+        // 4. Render Cards
+        data.recipes.forEach(recipe => {
+            // Use the helper function to build HTML
+            // Ensure you are passing the correct link prefix for where your HTML file is located
+            const cardHTML = buildCardHTML(recipe, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
+            container.innerHTML += cardHTML;
+        });
+
+    } catch (error) {
+        console.error("❌ Search error:", error);
+        container.innerHTML = '<p style="text-align:center; width:100%;">Something went wrong. Check console.</p>';
+    }
+}
 
 // --- A. Homepage Loader ---
 async function loadRecipes() {
@@ -243,7 +328,50 @@ if (loginForm) {
 }
 
 function initSearchToggle() {
-    // ... (Your existing toggle logic) ...
+    const btnRecipe = document.getElementById('btn-recipe');
+    const btnIngredient = document.getElementById('btn-ingredient');
+    
+    const recipeView = document.getElementById('recipe-view');
+    const ingredientView = document.getElementById('ingredient-view');
+    const resultsSection = document.getElementById('results-section');
+
+    // Safety check: Only run if elements exist (i.e. we are on the Search Page)
+    if (btnRecipe && btnIngredient && recipeView && ingredientView) {
+        
+        // 1. CLICK RECIPE SEARCH
+        btnRecipe.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop page reload
+            console.log("Switched to Recipe Search");
+
+            // Visuals
+            btnRecipe.classList.add('active');
+            btnIngredient.classList.remove('active');
+
+            // Visibility
+            recipeView.style.display = 'block';
+            ingredientView.style.display = 'none';
+            
+            // Show results again if they were hidden
+            if(resultsSection) resultsSection.style.display = 'grid';
+        });
+
+        // 2. CLICK INGREDIENT SEARCH
+        btnIngredient.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log("Switched to Ingredient Search");
+
+            // Visuals
+            btnIngredient.classList.add('active');
+            btnRecipe.classList.remove('active');
+
+            // Visibility
+            recipeView.style.display = 'none';
+            ingredientView.style.display = 'block';
+            
+            // Hide results initially (clean slate)
+            if(resultsSection) resultsSection.style.display = 'none';
+        });
+    }
 }
 
 const recipeSearchForm = document.getElementById('recipeSearchForm');
@@ -573,3 +701,54 @@ settingsForms.forEach(form => {
         passInputs.forEach(input => input.value = "");
     });
 });
+
+
+
+const ingredientSearchForm = document.getElementById('ingredientSearchForm');
+
+if (ingredientSearchForm) {
+    ingredientSearchForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Stop page reload
+        
+        // 1. Get the text directly from the input box
+        const inputVal = document.getElementById('ingredientSearchInput').value;
+        
+        // 2. Validate
+        if (!inputVal || inputVal.trim() === '') {
+            alert("Please enter an ingredient (e.g. Chicken)!");
+            return;
+        }
+
+        // 3. Run the search
+        // The backend expects comma-separated text like "chicken, garlic"
+        console.log("Searching for:", inputVal);
+        await searchByIngredients(inputVal);
+    });
+}
+
+window.runIngredientSearch = async function() {
+    console.log("🟢 Manual Search Triggered");
+    
+    const input = document.getElementById('ingredientSearchInput');
+    if (!input) {
+        alert("Error: Input box not found!");
+        return;
+    }
+    
+    const value = input.value.trim();
+    if (!value) {
+        alert("Please enter ingredients (e.g. Chicken, Garlic)!");
+        return;
+    }
+    
+    // Call the existing logic
+    await searchByIngredients(value);
+}
+
+// Ensure the Enter key also works
+window.handleEnterKey = function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Stop form submit
+        window.runIngredientSearch(); // Run search
+    }
+}

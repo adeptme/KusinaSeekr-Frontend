@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chef K | Profile</title>
-    <!-- CSS Links -->
+    
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/profile.css">
-    <link rel="stylesheet" href="../CSS/search.css"> <!-- Reused for cards -->
-    <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/search.css"> <link rel="stylesheet" href="../CSS/responsive.css">
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&family=Merriweather&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="site-header">
-        <a href="index.html" class="logo-container">
+        <a href="../index.html" class="logo-container">
             <h1 class="logo-text">KusinaSeekr</h1>
         </a>
 
@@ -31,96 +30,50 @@
         <div class="header-right" id="nav-menu">
             <nav class="navbar">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="../index.html">Home</a></li>
                     <li><a href="search/ingredient&recipeSearch.html">Recipes</a></li>
                     <li><a href="search/tutorialSearch.html">Cooking Tutorials</a></li>
                     <li><a href="community.html">Community</a></li>
-                    <li><a href="profile.html"style="color: #E2725B;">Profile</a></li>
+                    <li><a href="profile.html" class="active" style="color: #E2725B;">Profile</a></li>
                 </ul>
             </nav>
-            <a href="Logging/login.html" class="lg-button">Log Out</a>
+            <a href="../Logging/login.html" class="lg-button">Log Out</a>
         </div>
     </header>
 
     <main class="profile-main">
         
-        <!-- Profile Header Section -->
         <section class="profile-header-card">
             <div class="profile-cover">
-                <!-- Header Picture -->
-                <img src="../Page/images/sisig.jpg" alt="Cover" onerror="this.src='https://placehold.co/1000x300?text=Cover+Image'">
+                <div style="height: 100%; width: 100%; background-color: #ccc;"></div>
             </div>
             
             <div class="profile-info-wrap">
-                <!-- Profile Picture -->
                 <div class="profile-avatar">
-                    <img src="../Page/images/chef-k.jpg" alt="Chef K" onerror="this.src='https://placehold.co/150?text=K'">
+                    <img id="profile-avatar" src="https://placehold.co/150?text=User" alt="Profile Pic" onerror="this.src='https://placehold.co/150?text=User'">
                 </div>
                 
-                <h2 class="profile-name">Chef K</h2>
+                <h2 class="profile-name" id="profile-name">Loading...</h2>
+                
                 <div class="rating-badge">
                     <i class="fas fa-star"></i> 4.9 Rating (205 Reviews)
                 </div>
                 
-                <p class="profile-bio">
-                    Passionate home cook specializing in modern Filipino cuisine. I love experimenting with traditional adobo recipes and sharing easy-to-follow tutorials for beginners. Let's cook!
+                <p class="profile-bio" id="profile-bio">
+                    Fetching profile...
                 </p>
 
-                <!-- Edit Button (Links to Account Settings) -->
-                <a href="accountSettings.html" class="edit-profile-btn">
+                <a href="#" class="edit-profile-btn" onclick="alert('Edit coming soon!')">
                     <i class="fas fa-cog"></i> Edit Profile
                 </a>
             </div>
         </section>
 
-        <!-- Previous Interactions / Content -->
         <section class="profile-content-section">
             <h3>Previous Interactions</h3>
             
-            <div class="activity-grid">
-                
-                <!-- Shared Recipe Card (Reusing Search Card Styles) -->
-                <div class="s-recipe-card">
-                    <img src="../Page/images/pork-adobo.jpg" alt="Adobo" onerror="this.src='https://placehold.co/400x300?text=My+Adobo'">
-                    <div class="s-info">
-                        <h3>My Special Adobo</h3>
-                        <p>Shared 2 days ago</p>
-                        <div class="s-meta">
-                            <span class="s-tag">Recipe</span>
-                            <span><i class="fas fa-heart"></i> 124</span>
-                        </div>
-                        <a href="search/details page/recipePage.html" class="s-btn">View Post</a>
-                    </div>
-                </div>
-
-                <!-- Community Post Card -->
-                <div class="s-recipe-card">
-                    <img src="../Page/images/lechon.jpg" alt="Lechon" onerror="this.src='https://placehold.co/400x300?text=Question'">
-                    <div class="s-info">
-                        <h3>Best dipping sauce?</h3>
-                        <p>Asked in Community 1 week ago</p>
-                        <div class="s-meta">
-                            <span class="s-tag">Discussion</span>
-                            <span><i class="fas fa-comment"></i> 45</span>
-                        </div>
-                        <a href="community.html" class="s-btn">View Discussion</a>
-                    </div>
-                </div>
-
-                <!-- Saved Tutorial -->
-                <div class="s-recipe-card">
-                    <img src="../Page/images/knife-skills.jpg" alt="Knife Skills" onerror="this.src='https://placehold.co/400x300?text=Skills'">
-                    <div class="s-info">
-                        <h3>Basic Knife Skills</h3>
-                        <p>Completed 2 weeks ago</p>
-                        <div class="s-meta">
-                            <span class="s-tag">Tutorial</span>
-                            <span><i class="fas fa-check-circle" style="color:green"></i> Done</span>
-                        </div>
-                        <a href="search/details page/tutorialPage.html" class="s-btn">Watch Again</a>
-                    </div>
-                </div>
-
+            <div class="activity-grid" id="profile-posts-container">
+                <p style="width:100%; text-align:center; grid-column: 1/-1;">Loading activity...</p>
             </div>
         </section>
 

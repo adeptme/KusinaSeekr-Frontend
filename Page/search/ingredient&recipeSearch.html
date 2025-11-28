@@ -14,20 +14,18 @@
 
 </head>
 <body>
+
   <header class="site-header">
     <a href="../index.html" class="logo-container">
         <i class="fas fa-utensils logo-icon"></i>
         <h1 class="logo-text">KusinaSeekr</h1>
     </a>
-    <!--Hamburger-->
-        <button class="burger-menu" id="burger-menu">
-            &#9776;
-        </button>
+    <button class="burger-menu" id="burger-menu">&#9776;</button>
     <div class="header-right" id="nav-menu">
         <nav class="navbar">
             <ul>
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="#" class="active" style="color: #E2725B;">Recipes</a></li> <!-- Note: Search page basically is recipes -->
+                <li><a href="#" class="active" style="color: #E2725B;">Recipes</a></li>
                 <li><a href="tutorialSearch.html">Cooking Tutorials</a></li>
                 <li><a href="/Page/community.html">Community</a></li>
                 <li><a href="/Page/profile.html">Profile</a></li>
@@ -37,22 +35,21 @@
     </div>
   </header>
 
-  <!-- ... Content Remains Same as Previous Working Version ... -->
   <div class="search-page-header">
     <h2>Filipino Recipes</h2>
+    
     <div class="toggle-wrapper">
         <button id="btn-recipe" class="toggle-btn active">Recipe Search</button>
         <button id="btn-ingredient" class="toggle-btn">Ingredient Search</button>
     </div>
+
     <div id="recipe-view">
-        <form class="recipe-search-container" action="#" id="recipeSearchForm">
+        <form class="recipe-search-container" id="recipeSearchForm">
             <div class="search-input-wrapper">
-                <input type="text" id="recipeSearchInput" placeholder="Search Recipes">
+                <input type="text" id="recipeSearchInput" placeholder="Search Recipes (e.g. Adobo)">
             </div>
         </form>
         
-        </div>
-          </form>
         <div class="filters-row">
             <select><option>Category</option></select>
             <select><option>Difficulty</option></select>
@@ -61,22 +58,31 @@
     </div>
 
     <div id="ingredient-view" style="display: none;">
-        <form class="ingredient-search-box" action="#">
+        <div class="ingredient-search-box">
             <label>Enter ingredients you have available:</label>
+            
             <div class="ing-input-row">
-                <input type="text" placeholder="Add ingredient...">
-                <button class="ing-add-btn">Add</button>
+                <input type="text" id="ingredientSearchInput" placeholder="Add ingredient e.g. chicken, garlic" onkeypress="handleEnterKey(event)">
+                
+                <button type="button" id="btnAddIng" class="ing-add-btn" onclick="runIngredientSearch()">Add</button>
             </div>
-            <button class="ing-find-btn">Find Recipes</button>
-          </form>
+
+            <div id="ingredient-tags-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0;"></div>
+
+            <button type="button" class="ing-find-btn" onclick="runIngredientSearch()">Find Recipes</button>
+        </div>
     </div>
   </div>
 
   <div id="results-section" class="search-results-grid">
-    <p style="text-align:center; width:100%; grid-column: span 3;">Loading all recipes...</p>
- </div>
+    <p style="text-align:center; width:100%; grid-column: span 3; margin-top: 20px;">Loading all recipes...</p>
+  </div>
 
-  <footer><p>© 2025 KusinaSeekr. All Rights Reserved.</p><hr></footer>
+  <footer>
+    <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
+    <hr>
+  </footer>
+
   <script src="../../JS/main.js"></script>
 </body>
 </html>
