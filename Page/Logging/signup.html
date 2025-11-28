@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reset Password | KusinaSeekr</title>
-  <link rel="stylesheet" href="../CSS/auth.css">
+  <title>Sign Up | KusinaSeekr</title>
+  <link rel="stylesheet" href="/CSS/auth.css">"
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
@@ -12,21 +12,31 @@
 <body>
 
   <div class="auth-container">
-    <h2>Reset Password</h2>
-    <p>Enter your email and we'll send you a verification code.</p>
+    <h2>Create Account</h2>
+    <p>Join our community of home cooks today!</p>
 
-    <!-- UPDATED ACTION -->
-    <form action="verifyReset.html">
+    <!-- UPDATED ACTION TO 2FA PAGE -->
+    <form action="2fa.html"> 
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Choose a username" required>
+      </div>
+
       <div class="input-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" placeholder="Enter your email" required>
       </div>
 
-      <button type="submit" class="auth-btn">Send Code</button>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create a password" required>
+      </div>
+
+      <button type="submit" class="auth-btn">Sign Up</button>
     </form>
 
     <div class="auth-footer">
-      <a href="login.html">Back to Login</a>
+      Already have an account? <a href="login.html">Log In</a>
     </div>
   </div>
 
