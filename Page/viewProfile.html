@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Mario | KusinaSeekr</title>
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/profile.css">
+    <link rel="stylesheet" href="../CSS/search.css">
+    <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&family=Merriweather&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="logo-container">
+            <h1 class="logo-text">KusinaSeekr</h1>
+        </a>
+        <button class="burger-menu" id="burger-menu">
+            &#9776;
+        </button>
+        <div class="header-right" id="nav-menu">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search/ingredient&recipeSearch.html">Recipes</a></li>
+                    <li><a href="search/tutorialSearch.html">Cooking Tutorials</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <a href="Logging/login.html" class="lg-button">Log Out</a>
+        </div>
+    </header>
+
+    <main class="profile-main">
+        
+        <!-- Profile Header -->
+        <section class="profile-header-card">
+            <div class="profile-cover">
+                <img src="images/simmering.jpg" alt="Cover" onerror="this.src='https://placehold.co/1000x300?text=Kitchen+View'">
+            </div>
+            
+            <div class="profile-info-wrap">
+                <div class="profile-avatar">
+                    <img src="../images/chef.webp" alt="Chef Mario" onerror="this.src='https://placehold.co/150?text=Mario'">
+                </div>
+                
+                <h2 class="profile-name">Chef Kate</h2>
+                <div class="rating-badge">
+                    <i class="fas fa-star"></i> 4.5 Rating (85 Reviews)
+                </div>
+                
+                <p class="profile-bio">
+                    Italian-Filipino fusion enthusiast. I love adding a Mediterranean twist to classic Pinoy dishes. Follow me for unique pasta and stew recipes!
+                </p>
+
+                <!-- Follow Button instead of Edit -->
+                <button class="follow-btn" onclick="alert('You are now following Chef Mario!')">
+                    <i class="fas fa-user-plus"></i> Follow
+                </button>
+            </div>
+        </section>
+
+        <!-- Previous Interactions -->
+        <section class="profile-content-section">
+            <h3>Chef Mario's Recipes</h3>
+            
+            <div class="activity-grid">
+                
+                <div class="s-recipe-card">
+                    <img src="images/lechon-kawali.jpg" alt="Lechon" onerror="this.src='https://placehold.co/400x300?text=Lechon+Pasta'">
+                    <div class="s-info">
+                        <h3>Crispy Lechon Pasta</h3>
+                        <p>A fusion twist on carbonara.</p>
+                        <div class="s-meta">
+                            <span class="s-tag">Fusion</span>
+                            <span><i class="fas fa-heart"></i> 210</span>
+                        </div>
+                        <a href="search/details page/recipePage.html" class="s-btn">View Recipe</a>
+                    </div>
+                </div>
+
+                <div class="s-recipe-card">
+                    <img src="images/sauteeing.jpeg" alt="Saute" onerror="this.src='https://placehold.co/400x300?text=Saute'">
+                    <div class="s-info">
+                        <h3>Garlic Sauté Techniques</h3>
+                        <p>How to get the perfect aroma.</p>
+                        <div class="s-meta">
+                            <span class="s-tag">Technique</span>
+                            <span><i class="fas fa-eye"></i> 1.2k</span>
+                        </div>
+                        <a href="search/details page/tutorialPage.html" class="s-btn">Watch Video</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
+        <hr>
+    </footer>
+
+    <script src="../JS/main.js"></script>
+</body>
+</html>
