@@ -560,17 +560,16 @@ if (btnCreatePost) {
     });
 }
 
-    // --- SETTINGS PAGE LOGIC ---
-    // Select forms inside settings page
-    const settingsForms = document.querySelectorAll('.settings-form');
-    
-    settingsForms.forEach(form => {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent actual submission
-            alert("Changes saved successfully!");
-            // Optional: Clear password fields after save
-            const passInputs = form.querySelectorAll('input[type="password"]');
-            passInputs.forEach(input => input.value = "");
-        });
+// --- SETTINGS PAGE LOGIC ---
+// Select forms inside settings page
+const settingsForms = document.querySelectorAll('.settings-form');
+
+settingsForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent actual submission
+        alert("Changes saved successfully!");
+        // Optional: Clear password fields after save
+        const passInputs = form.querySelectorAll('input[type="password"]');
+        passInputs.forEach(input => input.value = "");
     });
 });
