@@ -1,0 +1,141 @@
+/* --- Base Layout --- */
+.profile-main {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+}
+
+/* --- Profile Header Section --- */
+.profile-header-card {
+    background: white;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+/* Cover Image */
+.profile-cover {
+    height: 250px;
+    background-color: #3b1f16; /* Fallback */
+    position: relative;
+}
+
+.profile-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+}
+
+/* Profile Content Wrapper */
+.profile-info-wrap {
+    padding: 20px 40px 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Avatar (Overlapping) */
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: -90px; /* Pulls it up into the cover */
+    z-index: 2;
+    background: white;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* User Text */
+.profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #3b1f16;
+    margin: 15px 0 5px;
+    font-weight: 700;
+}
+
+.profile-bio {
+    font-family: 'Lato', sans-serif;
+    color: #666;
+    max-width: 600px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Ratings Badge */
+.rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFF8E1;
+    color: #B45309; /* Dark Orange/Brown */
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.rating-badge i {
+    color: #F59E0B; /* Star Color */
+}
+
+/* Edit Button */
+.edit-profile-btn {
+    background-color: transparent;
+    border: 2px solid #E2725B;
+    color: #E2725B;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-profile-btn:hover {
+    background-color: #E2725B;
+    color: white;
+}
+
+/* --- Content Section --- */
+.profile-content-section h3 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+    display: inline-block;
+}
+
+/* Reuse Grid from Search/Home but ensure spacing */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-cover { height: 180px; }
+    .profile-avatar { width: 110px; height: 110px; margin-top: -60px; }
+    .profile-name { font-size: 1.8rem; }
+    .profile-info-wrap { padding: 20px; }
+}
