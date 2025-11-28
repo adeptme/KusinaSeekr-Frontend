@@ -11,15 +11,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Nunito:wght@700;800&family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="site-header">
         <a href="index.html" class="logo-container">
             <h1 class="logo-text">KusinaSeekr</h1>
         </a>
-        <!--Hamburger-->
         <button class="burger-menu" id="burger-menu">
             &#9776;
         </button>
@@ -29,7 +28,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="search/ingredient&recipeSearch.html">Recipes</a></li>
                     <li><a href="search/tutorialSearch.html">Cooking Tutorials</a></li>
-                    <li><a href="community.html" style="color: #E2725B;">Community</a></li> <!-- Active State -->
+                    <li><a href="community.html" style="color: #E2725B;">Community</a></li>
                     <li><a href="profile.html">Profile</a></li>
                 </ul>
             </nav>
@@ -39,73 +38,31 @@
 
     <main class="community-main">
         
-        <!-- Create Post Widget -->
-        <form class="create-post-card" action="#">
+        <div class="create-post-card">
             <div class="input-row">
-                <img src="../Page/images/chef-avatar.jpg" alt="User" class="user-avatar-sm" onerror="this.src='https://placehold.co/50?text=User'">
-                <input type="text" class="post-input" placeholder="Share a recipe/Techniques...">
+                <img src="../Page/images/chef-avatar.jpg" alt="User" class="user-avatar-sm">
+                <input type="text" id="new-post-content" class="post-input" placeholder="Share a recipe/Techniques...">
             </div>
+            
+            <div id="media-preview" style="padding: 0 15px 10px 15px; font-size: 0.9rem; color: #E2725B; display: none;">
+                Selected: <span id="file-name"></span>
+                <button id="clear-media" style="background:none; border:none; cursor:pointer; margin-left:10px;">❌</button>
+            </div>
+
             <div class="action-row">
                 <div class="media-btns">
-                    <button class="media-btn"><i class="fas fa-camera"></i> Photo</button>
-                    <button class="media-btn"><i class="fas fa-video"></i> Video</button>
-                </div>
-                <button class="post-submit-btn"><i class="fas fa-plus-circle"></i> Post to the community</button>
-            </div>
-        </form>
+                    <input type="file" id="file-input-photo" accept="image/*" style="display: none;">
+                    <input type="file" id="file-input-video" accept="video/*" style="display: none;">
 
-        <!-- Feed Post 1 (Image) -->
-        <div class="feed-card">
-            <div class="post-header">
-                <a href="../Page/viewProfile.html">
-                    <img src="../images/chef.webp" alt="Chef K" class="user-avatar-sm" onerror="this.src='https://placehold.co/50?text=K'">
-                </a>
-                <div class="poster-info">
-
-                    <a href="../Page/viewProfile.html"><h4>Chef K</h4></a>
-                    <span>32 mins ago</span>
+                    <button class="media-btn" id="btn-photo"><i class="fas fa-camera"></i> Photo</button>
+                    <button class="media-btn" id="btn-video"><i class="fas fa-video"></i> Video</button>
                 </div>
+                <button id="btn-create-post" class="post-submit-btn"><i class="fas fa-plus-circle"></i> Post to the community</button>
             </div>
-            <div class="post-title">
-                This adobo looks so tasty
-            </div>
-            <div class="post-image-container">
-                <img src="../Page/images/adobo.jpg" alt="Adobo" onerror="this.src='https://placehold.co/600x400?text=Adobo+Post'">
-            </div>
-            <div class="post-footer-line"></div>
         </div>
 
-        <!-- Feed Post 2 (Text) -->
-        <div class="feed-card">
-            <div class="post-header">
-                <img src="../Page/images/chef-k.jpg" alt="Chef K" class="user-avatar-sm" onerror="this.src='https://placehold.co/50?text=K'">
-                <div class="poster-info">
-                    <h4>Chef K</h4>
-                    <span>2 hours ago</span>
-                </div>
-            </div>
-            <div class="post-title text-content">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            </div>
-            <div class="post-footer-line"></div>
-        </div>
-
-        <!-- Feed Post 3 (Image) -->
-        <div class="feed-card">
-            <div class="post-header">
-                <img src="../Page/images/chef-k.jpg" alt="Chef K" class="user-avatar-sm" onerror="this.src='https://placehold.co/50?text=K'">
-                <div class="poster-info">
-                    <h4>Chef K</h4>
-                    <span>5 hours ago</span>
-                </div>
-            </div>
-            <div class="post-title">
-                My version of spicy Adobo!
-            </div>
-            <div class="post-image-container">
-                <img src="../Page/images/pork-adobo.jpg" alt="Spicy Adobo" onerror="this.src='https://placehold.co/600x400?text=Spicy+Adobo'">
-            </div>
-            <div class="post-footer-line"></div>
+        <div id="community-feed-container">
+            <p style="text-align: center; margin-top: 20px; color: #666;">Loading community posts...</p>
         </div>
 
     </main>

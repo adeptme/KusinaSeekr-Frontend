@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 <body>
   <header class="site-header">
@@ -44,10 +45,13 @@
         <button id="btn-ingredient" class="toggle-btn">Ingredient Search</button>
     </div>
     <div id="recipe-view">
-        <form class="recipe-search-container" action="#">
+        <form class="recipe-search-container" action="#" id="recipeSearchForm">
             <div class="search-input-wrapper">
-                <input type="text" placeholder="Search Recipes">
+                <input type="text" id="recipeSearchInput" placeholder="Search Recipes">
             </div>
+        </form>
+        
+        </div>
           </form>
         <div class="filters-row">
             <select><option>Category</option></select>
@@ -69,25 +73,8 @@
   </div>
 
   <div id="results-section" class="search-results-grid">
-    <div class="s-recipe-card">
-        <img src="/images/pork-adobo.jpg" alt="Adobo" onerror="this.src='https://placehold.co/400x300?text=Adobo'">
-        <div class="s-info">
-            <h3>Pork Adobo</h3>
-            <p>Classic Filipino dish.</p>
-            <div class="s-meta"><span class="s-tag">Main Dish</span><span>45 mins</span></div>
-            <a href="details page/recipePage.html" class="s-btn">View Recipe</a>
-        </div>
-    </div>
-    <div class="s-recipe-card">
-        <img src="/images/lechon-kawali.jpg" alt="Lechon" onerror="this.src='https://placehold.co/400x300?text=Lechon'">
-        <div class="s-info">
-            <h3>Lechon Kawali</h3>
-            <p>Crispy pork belly.</p>
-            <div class="s-meta"><span class="s-tag">Main Dish</span><span>1 hr</span></div>
-            <a href="details page/recipePage.html" class="s-btn">View Recipe</a>
-        </div>
-    </div>
-  </div>
+    <p style="text-align:center; width:100%; grid-column: span 3;">Loading all recipes...</p>
+ </div>
 
   <footer><p>© 2025 KusinaSeekr. All Rights Reserved.</p><hr></footer>
   <script src="../../JS/main.js"></script>

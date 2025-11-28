@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verification | KusinaSeekr</title>
-  <link rel="stylesheet" href="/CSS/auth.css">
+  <title>Check Your Email | KusinaSeekr</title>
+  <link rel="stylesheet" href="../CSS/auth.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
@@ -12,20 +12,20 @@
 <body>
 
   <div class="auth-container">
-    <h2>Two-Factor Authentication</h2>
-    <p>Please enter the 6-digit verification code sent to your email.</p>
+    <h2 style="font-size: 1.8rem;">Check Your Email</h2>
+    
+    <p style="margin-bottom: 20px;">
+        We have sent a verification link to your email address. 
+        Please click the link in that email to activate your account.
+    </p>
 
-    <form action="../index.html"> <!-- Redirects to home upon success -->
-      <div class="input-group">
-        <label for="auth-code">Verification Code</label>
-        <input type="text" id="auth-code" placeholder="123456" maxlength="6" style="letter-spacing: 5px; text-align: center; font-size: 1.2rem;" required>
-      </div>
-
-      <button type="submit" class="auth-btn">Verify Identity</button>
-    </form>
+    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; color: #555;">
+        <strong>Note:</strong> Keep this window open or you can close it. 
+        Once you click the link in your email, you will be logged in.
+    </div>
 
     <div class="auth-footer">
-      Didn't receive a code? <a href="#">Resend</a>
+      Didn't receive a link? <a href="#" onclick="alert('Resend logic not connected yet')">Resend</a>
       <br><br>
       <a href="login.html" style="color: #888; font-weight: normal; font-size: 0.85rem;">Back to Login</a>
     </div>

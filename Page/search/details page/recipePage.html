@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -43,127 +43,49 @@
 
   <main class="detail-container">
     
-    <!-- Recipe Hero -->
     <section class="recipe-hero-vertical">
-      <img src="../../images/pork-adobo.jpg" alt="Pork Adobo" class="recipe-hero-img" onerror="this.src='https://placehold.co/1000x500?text=Pork+Adobo'">
+      <img id="detail-image" src="" alt="Loading..." class="recipe-hero-img" onerror="this.src='https://placehold.co/1000x500?text=No+Image'">
       
       <div class="recipe-hero-content">
         <div class="recipe-header-row">
-            <h1>Pork Adobo</h1>
+            <h1 id="detail-title">Loading Recipe...</h1>
             <div class="recipe-actions">
                 <button class="action-icon-btn"><i class="far fa-bookmark"></i> Save</button>
                 <button class="action-icon-btn"><i class="fas fa-share"></i> Share</button>
             </div>
         </div>
         
-        <p class="recipe-desc">
-            Pork Adobo is pork cooked in soy sauce, vinegar, and garlic. It’s considered as the Philippines’ national dish because of its popularity, ease of preparation, and long shelf life.
+        <p class="recipe-desc" id="detail-desc">
+            Fetching description...
         </p>
 
         <div class="recipe-stats-row">
-            <span><i class="far fa-clock"></i> 45 mins</span>
-            <span><i class="fas fa-user-friends"></i> 4 servings</span>
-            <span style="color: #E2725B; font-weight: 700;"><i class="fas fa-star"></i> 4.8 (100 reviews)</span>
+            <span><i class="far fa-clock"></i> <span id="detail-time">-- mins</span></span>
+            <span><i class="fas fa-user-friends"></i> <span id="detail-servings">-- servings</span></span>
+            <span style="color: #E2725B; font-weight: 700;"><i class="fas fa-star"></i> 4.8</span>
         </div>
       </div>
     </section>
 
-    <!-- Split Layout: Ingredients & Instructions -->
     <section class="recipe-content-split">
         
-        <!-- Left Column: Ingredients -->
         <div class="detail-card">
             <h3>Ingredients</h3>
-            <ul class="ingredients-list">
-                <li>2 lbs pork belly, cut into 2-inch cubes</li>
-                <li>1/2 cup soy sauce</li>
-                <li>1/2 cup white vinegar</li>
-                <li>1 head garlic, minced</li>
-                <li>1 tsp whole black peppercorns</li>
-                <li>3 dried bay leaves</li>
-                <li>1 tbsp brown sugar (optional)</li>
-                <li>1 cup water</li>
-                <li>2 tbsp vegetable oil</li>
-                <li>Steamed white rice (for serving)</li>
+            <ul class="ingredients-list" id="detail-ingredients">
+                <li>Loading ingredients...</li>
             </ul>
         </div>
 
-        <!-- Right Column: Instructions -->
         <div class="detail-card">
             <h3>Instructions</h3>
-            <ol class="instructions-list">
-                <li>
-                    <strong>Marinate the Pork</strong>
-                    In a large bowl, combine the pork belly, soy sauce, and garlic. Mix well and marinate for at least 1 hour, or overnight in the refrigerator for best results.
-                </li>
-                <li>
-                    <strong>Sear the Meat</strong>
-                    Heat the oil in a cooking pot over medium heat. Pan-fry the pork pieces for 2-3 minutes per side until browned. Remove and set aside.
-                </li>
-                <li>
-                    <strong>Simmer</strong>
-                    In the same pot, pour in the remaining marinade and water. Add peppercorns and bay leaves. Bring to a boil.
-                </li>
-                <li>
-                    <strong>Tenderize</strong>
-                    Cover the pot and reduce heat to low. Simmer for 40-60 minutes or until the pork is tender. Add more water if the sauce dries up too quickly.
-                </li>
-                <li>
-                    <strong>Add Vinegar</strong>
-                    Pour in the vinegar. Allow it to boil uncovered for 3-5 minutes. Do not stir! This cooks off the strong acid taste.
-                </li>
-                <li>
-                    <strong>Finish & Serve</strong>
-                    Add sugar (if using) and stir. Simmer for another 2 minutes. Serve hot with steamed white rice. Enjoy!
-                </li>
+            <ol class="instructions-list" id="detail-steps">
+                <li>Loading instructions...</li>
             </ol>
         </div>
 
     </section>
 
-    <!-- Related Recipes -->
-    <section class="related-section">
-        <h2>You Might Also Like</h2>
-        <div class="related-grid">
-            <!-- Using classes from search.css/global style for consistency -->
-            <div class="s-recipe-card">
-                <img src="../../images/lechon.jpg" alt="Lechon Kawali" onerror="this.src='https://placehold.co/400x300?text=Lechon'">
-                <div class="s-info">
-                    <h3>Lechon Kawali</h3>
-                    <p>Crispy deep-fried pork belly.</p>
-                    <div class="s-meta"><span class="s-tag">Main Dish</span><span>1 hr</span></div>
-                    <a href="recipePage.html" class="s-btn">View Recipe</a>
-                </div>
-            </div>
-            
-            <div class="s-recipe-card">
-                <img src="../../images/lecheflan.jpg" alt="Leche Flan" onerror="this.src='https://placehold.co/400x300?text=Flan'">
-                <div class="s-info">
-                    <h3>Leche Flan</h3>
-                    <p>Creamy caramel custard dessert.</p>
-                    <div class="s-meta"><span class="s-tag">Dessert</span><span>55 mins</span></div>
-                    <a href="recipePage.html" class="s-btn">View Recipe</a>
-                </div>
-            </div>
-
-            <div class="s-recipe-card">
-                <img src="../../images/adobo.jpg" alt="Chicken Adobo" onerror="this.src='https://placehold.co/400x300?text=Chicken+Adobo'">
-                <div class="s-info">
-                    <h3>Chicken Adobo</h3>
-                    <p>A lighter variation using chicken.</p>
-                    <div class="s-meta"><span class="s-tag">Main Dish</span><span>40 mins</span></div>
-                    <a href="recipePage.html" class="s-btn">View Recipe</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
-    <hr>
-  </footer>
+    </main>
 
   <script src="../../../JS/main.js"></script>
 </body>

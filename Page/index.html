@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
 </head>
 <body>
@@ -51,7 +52,7 @@
             </div>
         </section>
 
-        <section class="features">
+       <section class="features">
             <h2>Popular Filipino Recipes</h2>
             <hr>
             <div class="filter-buttons">
@@ -62,43 +63,8 @@
                 <a href="#" class="filter">Vegetarian</a>
             </div>
 
-            <div class="recipe-grid">
-                <div class="recipe-card">
-                    <img src="../images/pork-adobo.jpg" alt="Pork Adobo" onerror="this.src='https://placehold.co/400x300?text=Adobo'">
-                    <div class="recipe-info">
-                        <h3>Pork Adobo</h3>
-                        <p>Pork adobo is cooked in soy sauce, vinegar, and garlic.</p>
-                        <div class="recipe-meta">
-                            <span class="tag">Main Dish</span>
-                            <span class="time">⏱ 45 mins</span>
-                        </div>
-                        <a href="search/details page/recipePage.html" class="view-btn">View Recipe</a>
-                    </div>
-                </div>
-                <div class="recipe-card">
-                    <img src="../images/lechon-kawali.jpg" alt="Lechon Kawali" onerror="this.src='https://placehold.co/400x300?text=Lechon'">
-                    <div class="recipe-info">
-                        <h3>Lechon Kawali</h3>
-                        <p>Crispy deep-fried pork belly with golden skin.</p>
-                        <div class="recipe-meta">
-                            <span class="tag">Main Dish</span>
-                            <span class="time">⏱ 1 hour</span>
-                        </div>
-                        <a href="search/details page/recipePage.html" class="view-btn">View Recipe</a>
-                    </div>
-                </div>
-                <div class="recipe-card">
-                    <img src="../images/leche-flan.jpg" alt="Leche Flan" onerror="this.src='https://placehold.co/400x300?text=Leche+Flan'">
-                    <div class="recipe-info">
-                        <h3>Leche Flan</h3>
-                        <p>A Filipino crème caramel dessert.</p>
-                        <div class="recipe-meta">
-                            <span class="tag dessert">Dessert</span>
-                            <span class="time">⏱ 55 mins</span>
-                        </div>
-                        <a href="search/details page/recipePage.html" class="view-btn">View Recipe</a>
-                    </div>
-                </div>
+            <div class="recipe-grid" id="recipeContainer">
+                <p style="text-align:center; width:100%;">Loading recipes...</p>
             </div>
 
             <div style="margin-top: 40px;">
@@ -109,12 +75,14 @@
         <section class="home-search-section">
             <h2>What Can I Cook Today?</h2>
             <div class="recipe-box">
-                <form action="search/ingredient&recipeSearch.html">
+                <form action="search/ingredient&recipeSearch.html" method="GET">
+                    
                     <label for="ingredient-input">Enter ingredients you have available:</label>
                     <div class="input-group">
-                        <input type="text" id="ingredient-input" placeholder="Add ingredient e.g. chicken, garlic, rice" required>
-                        <button type="button" class="add-btn">Add</button>
+                        <input type="text" id="ingredient-input" name="ingredients" placeholder="Add ingredient e.g. chicken, garlic, rice" required>
+                        <button type="button" class="add-btn" onclick="alert('Tip: You can separate ingredients with commas!')">Add</button>
                     </div>
+                    
                     <button type="submit" class="find-btn">Find Recipes with These Ingredients</button>
                 </form>
             </div>
