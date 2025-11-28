@@ -1,0 +1,111 @@
+/* --- Base Styles (Inherits fonts from global) --- */
+.settings-main {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.settings-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.settings-header h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 2.2rem;
+    color: #2b2118;
+    margin-bottom: 10px;
+}
+
+.settings-header p {
+    font-family: 'Lato', sans-serif;
+    color: #666;
+}
+
+/* --- Settings Sections --- */
+.settings-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #3b1f16;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* --- Form Elements (Matches auth.css style) --- */
+.settings-form .input-group {
+    margin-bottom: 20px;
+}
+
+.settings-form label {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    color: #5A3D2B;
+}
+
+.settings-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d1c0b0;
+    background-color: #fff;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.settings-form input:focus {
+    border-color: #E2725B;
+}
+
+/* Buttons */
+.save-settings-btn {
+    background-color: #E2725B; /* Terracotta */
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.save-settings-btn:hover {
+    background-color: #CC5500;
+}
+
+.save-settings-btn.secondary {
+    background-color: #f0f0f0;
+    color: #555;
+    margin-right: 10px;
+}
+
+.save-settings-btn.secondary:hover {
+    background-color: #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .settings-main {
+        margin: 30px auto;
+    }
+    .settings-section {
+        padding: 25px;
+    }
+}
