@@ -150,14 +150,47 @@ body {
 }
 
 .post-footer-line {
-    border-top: 2px solid rgba(0,0,0,0.1);
-    margin-top: 10px;
-    padding-top: 5px;
-    height: 10px; /* Visual spacing */
+    border-top: 1px solid rgba(60, 60, 60, 0.1); /* Thinner line looks cleaner */
+    margin-top: 15px;
+    padding-top: 10px;
+    /* Height removed so it grows to fit the button */
+    display: flex; /* Ensures items inside align properly */
+    align-items: center;
 }
 
 /* For text-only posts */
 .text-content {
     background: transparent;
     padding-bottom: 10px;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #E2725B; /* Rust Orange */
+    
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    
+    /* Flexbox Magic for Alignment */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between heart and text */
+    
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+
+/* Hover Effect */
+.action-icon-btn:hover {
+    background-color: rgba(226, 114, 91, 0.1); /* Light fade of the rust color */
+}
+
+/* Make the heart icon slightly larger if needed */
+.action-icon-btn i {
+    font-size: 1.1rem;
 }
