@@ -903,34 +903,18 @@ async function loadTutorialDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const tutorialId = urlParams.get('id');
 
-    // references to DOM elements
-    const titleEl = document.getElementById('tutorial-title');
-    const subtitleEl = document.getElementById('tutorial-subtitle');
-    const timeEl = document.getElementById('tutorial-time');
-    const thumbEl = document.getElementById('tutorial-thumbnail');
-    const videoFrame = document.getElementById('tutorial-video-frame');
-    const contentTitle = document.getElementById('tutorial-content-title');
-    const contentArea = document.getElementById('tutorial-content-area');
-
-    // Stop if not on the tutorial detail page or no ID provided
-    if (!titleEl) return;
-
-    if (!tutorialId) {
-        titleEl.innerText = "Error: No Tutorial ID Provided";
-        subtitleEl.innerText = "Please return to the search page and select a tutorial.";
-        return;
-    }
+    if (!tutorialId || !document.getElementById('tutorial-title')) return;
 
     try {
-        console.log(`Fetching tutorial ID: ${tutorialId}...`); // Debugging log
         const response = await fetch(`${BACKEND_URL}/feature/tutorials/${tutorialId}`);
         
         if (!response.ok) throw new Error("Tutorial not found");
 
         const tutorial = await response.json();
 
-        // 🟢 1. Handle Image
+        // 🟢 FIX: Use 'thumbnail' to match the backend
         let thumbnailPath = 'https://placehold.co/1000x500?text=No+Image';
+        
         if (tutorial.thumbnail) { 
             const { data } = supabaseClient
                 .storage
@@ -939,36 +923,36 @@ async function loadTutorialDetails() {
             thumbnailPath = data.publicUrl;
         }
         
-        if (thumbEl) {
-            thumbEl.src = thumbnailPath;
-            thumbEl.onerror = null; 
+        // Update HTML Elements
+        const imgElement = document.getElementById('tutorial-thumbnail');
+        if (imgElement) {
+            imgElement.src = thumbnailPath;
+            imgElement.onerror = null; // Stop loop if error
         }
 
-        // 🟢 2. Apply Text Data
-        titleEl.innerText = tutorial.title;
-        subtitleEl.innerText = tutorial.subtitle || '';
-        timeEl.innerText = tutorial.duration || "-- min";
+        document.getElementById('tutorial-title').innerText = tutorial.title;
+        document.getElementById('tutorial-subtitle').innerText = tutorial.subtitle || '';
+        document.getElementById('tutorial-time').innerText = tutorial.duration || "-- min";
         
-        // 🟢 3. Setup Video (But don't auto-play yet)
+        // Update Video
+        const videoFrame = document.getElementById('tutorial-video-frame');
         if (videoFrame && tutorial.video_url) {
-            // Store the URL in a data attribute so we can load it when the modal opens
-            videoFrame.setAttribute('data-src', tutorial.video_url);
+            videoFrame.src = tutorial.video_url; 
         }
 
-        // 🟢 4. Update Content
-        if (contentTitle) contentTitle.innerText = `Mastering ${tutorial.title}`;
-        
-        // Render content steps (preserving line breaks if it's plain text)
-        if (contentArea && tutorial.content_steps) {
-             // If content_steps has newlines, convert to <br> for display
-            const formattedSteps = tutorial.content_steps.replace(/\n/g, '<br>');
-            contentArea.innerHTML = `<p>${formattedSteps}</p>`;
+        // Update Content
+        const contentArea = document.getElementById('tutorial-content-area');
+        if (contentArea) {
+             contentArea.innerHTML = `<p>${tutorial.content_steps}</p>`;
         }
+        
+        const contentTitle = document.getElementById('tutorial-content-title');
+        if (contentTitle) contentTitle.innerText = `Mastering ${tutorial.title}`;
 
     } catch (error) {
         console.error("Tutorial load error:", error);
-        titleEl.innerText = "Tutorial Not Found";
-        subtitleEl.innerText = "We could not load the requested data.";
+        const title = document.getElementById('tutorial-title');
+        if(title) title.innerText = "Tutorial Not Found";
     }
 }
 
@@ -982,9 +966,9 @@ function setupVideoModal() {
 
     // Open Modal
     btn.onclick = function() {
-        modal.style.display = "block";
+        modal.style.display = "flex";
         // specific logic to ensure video plays or loads
-        const videoSrc = iframe.getAttribute('data-src');
+        const videoSrc = iframe.getAttribute('data-src') || iframe.src;
         if (videoSrc) {
             iframe.src = videoSrc;
         }

@@ -72,3 +72,72 @@
 .video-modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
 .video-box { width: 80%; max-width: 800px; aspect-ratio: 16/9; background: black; position: relative; }
 .close { position: absolute; top: -30px; right: 0; color: white; cursor: pointer; font-size: 2rem; }
+
+.video-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Disable scroll */
+    background-color: rgba(0, 0, 0, 0.85); /* Black with opacity */
+    
+    /* Centering the video */
+    display: none; /* JS will change this to 'flex' */
+    justify-content: center;
+    align-items: center;
+}
+
+/* The Video Container */
+.video-box {
+    position: relative;
+    background-color: #000;
+    width: 80%;
+    max-width: 900px; /* Maximum width */
+    aspect-ratio: 16 / 9; /* Keeps it in YouTube format */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 8px;
+    animation-name: popIn;
+    animation-duration: 0.3s;
+}
+
+/* The "X" Close Button */
+.close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #f1f1f1;
+    font-size: 35px;
+    font-weight: bold;
+    transition: 0.3s;
+    line-height: 1;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.close:hover,
+.close:focus {
+    color: #E2725B; /* Your Theme Color */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Animation Effect */
+@keyframes popIn {
+    from {transform: scale(0.8); opacity: 0}
+    to {transform: scale(1); opacity: 1}
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .video-box {
+        width: 95%;
+    }
+    .close {
+        top: -35px;
+        right: 5px;
+        font-size: 28px;
+    }
+}
