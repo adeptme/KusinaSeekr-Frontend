@@ -1,106 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KusinaSeekr | Tutorials</title>
-  <!-- Links to Global and Specific CSS -->
-  <link rel="stylesheet" href="../../CSS/global.css">
-  <link rel="stylesheet" href="../../CSS/tutorial-search.css">
-  <link rel="stylesheet" href="../../CSS/responsive.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusinaSeekr | Tutorials</title>
+    <link rel="stylesheet" href="../../CSS/global.css">
+    <link rel="stylesheet" href="../../CSS/tutorial-search.css">
+    <link rel="stylesheet" href="../../CSS/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <header class="site-header">
-    <a href="../index.html" class="logo-container">
-      
-        <h1 class="logo-text">KusinaSeekr</h1>
-    </a>
-    <!--Hamburger-->
-        <button class="burger-menu" id="burger-menu">
-            &#9776;
-        </button>
-    <div class="header-right" id="nav-menu">
-        <nav class="navbar">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="ingredient&recipeSearch.html">Recipes</a></li>
-                <li><a href="#" class="active"style="color: #E2725B;">Cooking Tutorials</a></li>
-                <li><a href="/Page/community.html">Community</a></li>
-                <li><a href="/Page/profile.html">Profile</a></li>
-            </ul>
-        </nav>
-        <a href="../Logging/login.html" class="lg-button">Log In</a>
-    </div>
-  </header>
-
+  
   <div class="search-header">
     <h2>Cooking Tutorials & Techniques</h2>
-    <form class="main-search-bar" action="#">
-      <input type="text" placeholder="Search Tutorials">
+    <form class="main-search-bar" id="tutorialSearchForm">
+      <input type="text" id="tutorialSearchInput" placeholder="Search Tutorials">
+      <button type="submit" style="display:none;">Search</button> 
     </form>
   </div>
 
   <section class="container">
     <h3 style="text-align:center; margin-bottom:30px; font-family:'Playfair Display', serif; font-size:1.5rem;">Browse by Category</h3>
     <div class="tutorial-cats">
-        <!-- Added FontAwesome icons back since user asked not to add *new* libraries, but these are standard FA -->
-        <!-- If icons still fail, the circle will just be empty but colored -->
-        <div class="cat-btn">
-            <div class="cat-icon-circle"><i class="fas fa-utensils"></i></div>
-            <span>Knife Skills</span>
-        </div>
-        <div class="cat-btn">
-            <div class="cat-icon-circle"><i class="fas fa-carrot"></i></div>
-            <span>Ingredient Prep</span>
-        </div>
-        <div class="cat-btn">
-            <div class="cat-icon-circle"><i class="fas fa-fire"></i></div>
-            <span>Cooking Methods</span>
-        </div>
-        <div class="cat-btn">
-            <div class="cat-icon-circle"><i class="fas fa-graduation-cap"></i></div>
-            <span>Advance</span>
-        </div>
+        <div class="cat-btn"><div class="cat-icon-circle"><i class="fas fa-utensils"></i></div><span>Knife Skills</span></div>
+        <div class="cat-btn"><div class="cat-icon-circle"><i class="fas fa-carrot"></i></div><span>Ingredient Prep</span></div>
+        <div class="cat-btn"><div class="cat-icon-circle"><i class="fas fa-fire"></i></div><span>Cooking Methods</span></div>
+        <div class="cat-btn"><div class="cat-icon-circle"><i class="fas fa-graduation-cap"></i></div><span>Advance</span></div>
     </div>
   </section>
 
   <section class="container">
     <h3 style="text-align:center; margin-bottom:30px; font-family:'Playfair Display', serif; font-size:1.5rem;">Featured Tutorials</h3>
-    <div class="tutorial-grid">
-      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
-        <div class="tutorial-img-wrap">
-            <img src="../images/knife-skills.jpg" alt="Tutorial 1" onerror="this.src='https://placehold.co/400x300?text=Knife+Skills'">
-            <div class="play-icon">▶</div>
-        </div>
-        <div class="tutorial-details">
-            <h3>Basic Knife Skills</h3>
-            <p>Learn proper cutting techniques.</p>
-        </div>
-      </div>
-      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
-        <div class="tutorial-img-wrap">
-            <img src="../images/saute.jpg" alt="Tutorial 2" onerror="this.src='https://placehold.co/400x300?text=Saute'">
-            <div class="play-icon">▶</div>
-        </div>
-        <div class="tutorial-details">
-            <h3>Perfect Sautéing</h3>
-            <p>Master the art of sautéing.</p>
-        </div>
-      </div>
-      <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html'">
-        <div class="tutorial-img-wrap">
-            <img src="../images/simmer.jpg" alt="Tutorial 3" onerror="this.src='https://placehold.co/400x300?text=Simmer'">
-            <div class="play-icon">▶</div>
-        </div>
-        <div class="tutorial-details">
-            <h3>Simmering 101</h3>
-            <p>How to simmer soups perfectly.</p>
-        </div>
-      </div>
+    
+    <div class="tutorial-grid" id="tutorialResultsContainer">
+        <p style="width:100%; text-align:center;">Loading tutorials...</p>
     </div>
   </section>
 

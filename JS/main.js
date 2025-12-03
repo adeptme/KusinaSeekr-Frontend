@@ -3,7 +3,7 @@ const BACKEND_URL = "http://127.0.0.1:5000";
 const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+const TUTORIAL_BUCKET = 'comm-media'; // Confirming bucket name
 let allRecipesData = [];
 
 
@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Load Data
     await loadRecipes();     
     loadSearchPageRecipes(); 
-    loadRecipeDetails();     
+    loadRecipeDetails();
+    
+    loadUserProfile()
+
+    loadTutorialCards();
+    loadTutorialDetails();
+    setupVideoModal();
+    loadSearchPageTutorials();
     
     // 3. Initialize UI Toggles
     if (typeof initSearchToggle === "function") {
@@ -38,8 +45,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         ingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const inputVal = document.getElementById('ingredientSearchInput').value;
-            
+            const inputVal = document.getElementById('ingInput').value;
+            console.log("--- STARTING INGREDIENT SEARCH ---");
+
             if (!inputVal.trim()) {
                 alert("Please enter ingredients!");
                 return;
@@ -58,11 +66,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Function to search recipes by ingredients
 async function searchByIngredients(ingredientString) {
     const container = document.getElementById('results-section');
     
-    // 1. Safety Check: Does the container exist?
     if (!container) {
         console.error("❌ Error: Could not find element with ID 'results-section'");
         return;
@@ -70,7 +76,6 @@ async function searchByIngredients(ingredientString) {
 
     console.log("🔍 Searching for:", ingredientString);
 
-    // 2. 🟢 FORCE VISIBILITY (The likely fix)
     container.style.display = 'grid'; 
     container.style.opacity = '1'; // Just in case it was faded out
 
@@ -88,7 +93,6 @@ async function searchByIngredients(ingredientString) {
 
         container.innerHTML = ''; 
 
-        // 3. Handle No Results
         if (!response.ok || !data.recipes || data.recipes.length === 0) {
             container.innerHTML = `
                 <div style="text-align:center; width:100%; grid-column: span 3;">
@@ -98,7 +102,6 @@ async function searchByIngredients(ingredientString) {
             return;
         }
 
-        // 4. Render Cards
         data.recipes.forEach(recipe => {
             // Use the helper function to build HTML
             // Ensure you are passing the correct link prefix for where your HTML file is located
@@ -511,7 +514,7 @@ if (btnCreatePost) {
         if (!content.trim()) return alert("Please write something!");
 
         try {
-            const response = await fetch(`${BACKEND_URL}/feature/forums/post`, {
+            const response = await fetch(`${BACKEND_URL}/feature/forums/create-post`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include', // 🟢 Sends the Cookie
@@ -541,7 +544,7 @@ if (btnCreatePost) {
 
 async function toggleLike(postId) {
     try {
-        const response = await fetch(`${BACKEND_URL}/feature/forums/post/${postId}/like`, {
+        const response = await fetch(`${BACKEND_URL}/feature/forums/create-post/${postId}/like`, {
             method: 'POST',
             credentials: 'include' // 🟢 Sends the Cookie
         });
@@ -707,7 +710,7 @@ settingsForms.forEach(form => {
 const ingredientSearchForm = document.getElementById('ingredientSearchForm');
 
 if (ingredientSearchForm) {
-    ingredientSearchForm.addEventListener('submit', async (e) => {
+    ingForm.addEventListener('submit', async (e) => {
         e.preventDefault(); // Stop page reload
         
         // 1. Get the text directly from the input box
@@ -729,7 +732,7 @@ if (ingredientSearchForm) {
 window.runIngredientSearch = async function() {
     console.log("🟢 Manual Search Triggered");
     
-    const input = document.getElementById('ingredientSearchInput');
+    const input = document.getElementById('ingInput');
     if (!input) {
         alert("Error: Input box not found!");
         return;
@@ -751,4 +754,346 @@ window.handleEnterKey = function(event) {
         event.preventDefault(); // Stop form submit
         window.runIngredientSearch(); // Run search
     }
+}
+
+async function loadUserProfile() {
+    // Stop if we are not on the profile page
+    if (!document.getElementById('profile-name')) return;
+
+    try {
+        // A. GET USER INFO
+        const userResponse = await fetch(`${BACKEND_URL}/auth/profile`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+
+        if (!userResponse.ok) {
+            // Not logged in? Send to login page
+            window.location.href = "login.html"; 
+            return;
+        }
+
+        const user = await userResponse.json();
+
+        // B. UPDATE HTML
+        document.getElementById('profile-name').innerText = user.username || "Chef";
+        document.getElementById('profile-bio').innerText = user.bio || "No bio yet. Start cooking!";
+        
+        // Handle Avatar (Supabase or Local)
+        const avatarImg = document.getElementById('profile-avatar');
+        if (user.avatar_url) {
+            if (user.avatar_url.startsWith('http') || user.avatar_url.startsWith('../')) {
+                avatarImg.src = user.avatar_url;
+            } else {
+                // Fetch from Supabase Bucket
+                const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(user.avatar_url);
+                avatarImg.src = data.publicUrl;
+            }
+        }
+
+        // C. GET USER POSTS
+        loadUserPosts(user.user_id);
+
+    } catch (error) {
+        console.error("Profile load error:", error);
+    }
+}
+
+async function loadUserPosts(userId) {
+    const container = document.getElementById('profile-posts-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/forums/user/${userId}`);
+        const data = await response.json();
+
+        container.innerHTML = '';
+
+        if (!response.ok || !data.posts || data.posts.length === 0) {
+            container.innerHTML = '<p style="width:100%; text-align:center;">No posts yet.</p>';
+            return;
+        }
+
+        data.posts.forEach(post => {
+            // Reusing your Search Card Style for simplicity
+            const dateStr = new Date(post.created_at).toLocaleDateString();
+            
+            const cardHTML = `
+                <div class="s-recipe-card">
+                    <img src="https://placehold.co/400x300?text=My+Post" style="object-fit:cover;">
+                    
+                    <div class="s-info">
+                        <h3>Community Post</h3>
+                        <p>${post.content.substring(0, 50)}...</p>
+                        
+                        <div class="s-meta">
+                            <span class="s-tag">Discussion</span>
+                            <span>${dateStr}</span>
+                        </div>
+                        
+                        <a href="community.html" class="s-btn">View in Community</a>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+
+    } catch (error) {
+        console.error("Error loading posts:", error);
+    }
+}
+
+const CORRECT_BUCKET_NAME = 'recipe-images'; // Adjust as needed
+async function loadTutorialCards() {
+    const container = document.getElementById('tutorialContainer');
+    if (!container) return; 
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
+        const tutorials = await response.json();
+
+        container.innerHTML = ''; 
+
+        if (tutorials.length === 0) {
+            container.innerHTML = '<p>No tutorials available right now.</p>';
+            return;
+        }
+
+        tutorials.slice(0,3).forEach(tutorial => {
+            let thumbnailPath = 'https://placehold.co/400x250?text=Tutorial';
+
+            if (tutorial.thumbnail) {
+                const { data } = supabaseClient
+                    .storage
+                    .from('comm-media') // ✅ Correct bucket
+                    .getPublicUrl(tutorial.thumbnail); 
+                
+                thumbnailPath = data.publicUrl;
+                
+                // 🟢 DEBUG: Print the link to the console
+                console.log(`Tutorial: ${tutorial.title}`);
+                console.log(`DB Filename: ${tutorial.thumbnail}`);
+                console.log(`Generated URL: ${thumbnailPath}`);
+            }
+
+            const cardHTML = `
+                <div class="home-tutorial-card" 
+                    onclick="window.location.href='search/details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
+                    
+                    <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
+                    
+                    <div class="tut-content">
+                        <h3>${tutorial.title}</h3>
+                        <p>${tutorial.subtitle || ''}</p>
+                        <div class="tut-time"><span>▶ ${tutorial.duration} tutorial</span></div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+
+    } catch (error) {
+        console.error("Tutorial load error:", error);
+        container.innerHTML = '<p>Error loading tutorials.</p>';
+    }
+}
+
+async function loadTutorialDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tutorialId = urlParams.get('id');
+
+    // references to DOM elements
+    const titleEl = document.getElementById('tutorial-title');
+    const subtitleEl = document.getElementById('tutorial-subtitle');
+    const timeEl = document.getElementById('tutorial-time');
+    const thumbEl = document.getElementById('tutorial-thumbnail');
+    const videoFrame = document.getElementById('tutorial-video-frame');
+    const contentTitle = document.getElementById('tutorial-content-title');
+    const contentArea = document.getElementById('tutorial-content-area');
+
+    // Stop if not on the tutorial detail page or no ID provided
+    if (!titleEl) return;
+
+    if (!tutorialId) {
+        titleEl.innerText = "Error: No Tutorial ID Provided";
+        subtitleEl.innerText = "Please return to the search page and select a tutorial.";
+        return;
+    }
+
+    try {
+        console.log(`Fetching tutorial ID: ${tutorialId}...`); // Debugging log
+        const response = await fetch(`${BACKEND_URL}/feature/tutorials/${tutorialId}`);
+        
+        if (!response.ok) throw new Error("Tutorial not found");
+
+        const tutorial = await response.json();
+
+        // 🟢 1. Handle Image
+        let thumbnailPath = 'https://placehold.co/1000x500?text=No+Image';
+        if (tutorial.thumbnail) { 
+            const { data } = supabaseClient
+                .storage
+                .from(TUTORIAL_BUCKET)
+                .getPublicUrl(tutorial.thumbnail); 
+            thumbnailPath = data.publicUrl;
+        }
+        
+        if (thumbEl) {
+            thumbEl.src = thumbnailPath;
+            thumbEl.onerror = null; 
+        }
+
+        // 🟢 2. Apply Text Data
+        titleEl.innerText = tutorial.title;
+        subtitleEl.innerText = tutorial.subtitle || '';
+        timeEl.innerText = tutorial.duration || "-- min";
+        
+        // 🟢 3. Setup Video (But don't auto-play yet)
+        if (videoFrame && tutorial.video_url) {
+            // Store the URL in a data attribute so we can load it when the modal opens
+            videoFrame.setAttribute('data-src', tutorial.video_url);
+        }
+
+        // 🟢 4. Update Content
+        if (contentTitle) contentTitle.innerText = `Mastering ${tutorial.title}`;
+        
+        // Render content steps (preserving line breaks if it's plain text)
+        if (contentArea && tutorial.content_steps) {
+             // If content_steps has newlines, convert to <br> for display
+            const formattedSteps = tutorial.content_steps.replace(/\n/g, '<br>');
+            contentArea.innerHTML = `<p>${formattedSteps}</p>`;
+        }
+
+    } catch (error) {
+        console.error("Tutorial load error:", error);
+        titleEl.innerText = "Tutorial Not Found";
+        subtitleEl.innerText = "We could not load the requested data.";
+    }
+}
+
+function setupVideoModal() {
+    const modal = document.getElementById("videoModal");
+    const btn = document.getElementById("videoThumbnail"); // The container with the play button
+    const closeBtn = document.getElementsByClassName("close")[0];
+    const iframe = document.getElementById("tutorial-video-frame");
+
+    if (!modal || !btn) return;
+
+    // Open Modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+        // specific logic to ensure video plays or loads
+        const videoSrc = iframe.getAttribute('data-src');
+        if (videoSrc) {
+            iframe.src = videoSrc;
+        }
+    }
+
+    // Close Modal
+    const closeModal = () => {
+        modal.style.display = "none";
+        // Stop video by resetting src
+        iframe.src = "about:blank"; 
+    }
+
+    if (closeBtn) closeBtn.onclick = closeModal;
+
+    // Close if clicking outside the video box
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+}
+
+
+async function loadSearchPageTutorials() {
+    const container = document.getElementById('tutorialResultsContainer');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
+        const tutorials = await response.json();
+
+        renderTutorialCards(tutorials, container);
+
+    } catch (error) {
+        console.error("Error loading tutorials:", error);
+        container.innerHTML = '<p>Error loading content.</p>';
+    }
+}
+
+async function searchTutorials(query) {
+    const container = document.getElementById('tutorialResultsContainer');
+    if (!container) return;
+
+    container.innerHTML = '<p style="text-align:center;">Searching...</p>';
+
+    try {
+        // Use the search route you defined in Python
+        const response = await fetch(`${BACKEND_URL}/feature/tutorials/search/${query}`);
+        const tutorials = await response.json();
+
+        if (tutorials.message || tutorials.length === 0) {
+            container.innerHTML = '<p style="text-align:center;">No tutorials found.</p>';
+            return;
+        }
+
+        renderTutorialCards(tutorials, container);
+
+    } catch (error) {
+        console.error("Search error:", error);
+    }
+}
+
+// Helper to draw the cards (Reused by both functions above)
+function renderTutorialCards(list, container) {
+    container.innerHTML = '';
+    
+    if (list.length === 0) {
+        container.innerHTML = '<p>No tutorials found.</p>';
+        return;
+    }
+
+    list.forEach(tutorial => {
+        let thumbnailPath = 'https://placehold.co/400x250?text=Tutorial';
+        
+        // Check 'thumbnail' to match your DB column name
+        if (tutorial.thumbnail) {
+            const { data } = supabaseClient
+                .storage
+                .from(TUTORIAL_BUCKET)
+                .getPublicUrl(tutorial.thumbnail); 
+            thumbnailPath = data.publicUrl;
+        }
+
+        const cardHTML = `
+            <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
+                <div class="tutorial-img-wrap">
+                    <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
+                    <div class="play-icon">▶</div>
+                </div>
+                <div class="tutorial-details">
+                    <h3>${tutorial.title}</h3>
+                    <p>${tutorial.subtitle || ''}</p>
+                </div>
+            </div>
+        `;
+        container.innerHTML += cardHTML;
+    });
+}
+
+// 🟢 CONNECT THE SEARCH BAR
+const tutorialSearchForm = document.getElementById('tutorialSearchForm');
+if (tutorialSearchForm) {
+    tutorialSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = document.getElementById('tutorialSearchInput').value;
+        if (query.trim()) {
+            searchTutorials(query);
+        } else {
+            loadSearchPageTutorials(); // Reload all if empty
+        }
+    });
 }

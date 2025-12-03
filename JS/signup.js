@@ -1,28 +1,34 @@
-const AUTH_URL = 'http://127.0.0.1:5000'; 
+const AUTH_URL = 'http://127.0.0.1:5000';
 
 const signupForm = document.getElementById('signupForm');
 
 if (signupForm) {
+
+    const submitBtn = document.querySelector('#signupForm .auth-btn'); 
+    let originalBtnText = submitBtn ? submitBtn.innerText : "Sign Up";
+
     signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         
-        // ... (your getting values code) ...
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+
         const currentFrontendUrl = window.location.origin;
 
+        if (submitBtn) {
+            submitBtn.innerText = "Processing...";
+            submitBtn.disabled = true;
+        }
 
         try {
             const response = await fetch(`${AUTH_URL}/auth/create`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    username: username,
-                    email: email,
-                    password: password,
+                    username,
+                    email,
+                    password,
                     frontend_url: currentFrontendUrl
                 })
             });
@@ -30,19 +36,19 @@ if (signupForm) {
             const data = await response.json();
 
             if (response.ok) {
-                // ✅ SUCCESS: Redirect to your 2FA / Check Email page
-                console.log("Signup success, redirecting to 2FA page...");
+                alert("Success! Check your inbox for the verification link.");
                 window.location.href = '2fa.html'; 
             } else {
-                alert("Error: " + data.message);
+                alert("Sign Up Failed: " + (data.message || data.error));
             }
 
         } catch (error) {
-            console.error("Signup Error:", error);
             alert("Could not connect to the backend.");
         } finally {
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
+            if (submitBtn) {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
         }
     });
 }

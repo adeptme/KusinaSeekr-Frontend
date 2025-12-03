@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
 </head>
 <body>
@@ -39,44 +40,37 @@
 
   <main class="detail-container">
     <section class="tutorial-hero-vertical">
-      <div class="hero-image-wrap" id="videoThumbnail">
-        <img src="../../images/vid-thumb.jpg" alt="Knife Skills" onerror="this.src='https://placehold.co/1000x500?text=Knife+Skills'">
-        <div class="play-overlay">▶</div>
-      </div>
+        <div class="hero-image-wrap" id="videoThumbnail">
+          <img id="tutorial-thumbnail" src="../../images/vid-thumb.jpg" alt="Tutorial Image" class="recipe-hero-img" onerror="this.src='https://placehold.co/1000x500?text=No+Image'">
+          <div class="play-overlay">▶</div>
+        </div>
 
-      <div class="hero-content">
-        <div class="hero-header">
-            <h1>Basic Knife Skills</h1>
-            <div class="action-btns">
-                <button><i class="far fa-bookmark"></i> Save</button>
-                <button><i class="fas fa-share"></i> Share</button>
+        <div class="hero-content">
+            <div class="hero-header">
+                <h1 id="tutorial-title">Loading Title...</h1> 
+                <div class="action-btns">
+                    </div>
             </div>
+            <p id="tutorial-subtitle">Fetching tutorial subtitle...</p>
+            <div class="hero-stats">
+                <span><i class="far fa-clock"></i> <span id="tutorial-time">-- min</span></span>
+                </div>
         </div>
-        <p>Master the most important tool in your kitchen.</p>
-        <div class="hero-stats">
-            <span><i class="far fa-clock"></i> 15 min</span>
-            <span><i class="fas fa-signal"></i> Beginner</span>
-            <span><i class="fas fa-star" style="color:orange;"></i> 4.9 (201 reviews)</span>
-        </div>
-      </div>
     </section>
 
     <div id="videoModal" class="video-modal">
-      <div class="video-box">
-        <span class="close">&times;</span>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/8dOIdYgY3rA" frameborder="0" allowfullscreen></iframe>
-      </div>
+        <div class="video-box">
+            <span class="close">&times;</span>
+            <iframe id="tutorial-video-frame" width="100%" height="100%" src="about:blank" frameborder="0" allowfullscreen></iframe>
+        </div>
     </div>
 
     <section class="content-card">
-      <h2>Master These Essential Knife Skills</h2>
-      <p class="intro-p">Proper knife skills are the foundation of all cooking.</p>
-      <div class="skill-item">
-        <h3>1. Choosing the Right Knife</h3>
-        <ul>
-            <li><strong>Chef's Knife:</strong> Workhorse.</li>
-        </ul>
-      </div>
+        <h2 id="tutorial-content-title">Loading Content Title...</h2>
+        
+        <div class="skill-item" id="tutorial-content-area">
+            <p>Fetching detailed steps...</p>
+        </div>
     </section>
   </main>
 
