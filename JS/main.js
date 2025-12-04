@@ -4,6 +4,7 @@ const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TUTORIAL_BUCKET = 'comm-media'; // Confirming bucket name
+const forum_images = 'forum-images'; // New bucket for community images/videos
 let allRecipesData = [];
 
 
@@ -281,16 +282,8 @@ async function checkAuth() {
             const loginBtn = document.querySelector('.lg-button');
             
             if (loginBtn) {
-                // 1. Change the text
                 loginBtn.innerText = "Log Out";
-                
-                // 2. Change the style (Optional - make it distinct)
-                // loginBtn.style.backgroundColor = "#555"; 
-
-                // 3. Stop it from going to login.html
                 loginBtn.href = "#"; 
-                
-                // 4. Add Logout Functionality
                 loginBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     logoutUser();
@@ -487,8 +480,9 @@ async function loadCommunityFeed() {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/forums/home`);
         
+        // Handle empty
         if (response.status === 404 || (response.status === 200 && (await response.clone().json()).message)) {
-            container.innerHTML = '<p style="text-align:center; padding:20px;">No posts yet. Be the first to share!</p>';
+            container.innerHTML = '<p style="text-align:center; padding:20px;">No posts yet.</p>';
             return;
         }
 
@@ -496,9 +490,47 @@ async function loadCommunityFeed() {
         container.innerHTML = '';
 
         posts.forEach(post => {
-            const avatar = post.author_avatar || '../Page/images/chef-avatar.jpg'; 
+            // 1. Avatar
+            let avatar = '../Page/images/chef-avatar.jpg';
+            // Handle if avatar is a full URL or just a filename
+            if (post.author_avatar) {
+                 if(post.author_avatar.startsWith('http')) {
+                     avatar = post.author_avatar;
+                 } else {
+                     // Fallback for older data
+                     avatar = `https://placehold.co/50?text=${post.author_name.charAt(0)}`;
+                 }
+            }
+
+            // 2. Media (Image/Video)
+            let mediaHTML = '';
             
-            // 🟢 CLEAN HTML (No style="..." tags anymore!)
+            if (post.media && post.media.url) {
+                // 🟢 DEBUG: Print the URL to console so you can check it
+                console.log(`Post ${post.post_id} Image URL:`, post.media.url);
+
+                if (post.media.type === 'image') {
+                    mediaHTML = `
+                        <div class="post-image-container">
+                            <img src="${post.media.url}" 
+                                 alt="Post Image" 
+                                 style="width:100%; border-radius:12px; margin-top:10px; object-fit:cover;"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Image+Not+Found'; console.error('Failed to load image:', '${post.media.url}')">
+                        </div>
+                    `;
+                } else if (post.media.type === 'video') {
+                    mediaHTML = `
+                        <div class="post-image-container">
+                            <video controls style="width:100%; border-radius:12px; margin-top:10px;">
+                                <source src="${post.media.url}" type="video/mp4">
+                                Your browser does not support video.
+                            </video>
+                        </div>
+                    `;
+                }
+            }
+
+            // 3. Build Card
             const postHTML = `
                 <div class="feed-card">
                     <div class="post-header">
@@ -512,6 +544,8 @@ async function loadCommunityFeed() {
                     <div class="post-title">
                         ${post.content}
                     </div>
+
+                    ${mediaHTML}
 
                     <div class="post-footer-line">
                         <button onclick="toggleLike('${post.post_id}')" class="action-icon-btn">
@@ -530,36 +564,80 @@ async function loadCommunityFeed() {
 }
 
 const btnCreatePost = document.getElementById('btn-create-post');
+
 if (btnCreatePost) {
     btnCreatePost.addEventListener('click', async () => {
         const content = document.getElementById('new-post-content').value;
-        if (!content.trim()) return alert("Please write something!");
+        
+        if (!content.trim() && !selectedFile) {
+            return alert("Please write something or attach media!");
+        }
+
+        const originalText = btnCreatePost.innerHTML;
+        btnCreatePost.innerHTML = "Posting...";
+        btnCreatePost.disabled = true;
 
         try {
+            let mediaData = null;
+
+            // 1. Upload to Supabase (if file exists)
+            if (selectedFile) {
+                const fileExt = selectedFile.name.split('.').pop();
+                const fileName = `community/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+                const { data, error } = await supabaseClient
+                    .storage
+                    .from(forum_images) // defined at top of main.js
+                    .upload(fileName, selectedFile);
+
+                if (error) throw error;
+
+                const { data: urlData } = supabaseClient
+                    .storage
+                    .from(forum_images)
+                    .getPublicUrl(fileName);
+
+                mediaData = {
+                    type: selectedType, // 'image' or 'video'
+                    url: urlData.publicUrl
+                };
+            }
+
+            // 2. Send JSON to Backend
             const response = await fetch(`${BACKEND_URL}/feature/forums/create-post`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // 🟢 Sends the Cookie
-                body: JSON.stringify({ post_content: content })
+                // 🟢 FIX 1: THIS HEADER PREVENTS THE 415 ERROR
+                headers: { 'Content-Type': 'application/json' }, 
+                credentials: 'include',
+                // 🟢 FIX 2: SEND AS JSON STRING
+                body: JSON.stringify({ 
+                    post_content: content,
+                    media: mediaData 
+                })
             });
 
-            // 🟢 SECURITY CHECK: 401 means "Not Logged In"
             if (response.status === 401) {
                 alert("You must be logged in to post!");
-                window.location.href = "../Page/login.html"; // Adjust path if needed
+                window.location.href = "/Page/Logging/login.html";
                 return;
             }
 
             if (response.ok) {
                 alert("Posted successfully!");
-                document.getElementById('new-post-content').value = ''; // Clear input
-                loadCommunityFeed(); // Refresh feed
+                document.getElementById('new-post-content').value = '';
+                if(document.getElementById('clear-media')) document.getElementById('clear-media').click();
+                loadCommunityFeed(); 
             } else {
-                alert("Failed to post.");
+                const err = await response.json();
+                alert("Failed to post: " + (err.message || err.error));
             }
 
         } catch (error) {
             console.error("Post error:", error);
+            alert("Error posting. See console.");
+        } finally {
+            btnCreatePost.innerHTML = originalText;
+            btnCreatePost.disabled = false;
         }
     });
 }
@@ -568,18 +646,16 @@ async function toggleLike(postId) {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/forums/create-post/${postId}/like`, {
             method: 'POST',
-            credentials: 'include' // 🟢 Sends the Cookie
+            credentials: 'include'
         });
 
         if (response.status === 401) {
             alert("Please log in to like posts.");
-            window.location.href = "../Page/login.html";
+            window.location.href = "/Page/Logging/login.html"; // Adjust path if needed
             return;
         }
 
         if (response.ok) {
-            // Reload feed to show new like count
-            // (In a pro app, we would update just the number to be faster)
             loadCommunityFeed();
         } else {
             alert("You already liked this (or error occurred).");
@@ -659,7 +735,7 @@ if (btnCreatePost) {
 
                 const { data, error } = await supabaseClient
                     .storage
-                    .from('recipe-images') // Storing in same bucket for now
+                    .from('forum-images') // Storing in same bucket for now
                     .upload(fileName, selectedFile);
 
                 if (error) throw error;
@@ -667,7 +743,7 @@ if (btnCreatePost) {
                 // Get Public URL
                 const { data: urlData } = supabaseClient
                     .storage
-                    .from('recipe-images')
+                    .from('forum-images')
                     .getPublicUrl(fileName);
 
                 // Create the JSON object for the database
@@ -678,19 +754,19 @@ if (btnCreatePost) {
             }
 
             // B. Send to Backend
-            const response = await fetch(`${BACKEND_URL}/feature/forums/post`, {
+            const response = await fetch(`${BACKEND_URL}/feature/forums/create-post`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({ 
                     post_content: content,
-                    media: mediaData // Sending the JSON object
+                    media: mediaData 
                 })
             });
 
             if (response.status === 401) {
                 alert("You must be logged in to post!");
-                window.location.href = "login.html";
+                window.location.href = "/Page/Logging/login.html";
                 return;
             }
 
@@ -790,7 +866,7 @@ async function loadUserProfile() {
 
         if (!userResponse.ok) {
             // Not logged in? Send to login page
-            window.location.href = "login.html"; 
+            window.location.href = "/Page/Logging/login.html"; 
             return;
         }
 
