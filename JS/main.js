@@ -313,20 +313,42 @@ function logoutUser() {
 }
 
 const loginForm = document.getElementById('loginForm');
+
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault(); 
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const submitBtn = document.querySelector('button[type="submit"]');
-        if(submitBtn) { submitBtn.innerText = "Verifying..."; submitBtn.disabled = true; }
+        const originalText = submitBtn.innerText;
+
+        submitBtn.innerText = "Verifying...";
+        submitBtn.disabled = true;
+
         try {
             const response = await fetch(`${BACKEND_URL}/auth/login`, {
-                method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
             });
+
             const data = await response.json();
-            if (response.ok) { window.location.href = '2fa.html'; } else { alert(data.message || "Login failed"); }
-        } catch (error) { alert("Could not connect to the backend."); } finally { if(submitBtn) { submitBtn.innerText = "Log In"; submitBtn.disabled = false; } }
+
+            if (response.ok) {
+                window.location.href = '2fa.html'; 
+            } else {
+                alert("Login Failed: " + data.message);
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+
+        } catch (error) {
+            console.error("Login Error:", error);
+            alert("Connection error.");
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+        }
     });
 }
 
@@ -682,8 +704,6 @@ if (btnCreatePost) {
             }
 
         } catch (error) {
-            console.error("Post error:", error);
-            alert("Error posting (Check console)");
         } finally {
             btnCreatePost.innerHTML = originalText;
             btnCreatePost.disabled = false;
@@ -1081,3 +1101,7 @@ if (tutorialSearchForm) {
         }
     });
 }
+
+
+//FOR LOGIN
+

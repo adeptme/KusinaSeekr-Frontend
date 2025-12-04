@@ -1,4 +1,4 @@
-const AUTH_URL = 'http://127.0.0.1:5000'; 
+const BACKEND_URL = "http://127.0.0.1:5000";
 
 const loginForm = document.getElementById('loginForm');
 
@@ -15,7 +15,7 @@ if (loginForm) {
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch(`${AUTH_URL}/auth/login`, {
+            const response = await fetch(`${BACKEND_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
