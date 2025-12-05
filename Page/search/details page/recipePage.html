@@ -50,8 +50,9 @@
         <div class="recipe-header-row">
             <h1 id="detail-title">Loading Recipe...</h1>
             <div class="recipe-actions">
-                <button class="action-icon-btn"><i class="far fa-bookmark"></i> Save</button>
-                <button class="action-icon-btn"><i class="fas fa-share"></i> Share</button>
+                <button id="save-btn" class="action-icon-btn" onclick="toggleSave(new URLSearchParams(window.location.search).get('id'), 'recipes')">
+    <i class="far fa-bookmark"></i> Save
+                </button>
             </div>
         </div>
         

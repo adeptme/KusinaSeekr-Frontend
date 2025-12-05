@@ -245,6 +245,22 @@ async function loadRecipeDetails() {
         parseList(recipe.ingredients_list, 'detail-ingredients', 'ingredient');
         parseList(recipe.cooking_steps, 'detail-steps', 'step');
     } catch (error) { console.error("Error loading details:", error); }
+    
+    try {
+        const userRes = await fetch(`${BACKEND_URL}/auth/profile`, { credentials: 'include' });
+        if (userRes.ok) {
+            const user = await userRes.json();
+            // Check if ID exists in user.saved.recipes (or tutorials)
+            // Note: Handle cases where user.saved is null
+            const savedList = user.saved && user.saved.recipes ? user.saved.recipes : [];
+            
+            // IF FOUND:
+            if (savedList.includes(recipeId)) {
+                const btn = document.getElementById('save-btn');
+                if(btn) btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved`;
+            }
+        }
+    } catch (e) { console.log("Guest user"); }
 }
 
 function parseList(jsonString, elementId, type) {
@@ -263,6 +279,8 @@ function parseList(jsonString, elementId, type) {
             });
         } else { container.innerHTML = '<li>No items listed.</li>'; }
     } catch (e) { container.innerHTML = `<li>${jsonString || 'Data error'}</li>`; }
+
+    
 }
 
 async function checkAuth() {
@@ -787,21 +805,6 @@ if (btnCreatePost) {
     });
 }
 
-// --- SETTINGS PAGE LOGIC ---
-// Select forms inside settings page
-const settingsForms = document.querySelectorAll('.settings-form');
-
-settingsForms.forEach(form => {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent actual submission
-        alert("Changes saved successfully!");
-        // Optional: Clear password fields after save
-        const passInputs = form.querySelectorAll('input[type="password"]');
-        passInputs.forEach(input => input.value = "");
-    });
-});
-
-
 
 const ingredientSearchForm = document.getElementById('ingredientSearchForm');
 
@@ -853,11 +856,15 @@ window.handleEnterKey = function(event) {
 }
 
 async function loadUserProfile() {
-    // Stop if we are not on the profile page
-    if (!document.getElementById('profile-name')) return;
+    // 1. Check for elements on EITHER Profile page OR Settings page
+    const profileName = document.getElementById('profile-name');
+    const settingsUsernameInput = document.getElementById('current-username');
+
+    // If neither exists, stop (we are on a different page)
+    if (!profileName && !settingsUsernameInput) return;
 
     try {
-        // A. GET USER INFO
+        // 2. Get User Info
         const userResponse = await fetch(`${BACKEND_URL}/auth/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -865,31 +872,38 @@ async function loadUserProfile() {
         });
 
         if (!userResponse.ok) {
-            // Not logged in? Send to login page
-            window.location.href = "/Page/Logging/login.html"; 
+            // Not logged in
             return;
         }
 
         const user = await userResponse.json();
 
-        // B. UPDATE HTML
-        document.getElementById('profile-name').innerText = user.username || "Chef";
-        document.getElementById('profile-bio').innerText = user.bio || "No bio yet. Start cooking!";
-        
-        // Handle Avatar (Supabase or Local)
-        const avatarImg = document.getElementById('profile-avatar');
-        if (user.avatar_url) {
-            if (user.avatar_url.startsWith('http') || user.avatar_url.startsWith('../')) {
-                avatarImg.src = user.avatar_url;
-            } else {
-                // Fetch from Supabase Bucket
-                const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(user.avatar_url);
-                avatarImg.src = data.publicUrl;
+        // 3. Update PROFILE PAGE (If active)
+        if (profileName) {
+            profileName.innerText = user.username || "Chef";
+            if(document.getElementById('profile-bio')) {
+                document.getElementById('profile-bio').innerText = user.bio || "No bio yet.";
             }
+            
+            const avatarImg = document.getElementById('profile-avatar');
+            if (avatarImg && user.avatar_url) {
+                // Logic to load avatar from Supabase...
+                 if (user.avatar_url.startsWith('http') || user.avatar_url.startsWith('../')) {
+                    avatarImg.src = user.avatar_url;
+                } else {
+                    const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(user.avatar_url);
+                    avatarImg.src = data.publicUrl;
+                }
+            }
+            // Load posts only on profile page
+            loadUserPosts(user.user_id);
         }
 
-        // C. GET USER POSTS
-        loadUserPosts(user.user_id);
+        // 🟢 4. UPDATE SETTINGS PAGE (This fixes the Password Change!)
+        if (settingsUsernameInput) {
+            // This ensures the form sends the REAL username, not "ChefK_2025"
+            settingsUsernameInput.value = user.username; 
+        }
 
     } catch (error) {
         console.error("Profile load error:", error);
@@ -1045,7 +1059,9 @@ async function loadTutorialDetails() {
         const contentTitle = document.getElementById('tutorial-content-title');
         if (contentTitle) contentTitle.innerText = `Mastering ${tutorial.title}`;
 
-    } catch (error) {
+    } 
+    
+    catch (error) {
         console.error("Tutorial load error:", error);
         const title = document.getElementById('tutorial-title');
         if(title) title.innerText = "Tutorial Not Found";
@@ -1178,6 +1194,166 @@ if (tutorialSearchForm) {
     });
 }
 
+async function toggleSave(id, type) {
+    // type should be 'recipes' or 'tutorials'
+    const btn = document.getElementById('save-btn');
+    const icon = btn.querySelector('i');
+    
+    // Determine current state based on icon class (far = empty, fas = solid)
+    const isSaved = icon.classList.contains('fas');
+    const action = isSaved ? 'unsave' : 'save';
 
-//FOR LOGIN
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/${type}/${id}/${action}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include' // 🟢 Needs cookie
+        });
 
+        if (response.status === 401) {
+            alert("Please log in to save items.");
+            window.location.href = "../Logging/login.html";
+            return;
+        }
+
+        if (response.ok) {
+            // Toggle Icon Visuals
+            if (isSaved) {
+                // Unsaved
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.innerHTML = `<i class="far fa-bookmark"></i> Save`;
+            } else {
+                // Saved
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved`;
+            }
+        }
+    } catch (error) {
+        console.error("Save error:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- 1. Handle Username Update ---
+    const usernameForm = document.getElementById('username-form');
+    
+    if (usernameForm) {
+        usernameForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            // Get the data
+            const currentUsernameField = document.getElementById('current-username');
+            const newUsernameInput = document.getElementById('new-username');
+            const currentUsername = currentUsernameField.value;
+            const newUsername = newUsernameInput.value;
+
+            // Basic validation
+            if(!newUsername.trim()) {
+                alert("Please enter a valid username.");
+                return;
+            }
+
+            const submitBtn = usernameForm.querySelector('button');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "Updating...";
+            submitBtn.disabled = true;
+
+            try {
+                // 🟢 FIX: Added ${BACKEND_URL} so it hits port 5000
+                const response = await fetch(`${BACKEND_URL}/user/user/update`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_username: currentUsername,
+                        new_username: newUsername
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Username updated successfully!');
+                    currentUsernameField.value = data.new_username; // Update the display
+                    newUsernameInput.value = ''; 
+                } else {
+                    alert(`Error: ${data.message || 'Failed to update'}`);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred connecting to the server.');
+            } finally {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // --- 2. Handle Password Update (WITH SECURITY CHECK) ---
+    const passwordForm = document.getElementById('password-form');
+
+if (passwordForm) {
+    passwordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. Gather Data
+        const currentPassInput = document.getElementById('current-pass');
+        const newPassInput = document.getElementById('new-pass');
+        const confirmPassInput = document.getElementById('confirm-pass');
+
+        const currentPass = currentPassInput.value;
+        const newPass = newPassInput.value;
+        const confirmPass = confirmPassInput.value;
+
+        // 2. Validation
+        if (newPass !== confirmPass) {
+            return alert("New passwords do not match!");
+        }
+        if (!currentPass) {
+            return alert("Please enter your current password.");
+        }
+
+        const submitBtn = passwordForm.querySelector('button');
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "Updating...";
+        submitBtn.disabled = true;
+
+        try {
+            // 🟢 FIX 1: Use '/auth/change-password' (Matches Blueprint)
+            // 🟢 FIX 2: Use 'POST' (Matches Python route)
+            const response = await fetch(`${BACKEND_URL}/auth/change-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // Important for JWT
+                // 🟢 FIX 3: Use 'old_password' to match Python's data.get("old_password")
+                body: JSON.stringify({
+                    old_password: currentPass, 
+                    new_password: newPass
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Password changed successfully!');
+                // Clear inputs
+                currentPassInput.value = '';
+                newPassInput.value = '';
+                confirmPassInput.value = '';
+            } else {
+                alert(`Failed: ${data.message}`);
+            }
+
+        } catch (error) {
+            console.error('Settings Error:', error);
+            alert('An error occurred connecting to the server.');
+        } finally {
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+            }
+        });
+    }
+});

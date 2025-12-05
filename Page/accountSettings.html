@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Lato&family=Nunito:wght@600;700&family=Merriweather&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -44,48 +45,45 @@
     </header>
 
     <main class="settings-main">
-        <div class="settings-header">
-            <h2>Account Settings</h2>
-            <p>Manage your profile information and security</p>
-        </div>
+    <div class="settings-header">
+        <h2>Account Settings</h2>
+        <p>Manage your profile information and security</p>
+    </div>
 
-        <!-- Change Username Section -->
-        <section class="settings-section">
-            <h3 class="section-title">Profile Information</h3>
-            <form class="settings-form">
-                <div class="input-group">
-                    <label for="current-username">Current Username</label>
-                    <input type="text" id="current-username" value="ChefK_2025" disabled style="background-color: #f9f9f9; color: #888;">
-                </div>
-                <div class="input-group">
-                    <label for="new-username">New Username</label>
-                    <input type="text" id="new-username" placeholder="Enter new username">
-                </div>
-                <button type="submit" class="save-settings-btn">Update Username</button>
-            </form>
-        </section>
+    <section class="settings-section">
+        <h3 class="section-title">Profile Information</h3>
+        <form class="settings-form" id="username-form">
+            <div class="input-group">
+                <label for="current-username">Current Username</label>
+                <input type="text" id="current-username" value="ChefK_2025" readonly style="background-color: #f9f9f9; color: #888;">
+            </div>
+            <div class="input-group">
+                <label for="new-username">New Username</label>
+                <input type="text" id="new-username" placeholder="Enter new username" required>
+            </div>
+            <button type="submit" class="save-settings-btn">Update Username</button>
+        </form>
+    </section>
 
-        <!-- Change Password Section -->
-        <section class="settings-section">
-            <h3 class="section-title">Security</h3>
-            <form class="settings-form">
-                <div class="input-group">
-                    <label for="current-pass">Current Password</label>
-                    <input type="password" id="current-pass" placeholder="Enter current password">
-                </div>
-                <div class="input-group">
-                    <label for="new-pass">New Password</label>
-                    <input type="password" id="new-pass" placeholder="Enter new password">
-                </div>
-                <div class="input-group">
-                    <label for="confirm-pass">Confirm New Password</label>
-                    <input type="password" id="confirm-pass" placeholder="Confirm new password">
-                </div>
-                <button type="submit" class="save-settings-btn">Change Password</button>
-            </form>
-        </section>
-
-    </main>
+    <section class="settings-section">
+        <h3 class="section-title">Security</h3>
+        <form class="settings-form" id="password-form">
+            <div class="input-group">
+                <label for="current-pass">Current Password</label>
+                <input type="password" id="current-pass" placeholder="Enter current password" required>
+            </div>
+            <div class="input-group">
+                <label for="new-pass">New Password</label>
+                <input type="password" id="new-pass" placeholder="Enter new password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm-pass">Confirm New Password</label>
+                <input type="password" id="confirm-pass" placeholder="Confirm new password" required>
+            </div>
+            <button type="submit" class="save-settings-btn">Change Password</button>
+        </form>
+    </section>
+</main>
 
     <footer>
         <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
