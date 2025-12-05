@@ -1,10 +1,10 @@
-const BACKEND_URL = "http://127.0.0.1:5000";
+const BACKEND_URL = getEnvVariable('BACKEND_URL');
 
-const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';
+const SUPABASE_URL = getEnvVariable('SUPABASE_URL');
+const SUPABASE_KEY = getEnvVariable('SUPABASE_KEY');
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const TUTORIAL_BUCKET = 'comm-media'; // Confirming bucket name
-const forum_images = 'forum-images'; // New bucket for community images/videos
+const TUTORIAL_BUCKET = getEnvVariable('TUTORIAL_BUCKET'); // Confirming bucket name
+const forum_images = getEnvVariable('forum_images'); // New bucket for community images/videos
 let allRecipesData = [];
 
 
