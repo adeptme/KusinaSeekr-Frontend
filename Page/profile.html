@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>My Kitchen | KusinaSeekr</title>
     
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/profile.css">
-    <link rel="stylesheet" href="../CSS/search.css"> <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/responsive.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,39 +43,124 @@
 
     <main class="profile-main">
         
-        <section class="profile-header-card">
+        <!-- 1. The "Cover" Area -->
+        <section class="profile-banner-wrapper">
             <div class="profile-cover">
-                <div style="height: 100%; width: 100%; background-color: #ccc;"></div>
+                <!-- Using a food texture or user uploaded cover -->
+                <img src="https://placehold.co/1200x350?text=My+Kitchen+Cover" alt="Cover Photo">
+                <button class="edit-cover-btn"><i class="fas fa-camera"></i> Edit Cover</button>
             </div>
             
-            <div class="profile-info-wrap">
-                <div class="profile-avatar">
+            <div class="profile-identity-bar">
+                <div class="avatar-container">
                     <img id="profile-avatar" src="https://placehold.co/150?text=User" alt="Profile Pic" onerror="this.src='https://placehold.co/150?text=User'">
+                    <button class="edit-avatar-btn"><i class="fas fa-camera"></i></button>
                 </div>
                 
-                <h2 class="profile-name" id="profile-name">Loading...</h2>
-                
-                <div class="rating-badge">
-                    <i class="fas fa-star"></i> 4.9 Rating (205 Reviews)
+                <div class="identity-info">
+                    <h1 class="profile-name" id="profile-name">Loading Chef...</h1>
+                    <p class="profile-handle">@homecook_hero</p>
                 </div>
-                
-                <p class="profile-bio" id="profile-bio">
-                    Fetching profile...
-                </p>
 
-                <a href="#" class="edit-profile-btn" onclick="alert('Edit coming soon!')">
-                    <i class="fas fa-cog"></i> Edit Profile
-                </a>
+                <div class="profile-actions">
+                    <a href="accountSettings.html" class="action-btn secondary"><i class="fas fa-pencil-alt"></i> Edit Profile</a>
+                    <a href="#" class="action-btn primary"><i class="fas fa-plus"></i> Create Recipe</a>
+                </div>
             </div>
         </section>
 
-        <section class="profile-content-section">
-            <h3>Previous Interactions</h3>
+        <!-- 2. The Two-Column Social Layout -->
+        <div class="profile-grid-layout">
             
-            <div class="activity-grid" id="profile-posts-container">
-                <p style="width:100%; text-align:center; grid-column: 1/-1;">Loading activity...</p>
-            </div>
-        </section>
+            <!-- LEFT COLUMN: Intro & Stats (Like FB Sidebar) -->
+            <aside class="profile-sidebar">
+                
+                <!-- Intro Card -->
+                <div class="sidebar-card intro-card">
+                    <h3>Kitchen Stats</h3>
+                    <div class="stat-row">
+                        <i class="fas fa-star" style="color: #F59E0B;"></i>
+                        <span><strong>4.9</strong> Rating (205 Reviews)</span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-utensils" style="color: #E2725B;"></i>
+                        <span><strong>Master</strong> at Adobo</span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-birthday-cake" style="color: #666;"></i>
+                        <span>Joined May 2023</span>
+                    </div>
+                    
+                    <p class="bio-text" id="profile-bio">
+                        Loading bio...
+                    </p>
+                    
+                    <button class="edit-bio-btn">Edit Bio</button>
+                </div>
+
+                <!-- Badges/Achievements (Reddit Style Flair) -->
+                <div class="sidebar-card">
+                    <h3>Badges</h3>
+                    <div class="badges-grid">
+                        <div class="badge" title="Verified Chef"><i class="fas fa-check-circle"></i></div>
+                        <div class="badge" title="Top Contributor"><i class="fas fa-award"></i></div>
+                        <div class="badge" title="Spice Lover"><i class="fas fa-pepper-hot"></i></div>
+                        <div class="badge empty">+</div>
+                    </div>
+                </div>
+
+                <!-- Photos Preview -->
+                <div class="sidebar-card">
+                    <div class="card-header-row">
+                        <h3>Photos</h3>
+                        <a href="#">See All</a>
+                    </div>
+                    <div class="mini-gallery">
+                        <img src="https://placehold.co/100?text=1">
+                        <img src="https://placehold.co/100?text=2">
+                        <img src="https://placehold.co/100?text=3">
+                        <img src="https://placehold.co/100?text=4">
+                        <img src="https://placehold.co/100?text=5">
+                        <img src="https://placehold.co/100?text=6">
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- RIGHT COLUMN: The Feed (Reddit/FB Mix) -->
+            <section class="profile-feed">
+                
+                <!-- "What's Cooking?" Input Box -->
+                <div class="create-post-widget">
+                    <div class="widget-top">
+                        <img src="https://placehold.co/50?text=U" class="mini-avatar">
+                        <input type="text" placeholder="Share a new recipe or kitchen tip...">
+                    </div>
+                    <div class="widget-bottom">
+                        <button class="media-pill"><i class="fas fa-image"></i> Photo</button>
+                        <button class="media-pill"><i class="fas fa-video"></i> Video</button>
+                        <button class="media-pill"><i class="fas fa-book"></i> Recipe</button>
+                    </div>
+                </div>
+
+                <!-- Filter / Tabs (Visual Only, no functionality needed) -->
+                <div class="feed-filters">
+                    <button class="active">All Activity</button>
+                    <button>Recipes</button>
+                    <button>Reviews</button>
+                </div>
+
+                <!-- The Dynamic Content Feed -->
+                <div id="profile-posts-container">
+                    <!-- Loading State -->
+                    <div class="feed-loader">
+                        <i class="fas fa-spinner fa-spin"></i> Fetching your kitchen history...
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
 
     </main>
 

@@ -1,0 +1,293 @@
+/* --- Comment Page Specific Styles --- */
+
+/* Container */
+.discussion-container {
+    max-width: 900px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Back Link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    transition: 0.2s;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.back-link:hover {
+    color: #E2725B;
+    transform: translateX(-3px);
+}
+
+/* Expanded Post Styling (Unique to this page) */
+.feed-card.expanded-post {
+    border: 2px solid #E6DACB; /* Sandstone border for emphasis */
+    box-shadow: 0 8px 30px rgba(59, 31, 22, 0.08);
+}
+
+.post-title-large {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    line-height: 1.25;
+    color: #2b2118;
+}
+
+.post-body-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* --- Comment Input Area --- */
+.comment-input-section {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.comment-input-section p {
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.comment-box {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #f5f5f5;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    resize: vertical;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    background-color: #FAFAFA;
+}
+
+.comment-box:focus {
+    border-color: #E2725B;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(226, 114, 91, 0.1);
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.format-tools button {
+    background: none;
+    border: none;
+    width: 30px;
+    height: 30px;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+.format-tools button:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.post-comment-btn {
+    background: #E2725B;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.post-comment-btn:hover {
+    background: #CC5500;
+    transform: translateY(-1px);
+}
+
+/* --- Threaded Comments Section --- */
+.comments-thread {
+    margin-top: 20px;
+}
+
+/* Filter Bar */
+.comments-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #E6DACB;
+    color: #666;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+}
+
+.comments-filter select {
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    color: #E2725B;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+}
+
+/* Individual Comment Node */
+.comment-node {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* Unique: Vertical Thread Line (Terracotta style) */
+.comment-node::before {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 20px; /* Aligns with avatar center */
+    width: 2px;
+    height: calc(100% - 50px);
+    background-color: #E6DACB; /* Light sand color line */
+    z-index: 0;
+}
+
+/* Remove line for last item if desired, or handle via JS. 
+   For basic CSS, overflow handles it usually. */
+
+.comment-avatar {
+    z-index: 1; /* Sits on top of the line */
+    flex-shrink: 0;
+}
+
+.comment-avatar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comment-content {
+    flex: 1;
+    background: white;
+    border-radius: 0 15px 15px 15px; /* Bubble effect */
+    padding: 15px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+}
+
+.comment-meta {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 8px;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment-meta strong {
+    color: #2b2118;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.comment-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+/* Action Bar */
+.comment-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #888;
+    font-size: 0.85rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+.vote-btn-sm {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 1rem;
+    padding: 2px;
+    transition: 0.2s;
+}
+.vote-btn-sm:hover { color: #E2725B; }
+.vote-btn-sm.up:hover { transform: translateY(-2px); }
+.vote-btn-sm.down:hover { transform: translateY(2px); }
+
+.reply-btn {
+    background: none;
+    border: none;
+    font-weight: 700;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s;
+}
+.reply-btn:hover { 
+    color: #E2725B; 
+    background-color: #FFF0EB;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin: -2px -8px; /* Compensate padding */
+}
+
+/* --- Nested Replies --- */
+.reply-node {
+    margin-top: 20px;
+    /* Indentation handled by nesting div in HTML usually, 
+       but here we style the inner .reply-node specifically */
+    position: relative;
+}
+
+/* Override the vertical line for nested items */
+.comment-content .comment-node::before {
+    left: -25px; /* Push line to left */
+    background-color: #eee;
+}

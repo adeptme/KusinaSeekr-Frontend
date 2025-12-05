@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion | KusinaSeekr</title>
+    
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/community.css">
+    <!-- ADDED: New Comment-Specific Stylesheet -->
+    <link rel="stylesheet" href="../CSS/comment.css">
+    <link rel="stylesheet" href="../CSS/responsive.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Nunito:wght@700;800&family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="logo-container">
+            <h1 class="logo-text">KusinaSeekr</h1>
+        </a>
+        <button class="burger-menu" id="burger-menu">
+            &#9776;
+        </button>
+        <div class="header-right" id="nav-menu">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../search/ingredient&recipeSearch.html">Recipes</a></li>
+                    <li><a href="../search/tutorialSearch.html">Cooking Tutorials</a></li>
+                    <li><a href="../community.html" style="color: #E2725B;">Community</a></li>
+                    <li><a href="../profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <a href="../Logging/login.html" class="lg-button">Log In</a>
+        </div>
+    </header>
+
+    <main class="community-main">
+        
+        <div class="discussion-container">
+            
+            <!-- BACK BUTTON -->
+            <a href="../community.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Feed</a>
+
+            <!-- ORIGINAL POST (Expanded View) -->
+            <div class="feed-card expanded-post">
+                <div class="post-header">
+                    <img src="https://placehold.co/50?text=K" class="user-avatar-sm">
+                    <div class="poster-info">
+                        <h4>KusinaMaster</h4>
+                        <span>2 hours ago</span>
+                    </div>
+                </div>
+                
+                <h1 class="post-title-large">
+                    My secret to the crispiest Lechon Kawali! 🍖
+                </h1>
+
+                <p class="post-body-text">
+                    I've tried everything from boiling with vinegar to freezing the meat before frying. 
+                    But honestly, the real secret lies in the drying process! You have to let it air dry for at least 3 hours...
+                </p>
+
+                <div class="post-image-container">
+                    <img src="https://placehold.co/800x600?text=Lechon" alt="Post Image">
+                </div>
+
+                <div class="post-footer-line">
+                    <div class="vote-pill">
+                        <button class="vote-btn up"><i class="fas fa-chevron-up"></i></button>
+                        <span class="vote-count">245</span>
+                        <button class="vote-btn down"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <button class="action-icon-btn"><i class="fas fa-share-square"></i> Share</button>
+                    <button class="action-icon-btn"><i class="fas fa-bookmark"></i> Save</button>
+                </div>
+            </div>
+
+            <!-- COMMENT INPUT AREA -->
+            <div class="comment-input-section">
+                <p>Comment as <span style="color:#E2725B; font-weight:700;">ChefUser</span></p>
+                <form id="commentForm">
+                    <textarea class="comment-box" placeholder="What are your thoughts?"></textarea>
+                    <div class="comment-actions">
+                        <div class="format-tools">
+                            <button type="button" title="Bold"><i class="fas fa-bold"></i></button>
+                            <button type="button" title="Italic"><i class="fas fa-italic"></i></button>
+                            <button type="button" title="Link"><i class="fas fa-link"></i></button>
+                        </div>
+                        <button type="submit" class="post-comment-btn">Comment</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- COMMENTS THREAD -->
+            <div class="comments-thread">
+                
+                <!-- Filter Comments -->
+                <div class="comments-filter">
+                    <span>Sort by:</span>
+                    <select>
+                        <option>Best</option>
+                        <option>Newest</option>
+                        <option>Top</option>
+                    </select>
+                </div>
+
+                <!-- Comment 1 -->
+                <div class="comment-node">
+                    <div class="comment-avatar">
+                        <img src="https://placehold.co/40?text=A">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-meta">
+                            <strong>ChefAnna</strong> • <span>1 hour ago</span>
+                        </div>
+                        <p>Have you tried pricking the skin before frying? That usually helps with the blisters!</p>
+                        <div class="comment-actions-bar">
+                            <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
+                            <span>12</span>
+                            <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
+                            <button class="reply-btn">Reply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 2 (Nested) -->
+                <div class="comment-node">
+                    <div class="comment-avatar">
+                        <img src="https://placehold.co/40?text=B">
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-meta">
+                            <strong>BoyLogro</strong> • <span>45 mins ago</span>
+                        </div>
+                        <p>Great tip! The vinegar trick works too if you want that extra crunch.</p>
+                        <div class="comment-actions-bar">
+                            <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
+                            <span>5</span>
+                            <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
+                            <button class="reply-btn">Reply</button>
+                        </div>
+
+                        <!-- Reply to Comment 2 -->
+                        <div class="comment-node reply-node">
+                            <div class="comment-avatar">
+                                <img src="https://placehold.co/40?text=C">
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-meta">
+                                    <strong>NewbieCook</strong> • <span>10 mins ago</span>
+                                </div>
+                                <p>How much vinegar do I add to the water?</p>
+                                <div class="comment-actions-bar">
+                                    <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
+                                    <span>1</span>
+                                    <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
+                                    <button class="reply-btn">Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
+        <hr>
+    </footer>
+    
+    <script src="../JS/main.js"></script>
+</body>
+</html>

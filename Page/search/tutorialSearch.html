@@ -15,7 +15,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  
+  <!-- NAV BAR -->
+    <header class="site-header">
+        <!-- Logo: Up 2 levels to Page/index.html -->
+        <a href="../../index.html" class="logo-container">
+            <h1 class="logo-text">KusinaSeekr</h1>
+        </a>
+        
+        <button class="burger-menu" id="burger-menu">&#9776;</button>
+        
+        <div class="header-right" id="nav-menu">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <!-- Up 1 level to Page/search/ -->
+                    <li><a href="../search/ingredient&recipeSearch.html">Recipes</a></li>
+                    <li><a href="../search/tutorialSearch.html" style="color: #E2725B;">Cooking Tutorials</a></li>
+                    <!-- Up 2 levels to Page/ -->
+                    <li><a href="../community.html">Community</a></li>
+                    <li><a href="../profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <a href="../../Logging/login.html" class="lg-button">Log In</a>
+        </div>
+    </header>
   <div class="search-header">
     <h2>Cooking Tutorials & Techniques</h2>
     <form class="main-search-bar" id="tutorialSearchForm">

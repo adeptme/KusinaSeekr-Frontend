@@ -4,9 +4,9 @@ body {
 }
 
 .community-main {
-    max-width: 700px;
+    max-width: 1280px; /* INCREASED: Made wider (was 700px) */
     margin: 40px auto;
-    padding: 0 20px;
+    padding: 0 150px;
 }
 
 /* --- Create Post Widget --- */
@@ -16,6 +16,11 @@ body {
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    
+    /* ADDED: Match dimensions with feed-card */
+    width: 1000px;
+    min-width: 300px;
+    box-sizing: border-box;
 }
 
 .input-row {
@@ -43,7 +48,7 @@ body {
     font-size: 0.95rem;
     color: #555;
     outline: none;
-    resize: none; /* If using textarea */
+    resize: none; 
 }
 
 .action-row {
@@ -101,10 +106,15 @@ body {
 .feed-card {
     background-color: #CBB9A4; /* Darker beige/brown from Figma */
     border-radius: 20px;
-    padding: 20px 20px 10px 20px; /* Less padding bottom for line */
-    margin-bottom: 25px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 20px; /* Simplified padding */
+    margin-bottom: 30px; /* More space between cards */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Stronger shadow */
     color: #3b1f16;
+    
+    /* UPDATED: Width constraints matching create-post-card */
+    min-width: 300px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .post-header {
@@ -117,45 +127,57 @@ body {
 .poster-info h4 {
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.1rem; /* Slightly larger */
     margin: 0;
     color: #2b2118;
 }
 
 .poster-info span {
     font-family: 'Lato', sans-serif;
-    font-size: 0.75rem;
-    color: #555; /* Slightly lighter for time */
+    font-size: 0.8rem;
+    color: #444; 
 }
 
 .post-title {
-    font-family: 'Lato', sans-serif;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-family: 'Merriweather', serif; /* Changed to match brand headings */
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: #2b2118;
 }
 
+/* --- FIXED IMAGE CONTAINER --- */
 .post-image-container {
-    width: calc(100% + 40px); /* Pull image to edges (-20px padding left/right) */
+    width: calc(100% + 40px); /* Pull edges */
     margin-left: -20px;
     margin-bottom: 15px;
+    
+    /* ADDED: Fixed height logic */
+    height: 500px; /* Fixed height for the viewing window */
+    background-color: #000; /* Black bars for different aspect ratios */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .post-image-container img {
-    width: 100%;
+    /* ADDED: Fit logic */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Ensures whole image is visible without cropping */
     display: block;
-    max-height: 400px;
-    object-fit: cover;
 }
 
 .post-footer-line {
-    border-top: 1px solid rgba(60, 60, 60, 0.1); /* Thinner line looks cleaner */
+    border-top: 1px solid rgba(60, 60, 60, 0.1); 
     margin-top: 15px;
-    padding-top: 10px;
-    /* Height removed so it grows to fit the button */
-    display: flex; /* Ensures items inside align properly */
+    padding-top: 15px;
+    display: flex; 
     align-items: center;
+    gap: 15px;
 }
 
 /* For text-only posts */
@@ -165,32 +187,30 @@ body {
 }
 
 .action-icon-btn {
-    background: transparent;
+    background: rgba(255,255,255,0.3); /* Slight background */
     border: none;
     cursor: pointer;
-    color: #E2725B; /* Rust Orange */
+    color: #2b2118;
     
     font-family: 'Nunito', sans-serif;
     font-weight: 700;
     font-size: 0.95rem;
     
-    /* Flexbox Magic for Alignment */
     display: flex;
     align-items: center;
-    gap: 8px; /* Space between heart and text */
+    gap: 8px; 
     
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 10px 15px;
+    border-radius: 20px;
     transition: background-color 0.2s ease;
 }
 
-
 /* Hover Effect */
 .action-icon-btn:hover {
-    background-color: rgba(226, 114, 91, 0.1); /* Light fade of the rust color */
+    background-color: rgba(226, 114, 91, 0.2); 
+    color: #E2725B;
 }
 
-/* Make the heart icon slightly larger if needed */
 .action-icon-btn i {
     font-size: 1.1rem;
 }
