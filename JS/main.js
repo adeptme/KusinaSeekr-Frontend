@@ -235,7 +235,7 @@ async function loadRecipeDetails() {
         const recipe = await response.json();
         document.getElementById('detail-title').innerText = recipe.title;
         document.getElementById('detail-desc').innerText = recipe.description || recipe.subtitle;
-        if(document.getElementById('detail-time')) document.getElementById('detail-time').innerText = recipe.cook_time;
+        if(document.getElementById('detail-time')) document.getElementById('detail-time').innerText = recipe.cooking_time_display;
         if(document.getElementById('detail-servings')) document.getElementById('detail-servings').innerText = (recipe.servings || '--') + " servings";
         let imagePath = 'https://placehold.co/1000x500?text=No+Image';
         if (recipe.main_image) {
