@@ -1,5 +1,5 @@
-"const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';"
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+"const BACKEND_URL = 'http://localhost:5000';"
 
 const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';

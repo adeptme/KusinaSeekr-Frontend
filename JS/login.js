@@ -1,5 +1,5 @@
-"const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';"
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+"const BACKEND_URL = 'http://localhost:5000';"
 
 const loginForm = document.getElementById('loginForm');
 
