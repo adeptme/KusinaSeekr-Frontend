@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -31,7 +33,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="../../../index.html">Home</a></li>
-                <li><a href="recipePage.html" class="active">Recipes</a></li>
+                <li><a href="../../search/ingredient&recipeSearch.html" class="active">Recipes</a></li>
                 <li><a href="../tutorialSearch.html">Cooking Tutorials</a></li>
                 <li><a href="/Page/community.html">Community</a></li>
                 <li><a href="profile.html">Profile</a></li>
@@ -50,9 +52,9 @@
         <div class="recipe-header-row">
             <h1 id="detail-title">Loading Recipe...</h1>
             <div class="recipe-actions">
-                <button id="save-btn" class="action-icon-btn" onclick="toggleSave(new URLSearchParams(window.location.search).get('id'), 'recipes')">
+             <!--  <button id="save-btn" class="action-icon-btn" onclick="toggleSave(new URLSearchParams(window.location.search).get('id'), 'recipes')">
     <i class="far fa-bookmark"></i> Save
-                </button>
+                </button> --> 
             </div>
         </div>
         
