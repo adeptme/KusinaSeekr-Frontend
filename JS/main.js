@@ -130,7 +130,7 @@ async function loadRecipes() {
         allRecipesData = recipes;
 
         // Render the first 3 (Default view)
-        renderCards(recipes.slice(0, 3), container, 'search/details page/');
+        renderCards(recipes.slice(0, 3), container, 'Page/search/details page/');
 
     } catch (error) {
         console.error("Error loading home recipes:", error);
