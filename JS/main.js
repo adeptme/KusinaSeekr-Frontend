@@ -1,4 +1,5 @@
-const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+"const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';"
+const BACKEND_URL = 'http://localhost:5000';
 
 const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';
@@ -181,7 +182,7 @@ function renderCards(recipesList, container, linkPrefix, cardClass='recipe-card'
                     <p>${recipe.subtitle || recipe.description || ''}</p>
                     <div class="${metaClass}">
                         <span class="${tagClass}">${recipe.category}</span>
-                        <span>⏱ ${recipe.cook_time}</span>
+                        <span>⏱ ${recipe.cooking_time_display}</span>
                     </div>
                     <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
                 </div>
@@ -234,7 +235,7 @@ async function loadRecipeDetails() {
         const recipe = await response.json();
         document.getElementById('detail-title').innerText = recipe.title;
         document.getElementById('detail-desc').innerText = recipe.description || recipe.subtitle;
-        if(document.getElementById('detail-time')) document.getElementById('detail-time').innerText = recipe.cook_time;
+        if(document.getElementById('detail-time')) document.getElementById('detail-time').innerText = recipe.cooking_time_display;
         if(document.getElementById('detail-servings')) document.getElementById('detail-servings').innerText = (recipe.servings || '--') + " servings";
         let imagePath = 'https://placehold.co/1000x500?text=No+Image';
         if (recipe.main_image) {
@@ -448,7 +449,7 @@ async function searchByTitle(titleQuery) {
         data.recipes.forEach(recipe => {
             // Use our helper to build the card
             // Note: 'details page/' path assumes we are on the search page
-            const cardHTML = buildCardHTML(recipe, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
+            const cardHTML = buildCardHTML(recipe, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn', 's-duration');
             container.innerHTML += cardHTML;
         });
 
@@ -482,7 +483,7 @@ function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='r
                 
                 <div class="${metaClass}">
                     <span class="${tagClass}">${recipe.category}</span>
-                    <span>⏱ ${recipe.cook_time}</span>
+                    <span>⏱ ${recipe.cooking_time_display}</span>
                 </div>
                 
                 <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
@@ -994,8 +995,12 @@ async function loadTutorialCards() {
                     <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
                     
                     <div class="tut-content">
-                        <h3>${tutorial.title}</h3>
-                        <p>${tutorial.subtitle || ''}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                            <h3 style="margin: 0; flex: 1;">${tutorial.title}</h3>
+                            <button class="save-icon-btn" onclick="event.stopPropagation(); toggleSave('${tutorial.tutorial_id}', 'tutorial')" style="background: none; border: none; cursor: pointer; padding: 0; margin-left: 10px;">
+                                <i class="far fa-bookmark" style="font-size: 1.2rem; color: #ff6b6b;"></i>
+                            </button>
+                        </div>
                         <div class="tut-time"><span>▶ ${tutorial.duration} tutorial</span></div>
                     </div>
                 </div>
@@ -1053,7 +1058,7 @@ async function loadTutorialDetails() {
         // Update Content
         const contentArea = document.getElementById('tutorial-content-area');
         if (contentArea) {
-             contentArea.innerHTML = `<p>${tutorial.content_steps}</p>`;
+             contentArea.innerHTML = `<p>${tutorial.steps}</p>`;
         }
         
         const contentTitle = document.getElementById('tutorial-content-title');
