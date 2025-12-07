@@ -571,6 +571,8 @@ async function loadCommunityFeed() {
                             <i class="fas fa-heart"></i> 
                             <span>${post.likes} Likes</span>
                         </button>
+
+
                     </div>
                 </div>
             `;

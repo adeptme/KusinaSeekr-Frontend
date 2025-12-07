@@ -34,6 +34,25 @@ body {
   font-size: 1rem;
 }
 
+/* New Search Button Style */
+.search-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px;
+  background: #E07A5F;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #CC5500;
+}
+
 /* --- Categories (FIXED BACKGROUND) --- */
 .tutorial-cats { 
   display: flex; 
@@ -90,9 +109,26 @@ body {
 
 .tutorial-grid { 
   display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  /* Default Mobile/Tablet View handled by auto-fill */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
   gap: 30px; 
   margin-bottom: 60px; 
+  width: 100%; 
+}
+
+/* Explicit Override for Desktop (1025px+) */
+/* We add 'body' to increase specificity and override responsive.css */
+@media (min-width: 1025px) {
+  body .tutorial-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Explicit Override for Wide Screens (1400px+) */
+@media (min-width: 1400px) {
+  body .tutorial-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .tutorial-card { 
@@ -109,7 +145,7 @@ body {
 }
 
 .tutorial-img-wrap { 
-  height: 200px; 
+  height: 220px; /* MATCHED: Recipe card height */
   background: #ddd; 
   position: relative; 
 }
@@ -131,14 +167,14 @@ body {
 }
 
 .tutorial-details { 
-  padding: 20px; 
+  padding: 25px; /* MATCHED: Recipe card padding */
 }
 
 .tutorial-details h3 { 
   font-family: 'Raleway', sans-serif;
   font-size: 1.2rem; 
   margin-bottom: 5px; 
-  font-weight: 700;
+  font-weight: 700; 
   color: #2b2118;
 }
 
@@ -147,4 +183,3 @@ body {
   font-size: 0.9rem; 
   color: #666; 
 }
-
