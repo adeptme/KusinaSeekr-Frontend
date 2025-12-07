@@ -20,6 +20,8 @@
 
     <header class="site-header">
         <a href="../index.html" class="logo-container">
+            <!-- ADDED: Logo (Up one level) -->
+            <img src="../images/kusina-logo.jpg" alt="KusinaSeekr Logo" class="logo-icon">
             <h1 class="logo-text">KusinaSeekr</h1>
         </a>
 
@@ -76,36 +78,13 @@
                 
                 <!-- Intro Card -->
                 <div class="sidebar-card intro-card">
-                    <h3>Kitchen Stats</h3>
-                    <div class="stat-row">
-                        <i class="fas fa-star" style="color: #F59E0B;"></i>
-                        <span><strong>4.9</strong> Rating (205 Reviews)</span>
-                    </div>
-                    <div class="stat-row">
-                        <i class="fas fa-utensils" style="color: #E2725B;"></i>
-                        <span><strong>Master</strong> at Adobo</span>
-                    </div>
-                    <div class="stat-row">
-                        <i class="fas fa-birthday-cake" style="color: #666;"></i>
-                        <span>Joined May 2023</span>
-                    </div>
+                    <h3>About</h3>
                     
                     <p class="bio-text" id="profile-bio">
                         Loading bio...
                     </p>
                     
                     <button class="edit-bio-btn">Edit Bio</button>
-                </div>
-
-                <!-- Badges/Achievements (Reddit Style Flair) -->
-                <div class="sidebar-card">
-                    <h3>Badges</h3>
-                    <div class="badges-grid">
-                        <div class="badge" title="Verified Chef"><i class="fas fa-check-circle"></i></div>
-                        <div class="badge" title="Top Contributor"><i class="fas fa-award"></i></div>
-                        <div class="badge" title="Spice Lover"><i class="fas fa-pepper-hot"></i></div>
-                        <div class="badge empty">+</div>
-                    </div>
                 </div>
 
                 <!-- Photos Preview -->
@@ -129,24 +108,11 @@
             <!-- RIGHT COLUMN: The Feed (Reddit/FB Mix) -->
             <section class="profile-feed">
                 
-                <!-- "What's Cooking?" Input Box -->
-                <div class="create-post-widget">
-                    <div class="widget-top">
-                        <img src="https://placehold.co/50?text=U" class="mini-avatar">
-                        <input type="text" placeholder="Share a new recipe or kitchen tip...">
-                    </div>
-                    <div class="widget-bottom">
-                        <button class="media-pill"><i class="fas fa-image"></i> Photo</button>
-                        <button class="media-pill"><i class="fas fa-video"></i> Video</button>
-                        <button class="media-pill"><i class="fas fa-book"></i> Recipe</button>
-                    </div>
-                </div>
-
-                <!-- Filter / Tabs (Visual Only, no functionality needed) -->
+                <!-- Filter / Tabs  -->
                 <div class="feed-filters">
-                    <button class="active">All Activity</button>
-                    <button>Recipes</button>
-                    <button>Reviews</button>
+                    <button>All Activities</button>
+                    <button>Saved Recipes</button>
+                    <button>Saved Tutorials</button>
                 </div>
 
                 <!-- The Dynamic Content Feed -->
