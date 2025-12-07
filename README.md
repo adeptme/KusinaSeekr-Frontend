@@ -53,5 +53,3 @@ To implement a learning system that adapts to users’ needs by:
 - *Raphael Nikko*
 
 ---
-
-> _IS THIS GOOD ENOUGH FOR YOU???_
