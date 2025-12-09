@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/profile.css">
     <link rel="stylesheet" href="../CSS/responsive.css">
+    <!-- Reusing settings CSS for form styles inside the modal -->
+    <link rel="stylesheet" href="../CSS/settings.css"> 
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,13 +52,13 @@
             <div class="profile-cover">
                 <!-- Using a food texture or user uploaded cover -->
                 <img src="https://placehold.co/1200x350?text=My+Kitchen+Cover" alt="Cover Photo">
-                <button class="edit-cover-btn"><i class="fas fa-camera"></i> Edit Cover</button>
+                <button class="edit-cover-btn" onclick="openEditModal('cover')"><i class="fas fa-camera"></i> Edit Cover</button>
             </div>
             
             <div class="profile-identity-bar">
                 <div class="avatar-container">
                     <img id="profile-avatar" src="https://placehold.co/150?text=User" alt="Profile Pic" onerror="this.src='https://placehold.co/150?text=User'">
-                    <button class="edit-avatar-btn"><i class="fas fa-camera"></i></button>
+                    <button class="edit-avatar-btn" onclick="openEditModal('avatar')"><i class="fas fa-camera"></i></button>
                 </div>
                 
                 <div class="identity-info">
@@ -64,7 +66,8 @@
                 </div>
 
                 <div class="profile-actions">
-                    <a href="accountSettings.html" class="action-btn secondary"><i class="fas fa-pencil-alt"></i> Edit Profile</a>
+                    <!-- Changed link to open modal instead of page navigation for quick edits -->
+                    <button class="action-btn secondary" onclick="openEditModal('details')"><i class="fas fa-pencil-alt"></i> Edit Profile</button>
                     <a href="#" class="action-btn primary"><i class="fas fa-plus"></i> Create Recipe</a>
                 </div>
             </div>
@@ -84,7 +87,7 @@
                         Loading bio...
                     </p>
                     
-                    <button class="edit-bio-btn">Edit Bio</button>
+                    <button class="edit-bio-btn" onclick="openEditModal('bio')">Edit Bio</button>
                 </div>
 
                 <!-- Photos Preview -->
@@ -108,11 +111,11 @@
             <!-- RIGHT COLUMN: The Feed (Reddit/FB Mix) -->
             <section class="profile-feed">
                 
-                <!-- Filter / Tabs  -->
+                <!-- Filter / Tabs (Visual Only, no functionality needed) -->
                 <div class="feed-filters">
-                    <button>All Activities</button>
-                    <button>Saved Recipes</button>
-                    <button>Saved Tutorials</button>
+                    <button class="active">All Activity</button>
+                    <button>Recipes</button>
+                    <button>Reviews</button>
                 </div>
 
                 <!-- The Dynamic Content Feed -->
@@ -128,6 +131,60 @@
         </div>
 
     </main>
+
+    <!-- EDIT PROFILE MODAL -->
+    <div id="editProfileModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h2 id="modal-title">Edit Profile</h2>
+            
+            <!-- Form Container -->
+            <form id="profile-edit-form" class="settings-form">
+                
+                <!-- Hidden User ID field (Read Only for reference if needed by JS later) -->
+                <div class="input-group">
+                    <label for="modal-user-id">User ID (Read Only)</label>
+                    <input type="text" id="modal-user-id" readonly style="background-color: #f0f0f0; color: #666; cursor: not-allowed;">
+                </div>
+
+                <!-- Dynamic Sections (toggled via JS based on what button clicked, or show all) -->
+                <div id="edit-details-section">
+                    <div class="input-group">
+                        <label for="modal-full-name">Full Name</label>
+                        <input type="text" id="modal-full-name" placeholder="e.g. Juan dela Cruz">
+                    </div>
+                    <div class="input-group">
+                        <label for="modal-username">Username</label>
+                        <input type="text" id="modal-username" placeholder="Username">
+                    </div>
+                    <div class="input-group">
+                        <label for="modal-location">Location</label>
+                        <input type="text" id="modal-location" placeholder="e.g. Manila, Philippines">
+                    </div>
+                </div>
+
+                <div id="edit-bio-section">
+                    <div class="input-group">
+                        <label for="modal-bio">Bio</label>
+                        <textarea id="modal-bio" rows="4" placeholder="Tell us about yourself..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: vertical;"></textarea>
+                    </div>
+                </div>
+
+                <div id="edit-visuals-section">
+                    <div class="input-group">
+                        <label for="modal-avatar-url">Avatar URL</label>
+                        <input type="text" id="modal-avatar-url" placeholder="https://...">
+                    </div>
+                    <div class="input-group">
+                        <label for="modal-cover-url">Cover Photo URL</label>
+                        <input type="text" id="modal-cover-url" placeholder="https://...">
+                    </div>
+                </div>
+
+                <button type="submit" class="save-settings-btn" style="width: 100%;">Save Changes</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>© 2025 KusinaSeekr. All Rights Reserved.</p>

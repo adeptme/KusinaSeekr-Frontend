@@ -21,6 +21,7 @@
     <!-- HEADER -->
     <header class="site-header">
         <a href="../index.html" class="logo-container">
+            <!-- ADDED: Logo (Up one level) -->
             <img src="../images/kusina-logo.jpg" alt="KusinaSeekr Logo" class="logo-icon">
             <h1 class="logo-text">KusinaSeekr</h1>
         </a>
@@ -50,21 +51,47 @@
         <p>Manage your profile information and security</p>
     </div>
 
+    <!-- Account Basics -->
     <section class="settings-section">
-        <h3 class="section-title">Profile Information</h3>
+        <h3 class="section-title">Account Information</h3>
         <form class="settings-form" id="username-form">
+            <div class="input-group">
+                <label for="user-id">User ID</label>
+                <input type="text" id="user-id" value="LOADING..." readonly style="background-color: #f0f0f0; color: #666; cursor: not-allowed;">
+            </div>
+            
             <div class="input-group">
                 <label for="current-username">Current Username</label>
                 <input type="text" id="current-username" value="ChefK_2025" readonly style="background-color: #f9f9f9; color: #888;">
             </div>
             <div class="input-group">
                 <label for="new-username">New Username</label>
-                <input type="text" id="new-username" placeholder="Enter new username" required>
+                <input type="text" id="new-username" placeholder="Enter new username">
             </div>
             <button type="submit" class="save-settings-btn">Update Username</button>
         </form>
     </section>
 
+    <!-- Profile Details (Bio, Location, Name) -->
+    <section class="settings-section">
+        <h3 class="section-title">Profile Details</h3>
+        <form class="settings-form" id="profile-details-form">
+            <div class="input-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="e.g. Juan dela Cruz">
+            </div>
+
+            <div class="input-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="e.g. Manila, Philippines">
+            </div>
+
+
+            <button type="submit" class="save-settings-btn">Save Profile Details</button>
+        </form>
+    </section>
+
+    <!-- Security -->
     <section class="settings-section">
         <h3 class="section-title">Security</h3>
         <form class="settings-form" id="password-form">

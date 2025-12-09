@@ -1,8 +1,10 @@
 /* --- Base Styles (Inherits fonts from global) --- */
 .settings-main {
-    max-width: 800px;
+    width: 100%;
+    max-width: 800px; /* Cap width for large screens */
     margin: 60px auto;
     padding: 0 20px;
+    box-sizing: border-box; /* Ensure padding doesn't break width */
 }
 
 .settings-header {
@@ -29,6 +31,8 @@
     padding: 40px;
     margin-bottom: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .section-title {
@@ -43,6 +47,7 @@
 /* --- Form Elements (Matches auth.css style) --- */
 .settings-form .input-group {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .settings-form label {
@@ -65,6 +70,7 @@
     color: #333;
     outline: none;
     transition: border-color 0.3s;
+    box-sizing: border-box; /* Critical for responsive inputs */
 }
 
 .settings-form input:focus {
@@ -84,6 +90,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 10px;
+    width: auto; /* Allow auto width on desktop */
 }
 
 .save-settings-btn:hover {
@@ -100,12 +107,23 @@
     background-color: #e0e0e0;
 }
 
-/* Responsive */
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
     .settings-main {
         margin: 30px auto;
+        padding: 0 15px;
     }
+    
     .settings-section {
-        padding: 25px;
+        padding: 25px 20px; /* Reduced padding for mobile */
+    }
+
+    .settings-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .save-settings-btn {
+        width: 100%; /* Full width button on mobile */
+        text-align: center;
     }
 }
