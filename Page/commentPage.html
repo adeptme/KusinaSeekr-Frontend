@@ -83,19 +83,27 @@
 
             <!-- COMMENT INPUT AREA -->
             <div class="comment-input-section">
-                <p>Comment as <span style="color:#E2725B; font-weight:700;">ChefUser</span></p>
-                <form id="commentForm">
-                    <textarea class="comment-box" placeholder="What are your thoughts?"></textarea>
-                    <div class="comment-actions">
-                        <div class="format-tools">
-                            <button type="button" title="Bold"><i class="fas fa-bold"></i></button>
-                            <button type="button" title="Italic"><i class="fas fa-italic"></i></button>
-                            <button type="button" title="Link"><i class="fas fa-link"></i></button>
-                        </div>
-                        <button type="submit" class="post-comment-btn">Comment</button>
-                    </div>
-                </form>
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <img id="commenter-avatar" src="https://placehold.co/40?text=..." 
+             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+        
+        <p style="margin: 0;">
+            Comment as <span id="commenter-name" style="color:#E2725B; font-weight:700;">Loading...</span>
+        </p>
+    </div>
+
+    <form id="commentForm">
+        <textarea class="comment-box" placeholder="What are your thoughts?"></textarea>
+        <div class="comment-actions">
+            <div class="format-tools">
+                <button type="button" title="Bold"><i class="fas fa-bold"></i></button>
+                <button type="button" title="Italic"><i class="fas fa-italic"></i></button>
+                <button type="button" title="Link"><i class="fas fa-link"></i></button>
             </div>
+            <button type="submit" class="post-comment-btn">Comment</button>
+        </div>
+    </form>
+</div>
 
             <!-- COMMENTS THREAD -->
             <div class="comments-thread">
