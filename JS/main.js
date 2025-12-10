@@ -1090,7 +1090,7 @@ async function loadTutorialCards() {
 
             const cardHTML = `
                 <div class="home-tutorial-card" 
-                    onclick="window.location.href='search/details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
+                    onclick="window.location.href='Page/search/details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
                     
                     <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
                     
