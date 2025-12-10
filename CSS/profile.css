@@ -20,6 +20,7 @@
 /* Cover Photo */
 .profile-cover {
     height: 300px;
+    max-width: 100%;
     background-color: #3b1f16;
     position: relative;
     border-radius: 0 0 0 0; /* Full bleed top usually, or rounded bottom in wrapper */
