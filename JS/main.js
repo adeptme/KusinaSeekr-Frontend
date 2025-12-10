@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupFilters();
     }
 
-    // 🟢 5. INGREDIENT SEARCH LISTENER (New!)
+    // 5. INGREDIENT SEARCH LISTENER (New!)
     const ingForm = document.getElementById('ingredientSearchForm');
     const btnAdd = document.getElementById('btnAddIng');
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const inputVal = document.getElementById('ingInput').value;
-            console.log("--- STARTING INGREDIENT SEARCH ---");
+            console.log(" STARTING INGREDIENT SEARCH ");
 
             if (!inputVal.trim()) {
                 alert("Please enter ingredients!");
@@ -119,7 +119,7 @@ async function searchByIngredients(ingredientString) {
     }
 }
 
-// --- A. Homepage Loader ---
+//  A. Homepage Loader 
 async function loadRecipes() {
     const container = document.getElementById('recipeContainer');
     if (!container) return; 
@@ -128,7 +128,7 @@ async function loadRecipes() {
         const response = await fetch(`${BACKEND_URL}/feature/recipes`);
         const recipes = await response.json();
         
-        // 🟢 Store data globally for filtering
+        //  Store data globally for filtering
         allRecipesData = recipes;
 
         // Render the first 3 (Default view)
@@ -140,7 +140,7 @@ async function loadRecipes() {
     }
 }
 
-// --- B. Search Page Loader ---
+//  B. Search Page Loader 
 async function loadSearchPageRecipes() {
     const container = document.getElementById('results-section');
     if (!container) return; 
@@ -149,10 +149,10 @@ async function loadSearchPageRecipes() {
         const response = await fetch(`${BACKEND_URL}/feature/recipes`);
         const recipes = await response.json();
         
-        // 🟢 Store data globally
+        //  Store data globally
         allRecipesData = recipes;
 
-        // Render ALL recipes
+        //  Render ALL recipes
         renderCards(recipes, container, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
 
     } catch (error) {
@@ -160,7 +160,7 @@ async function loadSearchPageRecipes() {
     }
 }
 
-// --- 🟢 NEW: Reusable Render Function ---
+//  Reusable Render Function 
 function renderCards(recipesList, container, linkPrefix, cardClass='recipe-card', infoClass='recipe-info', metaClass='recipe-meta', tagClass='tag', btnClass='view-btn') {
     container.innerHTML = ''; 
 
@@ -292,14 +292,14 @@ async function checkAuth() {
         const response = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // 🟢 Sends the cookie
+            credentials: 'include' //  Sends the cookie
         });
 
         if (response.ok) {
             const userData = await response.json();
             console.log("User logged in:", userData.username);
 
-            // 🟢 UI UPDATE: Find the "Log In" button
+            //  UI UPDATE: Find the "Log In" button
             const loginBtn = document.querySelector('.lg-button');
             
             if (loginBtn) {
@@ -326,7 +326,7 @@ async function logoutUser() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include' // 🟢 CRITICAL: Sends the current cookies so server can verify & delete them
+            credentials: 'include' //  CRITICAL: Sends the current cookies so server can verify & delete them
         });
 
         if (response.ok) {
@@ -529,7 +529,7 @@ async function loadCommunityFeed() {
         container.innerHTML = '';
 
         posts.forEach(post => {
-            // --- 🟢 FIX: ROBUST AVATAR LOGIC ---
+            //   : ROBUST AVATAR LOGIC 
             // 1. Default Fallback (First letter of name)
             let avatar = `https://placehold.co/50?text=${post.author_name.charAt(0).toUpperCase()}`;
             
@@ -649,10 +649,10 @@ if (btnCreatePost) {
             // 2. Send JSON to Backend
             const response = await fetch(`${BACKEND_URL}/feature/forums/create-post`, {
                 method: 'POST',
-                // 🟢 FIX 1: THIS HEADER PREVENTS THE 415 ERROR
+                //   1: THIS HEADER PREVENTS THE 415 ERROR
                 headers: { 'Content-Type': 'application/json' }, 
                 credentials: 'include',
-                // 🟢 FIX 2: SEND AS JSON STRING
+                //   2: SEND AS JSON STRING
                 body: JSON.stringify({ 
                     post_content: content,
                     media: mediaData 
@@ -665,6 +665,7 @@ if (btnCreatePost) {
                 return;
             }
 
+            // 3. Handle Response
             if (response.ok) {
                 alert("Posted successfully!");
                 document.getElementById('new-post-content').value = '';
@@ -698,7 +699,7 @@ async function loadCommunityInputAvatar() {
         const response = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // 🟢 CRITICAL: Sends the cookie
+            credentials: 'include' // Sends the cookie
         });
 
         if (response.ok) {
@@ -723,7 +724,7 @@ async function loadCommunityInputAvatar() {
                 avatarImg.src = fallbackSrc;
             }
 
-            // 🟢 SAFETY NET: If the image fails to load (404), switch to the letter
+            // If the image fails to load (404), switch to the letter
             avatarImg.onerror = function() {
                 this.src = fallbackSrc;
                 this.onerror = null;
@@ -741,7 +742,7 @@ async function loadCommunityInputAvatar() {
 
 async function toggleLike(postId) {
     try {
-        // 🟢 FIX: Changed URL from 'create-post' to 'post' to match Python route
+        // Changed URL from 'create-post' to 'post' to match Python route
         const response = await fetch(`${BACKEND_URL}/feature/forums/post/${postId}/like`, {
             method: 'POST',
             headers: {
@@ -841,7 +842,7 @@ if (ingredientSearchForm) {
 }
 
 window.runIngredientSearch = async function() {
-    console.log("🟢 Manual Search Triggered");
+    console.log(" Manual Search Triggered");
     
     const input = document.getElementById('ingInput');
     if (!input) {
@@ -906,7 +907,7 @@ async function loadUserProfile() {
                 }
             }
 
-            // 🟢 C. FIX: Update Cover Photo (This was missing!)
+            // Update Cover Photo 
             const coverImg = document.querySelector('.profile-cover img');
             if (coverImg && user.cover_url) {
                 // Check if it's a full link or Supabase path
@@ -1061,7 +1062,7 @@ async function loadTutorialCards() {
                 
                 thumbnailPath = data.publicUrl;
                 
-                // 🟢 DEBUG: Print the link to the console
+                //  DEBUG: Print the link to the console
                 console.log(`Tutorial: ${tutorial.title}`);
                 console.log(`DB Filename: ${tutorial.thumbnail}`);
                 console.log(`Generated URL: ${thumbnailPath}`);
@@ -1102,7 +1103,7 @@ async function loadTutorialDetails() {
 
         const tutorial = await response.json();
 
-        // 🟢 FIX: Use 'thumbnail' to match the backend
+        // Use 'thumbnail' to match the backend
         let thumbnailPath = 'https://placehold.co/1000x500?text=No+Image';
         
         if (tutorial.thumbnail) { 
@@ -1260,7 +1261,7 @@ function renderTutorialCards(list, container) {
     });
 }
 
-// 🟢 CONNECT THE SEARCH BAR
+//  CONNECT THE SEARCH BAR
 const tutorialSearchForm = document.getElementById('tutorialSearchForm');
 if (tutorialSearchForm) {
     tutorialSearchForm.addEventListener('submit', (e) => {
@@ -1287,7 +1288,7 @@ async function toggleSave(id, type) {
         const response = await fetch(`${BACKEND_URL}/feature/${type}/${id}/${action}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // 🟢 Needs cookie
+            credentials: 'include' //  Needs cookie
         });
 
         if (response.status === 401) {
@@ -1317,7 +1318,7 @@ async function toggleSave(id, type) {
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. Handle Username Update ---
+    //  1. Handle Username Update 
     const usernameForm = document.getElementById('username-form');
 
 if (usernameForm) {
@@ -1341,14 +1342,14 @@ if (usernameForm) {
         submitBtn.disabled = true;
 
         try {
-            // 🟢 FIX 1: URL must match your python route (@user_bp.route("/profile"))
+            // URL must match your python route (@user_bp.route("/profile"))
             // Assuming your blueprint prefix is '/user', the full path is '/user/profile'
             const response = await fetch(`${BACKEND_URL}/user/profile`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // 🟢 FIX 2: Essential for @jwt_required() to find the user
+                credentials: 'include', // Essential for @jwt_required() to find the user
                 
-                // 🟢 FIX 3: Send exactly what the backend expects ("username")
+                // Send exactly what the backend expects ("username")
                 // Your backend code says: if "username" in data: user.username = data["username"]
                 body: JSON.stringify({
                     username: newUsername
@@ -1375,7 +1376,7 @@ if (usernameForm) {
         });
     }
 
-    // --- 2. Handle Password Update (WITH SECURITY CHECK) ---
+    //  2. Handle Password Update (WITH SECURITY CHECK) 
     const passwordForm = document.getElementById('password-form');
 
 if (passwordForm) {
@@ -1405,13 +1406,13 @@ if (passwordForm) {
         submitBtn.disabled = true;
 
         try {
-            // 🟢 FIX 1: Use '/auth/change-password' (Matches Blueprint)
-            // 🟢 FIX 2: Use 'POST' (Matches Python route)
+            // Use '/auth/change-password' (Matches Blueprint)
+            // Use 'POST' (Matches Python route)
             const response = await fetch(`${BACKEND_URL}/auth/change-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include', // Important for JWT
-                // 🟢 FIX 3: Use 'old_password' to match Python's data.get("old_password")
+                // Use 'old_password' to match Python's data.get("old_password")
                 body: JSON.stringify({
                     old_password: currentPass, 
                     new_password: newPass
@@ -1457,7 +1458,7 @@ function setupBioEdit() {
         const isEditing = btn.classList.contains('editing');
 
         if (!isEditing) {
-            // --- SWITCH TO EDIT MODE ---
+            //  SWITCH TO EDIT MODE 
             const currentBio = bioText.innerText === "No bio yet." ? "" : bioText.innerText;
             
             // Replace text with a textarea
@@ -1468,7 +1469,7 @@ function setupBioEdit() {
             btn.classList.add('editing');
             
         } else {
-            // --- SAVE CHANGES ---
+            //  SAVE CHANGES 
             const input = document.getElementById('bio-input');
             const newBio = input.value;
             const originalText = btn.innerText;
@@ -1520,7 +1521,7 @@ function setupProfileImageUploads() {
     // Safety check to ensure elements exist
     if (!btnEditCover || !btnEditAvatar) return;
 
-    // --- A. COVER PHOTO LOGIC ---
+    //  A. COVER PHOTO LOGIC 
     // Clicking "Edit Cover" opens the hidden file input
     btnEditCover.addEventListener('click', () => inputCover.click());
 
@@ -1532,7 +1533,7 @@ function setupProfileImageUploads() {
         await handleImageUpload(file, 'cover', btnEditCover, imgCover);
     });
 
-    // --- B. AVATAR PHOTO LOGIC ---
+    //  B. AVATAR PHOTO LOGIC 
     // Clicking "Camera Icon" opens the hidden file input
     btnEditAvatar.addEventListener('click', () => inputAvatar.click());
 
@@ -1545,7 +1546,7 @@ function setupProfileImageUploads() {
     });
 }
 
-// --- Reusable Upload & Update Function ---
+//  Reusable Upload & Update Function 
 async function handleImageUpload(file, type, btnElement, imgElement) {
     const originalText = btnElement.innerHTML;
     // Show a loading spinner on the button
@@ -1555,14 +1556,14 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
     try {
         const fileExt = file.name.split('.').pop();
         
-        // 🟢 FOLDER MAPPING:
+        //  FOLDER MAPPING:
         // If type is 'cover' -> use 'cover' folder
         // If type is 'avatar' -> use 'profiles' folder
         const folderName = type === 'cover' ? 'cover' : 'profiles';
         
         const fileName = `${folderName}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
         
-        // 🟢 Upload to 'profile-pics' bucket
+        //  Upload to 'profile-pics' bucket
         const { data, error } = await supabaseClient
             .storage
             .from('profile-pics') 
@@ -1570,7 +1571,7 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
 
         if (error) throw error;
 
-        // 🟢 Get Public URL
+        //  Get Public URL
         const { data: urlData } = supabaseClient
             .storage
             .from('profile-pics')
@@ -1644,12 +1645,12 @@ async function loadDiscussionPage(postId) {
         const post = data.forum_content;
         const comments = data.comments;
 
-        // --- A. Fill in the Main Post Content ---
+        // A. Fill in the Main Post Content
         document.querySelector('.post-title-large').innerText = post.content.substring(0, 50) + "..."; 
         document.querySelector('.post-body-text').innerText = post.content;
         document.querySelector('.vote-count').innerText = post.likes;
 
-        // --- 🟢 FIX: ROBUST IDENTITY HANDLING ---
+        // ROBUST IDENTITY HANDLING
         const posterAvatar = document.querySelector('.expanded-post .user-avatar-sm');
         const posterName = document.querySelector('.expanded-post .poster-info h4');
         const posterTime = document.querySelector('.expanded-post .poster-info span');
@@ -1661,7 +1662,7 @@ async function loadDiscussionPage(postId) {
 
         // 2. Set Avatar with Debugging & Safety Net
         if (posterAvatar) {
-            console.log("Avatar Data from DB:", post.author_avatar); // 🟢 CHECK THIS IN CONSOLE
+            console.log("Avatar Data from DB:", post.author_avatar); //  CHECK THIS IN CONSOLE
 
             // Default Placeholder
             const fallbackSrc = `https://placehold.co/50?text=${safeName.charAt(0).toUpperCase()}`;
@@ -1673,12 +1674,12 @@ async function loadDiscussionPage(postId) {
                 } 
                 // Case B: Supabase Path (e.g. "profiles/abc.jpg")
                 else {
-                    // 🟢 ENSURE 'profile-pics' MATCHES YOUR BUCKET NAME EXACTLY
+                    //  ENSURE 'profile-pics' MATCHES YOUR BUCKET NAME EXACTLY
                     const { data } = supabaseClient.storage
                         .from('profile-pics') 
                         .getPublicUrl(post.author_avatar);
                     
-                    console.log("Generated Supabase URL:", data.publicUrl); // 🟢 CHECK THIS
+                    console.log("Generated Supabase URL:", data.publicUrl); //  CHECK THIS
                     posterAvatar.src = data.publicUrl;
                 }
             } else {
@@ -1686,7 +1687,7 @@ async function loadDiscussionPage(postId) {
                 posterAvatar.src = fallbackSrc;
             }
 
-            // 🟢 CRITICAL FIX: If the image fails to load (404), switch to letter
+            //  If the image fails to load (404), switch to letter
             posterAvatar.onerror = function() {
                 console.warn("Avatar failed to load, switching to fallback.");
                 this.src = fallbackSrc;
@@ -1694,7 +1695,7 @@ async function loadDiscussionPage(postId) {
             };
         }
 
-        // --- C. Media Handling ---
+        //  C. Media Handling 
         const imgContainer = document.querySelector('.post-image-container');
         if (post.media && post.media.url) {
             imgContainer.style.display = 'flex';
@@ -1707,7 +1708,7 @@ async function loadDiscussionPage(postId) {
             imgContainer.style.display = 'none';
         }
 
-        // --- D. Render Comments ---
+        //  D. Render Comments 
         const commentThread = document.querySelector('.comments-thread');
         const filterHTML = document.querySelector('.comments-filter').outerHTML; 
         commentThread.innerHTML = filterHTML; 
@@ -1751,7 +1752,7 @@ async function loadDiscussionPage(postId) {
         console.error("Error loading discussion:", error);
     }
 }
-// --- C. Handle New Comment Submission ---
+//  C. Handle New Comment Submission 
 function setupCommentForm(postId) {
     const form = document.getElementById('commentForm');
     if (!form) return;
@@ -1773,7 +1774,7 @@ function setupCommentForm(postId) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                // 🟢 FIX: Changed key to 'comment_content' to match your Python code
+                // Changed key to 'comment_content' to match your Python code
                 body: JSON.stringify({ comment_content: text }) 
             });
 
@@ -1808,7 +1809,7 @@ async function loadCommenterIdentity() {
         const response = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // 🟢 CRITICAL: Sends your login cookie
+            credentials: 'include' // Sends your login cookie
         });
 
         if (response.ok) {
