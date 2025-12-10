@@ -184,7 +184,7 @@ function renderCards(recipesList, container, linkPrefix, cardClass='recipe-card'
                     <p>${recipe.subtitle || recipe.description || ''}</p>
                     <div class="${metaClass}">
                         <span class="${tagClass}">${recipe.category}</span>
-                        <span>⏱ ${recipe.cook_time}</span>
+                        <span>⏱ ${recipe.cooking_time_display}</span>
                     </div>
                     <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
                 </div>
@@ -230,24 +230,44 @@ function setupFilters() {
 async function loadRecipeDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
+    
     if (!recipeId || !document.getElementById('detail-title')) return;
+
     try {
         const response = await fetch(`${BACKEND_URL}/feature/recipes/${recipeId}`);
         if (!response.ok) throw new Error("Recipe not found");
+        
         const recipe = await response.json();
+        
+        // Update Text Info
         document.getElementById('detail-title').innerText = recipe.title;
         document.getElementById('detail-desc').innerText = recipe.description || recipe.subtitle;
-        if(document.getElementById('detail-time')) document.getElementById('detail-time').innerText = recipe.cook_time;
-        if(document.getElementById('detail-servings')) document.getElementById('detail-servings').innerText = (recipe.servings || '--') + " servings";
+        
+        // 🟢 FIX: Use 'cooking_time_display' (matches your Python backend)
+        const timeText = recipe.cooking_time_display || (recipe.cooking_time_minutes ? recipe.cooking_time_minutes + " mins" : "Time N/A");
+        if(document.getElementById('detail-time')) {
+            document.getElementById('detail-time').innerText = timeText;
+        }
+
+        if(document.getElementById('detail-servings')) {
+            document.getElementById('detail-servings').innerText = recipe.servings ? `${recipe.servings} servings` : "-- servings";
+        }
+
+        // Image Handling
         let imagePath = 'https://placehold.co/1000x500?text=No+Image';
         if (recipe.main_image) {
             const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(recipe.main_image);
             imagePath = data.publicUrl;
         }
         document.getElementById('detail-image').src = imagePath;
+
+        // Lists
         parseList(recipe.ingredients_list, 'detail-ingredients', 'ingredient');
         parseList(recipe.cooking_steps, 'detail-steps', 'step');
-    } catch (error) { console.error("Error loading details:", error); }
+
+    } catch (error) { 
+        console.error("Error loading details:", error); 
+    }
     
     try {
         const userRes = await fetch(`${BACKEND_URL}/user/profile`, { credentials: 'include' });
