@@ -1649,44 +1649,52 @@ async function loadDiscussionPage(postId) {
         document.querySelector('.post-body-text').innerText = post.content;
         document.querySelector('.vote-count').innerText = post.likes;
 
-        // --- 🟢 FIX 1: Main Post Identity ---
+        // --- 🟢 FIX: ROBUST IDENTITY HANDLING ---
         const posterAvatar = document.querySelector('.expanded-post .user-avatar-sm');
         const posterName = document.querySelector('.expanded-post .poster-info h4');
         const posterTime = document.querySelector('.expanded-post .poster-info span');
 
-        if(posterName) posterName.innerText = post.author_name || "Unknown Chef";
+        // 1. Set Name & Time
+        const safeName = post.author_name || "Unknown";
+        if(posterName) posterName.innerText = safeName;
         if(posterTime) posterTime.innerText = new Date(post.created_at).toLocaleString();
 
-        // Handle Main Post Avatar
+        // 2. Set Avatar with Debugging & Safety Net
         if (posterAvatar) {
-            // 1. Create a safe fallback (First letter of name)
-            const fallbackAvatar = `https://placehold.co/50?text=${(post.author_name || 'U').charAt(0).toUpperCase()}`;
+            console.log("Avatar Data from DB:", post.author_avatar); // 🟢 CHECK THIS IN CONSOLE
+
+            // Default Placeholder
+            const fallbackSrc = `https://placehold.co/50?text=${safeName.charAt(0).toUpperCase()}`;
 
             if (post.author_avatar) {
-                // Case A: It is already a full link (e.g., from Google or previous upload)
+                // Case A: Full URL (e.g. Google Auth)
                 if (post.author_avatar.startsWith('http')) {
                     posterAvatar.src = post.author_avatar;
                 } 
-                // Case B: It is a file path (e.g., "profiles/123.jpg") -> Generate Supabase URL
+                // Case B: Supabase Path (e.g. "profiles/abc.jpg")
                 else {
+                    // 🟢 ENSURE 'profile-pics' MATCHES YOUR BUCKET NAME EXACTLY
                     const { data } = supabaseClient.storage
-                        .from('profile-pics') // Ensure this matches your bucket name
+                        .from('profile-pics') 
                         .getPublicUrl(post.author_avatar);
+                    
+                    console.log("Generated Supabase URL:", data.publicUrl); // 🟢 CHECK THIS
                     posterAvatar.src = data.publicUrl;
-                }load
+                }
             } else {
-                // Case C: No avatar in database
-                posterAvatar.src = fallbackAvatar;
+                // Case C: No data in DB
+                posterAvatar.src = fallbackSrc;
             }
 
-            // Safety Net: If the image link is broken/404, revert to the letter
+            // 🟢 CRITICAL FIX: If the image fails to load (404), switch to letter
             posterAvatar.onerror = function() {
-                this.src = fallbackAvatar;
+                console.warn("Avatar failed to load, switching to fallback.");
+                this.src = fallbackSrc;
                 this.onerror = null; // Prevent infinite loop
             };
         }
 
-        // --- FIX 2: Media Handling ---
+        // --- C. Media Handling ---
         const imgContainer = document.querySelector('.post-image-container');
         if (post.media && post.media.url) {
             imgContainer.style.display = 'flex';
@@ -1699,46 +1707,39 @@ async function loadDiscussionPage(postId) {
             imgContainer.style.display = 'none';
         }
 
-        // --- 🟢 FIX 3: Render Comments with Avatars ---
+        // --- D. Render Comments ---
         const commentThread = document.querySelector('.comments-thread');
         const filterHTML = document.querySelector('.comments-filter').outerHTML; 
         commentThread.innerHTML = filterHTML; 
 
         if (comments.length === 0) {
-            commentThread.innerHTML += '<p style="text-align:center; margin-top:20px;">No comments yet. Be the first!</p>';
+            commentThread.innerHTML += '<p style="text-align:center; margin-top:20px;">No comments yet.</p>';
         } else {
             comments.forEach(comment => {
                 const dateStr = new Date(comment.created_at).toLocaleDateString();
-                const commenterLetter = comment.username ? comment.username.charAt(0).toUpperCase() : 'U';
+                const letter = comment.username ? comment.username.charAt(0).toUpperCase() : 'U';
                 
-                // 🟢 Determine Commenter Avatar Source
-                let commenterAvatarSrc = `https://placehold.co/40?text=${commenterLetter}`; // Default fallback
-
+                // Logic for Commenter Avatar
+                let commenterSrc = `https://placehold.co/40?text=${letter}`;
                 if (comment.commenter_avatar) {
-                    if (comment.commenter_avatar.startsWith('http')) {
-                        commenterAvatarSrc = comment.commenter_avatar;
-                    } else {
-                        // Resolve Supabase path
-                        const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(comment.commenter_avatar);
-                        commenterAvatarSrc = data.publicUrl;
-                    }
+                     if(comment.commenter_avatar.startsWith('http')) {
+                         commenterSrc = comment.commenter_avatar;
+                     } else {
+                         const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(comment.commenter_avatar);
+                         commenterSrc = data.publicUrl;
+                     }
                 }
 
                 const commentHTML = `
                     <div class="comment-node">
                         <div class="comment-avatar">
-                            <img src="${commenterAvatarSrc}" style="object-fit: cover;">
+                            <img src="${commenterSrc}" onerror="this.src='https://placehold.co/40?text=${letter}'">
                         </div>
                         <div class="comment-content">
                             <div class="comment-meta">
                                 <strong>${comment.username}</strong> • <span>${dateStr}</span>
                             </div>
                             <p>${comment.comment_text}</p>
-                            <div class="comment-actions-bar">
-                                <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
-                                <span>0</span>
-                                <button class="reply-btn">Reply</button>
-                            </div>
                         </div>
                     </div>
                 `;
