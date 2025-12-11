@@ -10,12 +10,10 @@ let allRecipesData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // 1. Auth Check (Only if not on login/signup pages)
     if (!document.getElementById('loginForm') && !document.getElementById('signupForm')) {
         checkAuth();
     }
 
-    // 2. Load Data
     await loadRecipes();     
     loadSearchPageRecipes(); 
     loadRecipeDetails();
@@ -30,18 +28,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupVideoModal();
     loadSearchPageTutorials();
     
-    // 3. Initialize UI Toggles
     if (typeof initSearchToggle === "function") {
         initSearchToggle();
     }
     
-    // 4. Initialize Filters
     if (typeof setupFilters === "function") {
         setupFilters();
     }
 
-        // 6. HOME PAGE INGREDIENT SEARCH REDIRECT
-    // Select the specific form inside the "recipe-box" on the home page
     const homeIngForm = document.querySelector('.recipe-box form');
     
     if (homeIngForm) {
@@ -50,34 +44,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             const inputVal = document.getElementById('ingredient-input').value;
             
             if (inputVal.trim()) {
-                // Redirect to search page with ingredients in URL
-                // Using encodeURIComponent to handle spaces and special chars safely
                 window.location.href = `Page/search/ingredient&recipeSearch.html?ingredients=${encodeURIComponent(inputVal)}`;
             }
         });
     }
 
-    // 7. AUTO-RUN INGREDIENT SEARCH FROM URL (For the Search Page)
     const urlParams = new URLSearchParams(window.location.search);
     const ingredientsParam = urlParams.get('ingredients');
     
-    // Check if we are on the search page (ingInput exists) AND have params
     if (ingredientsParam && document.getElementById('ingInput')) {
-        // Switch tab visually to "Ingredient Search"
         const btnIngredient = document.getElementById('btn-ingredient');
         if (btnIngredient) btnIngredient.click();
 
-        // Fill the input box with the data from the URL
         const ingInput = document.getElementById('ingInput');
         ingInput.value = decodeURIComponent(ingredientsParam);
         
-        // Wait a split second for UI to settle, then run the search function
         setTimeout(() => {
             searchByIngredients(ingredientsParam);
         }, 100);
     }
 
-    // 5. INGREDIENT SEARCH LISTENER (New!)
     const ingForm = document.getElementById('ingredientSearchForm');
     const btnAdd = document.getElementById('btnAddIng');
 
@@ -98,12 +84,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Make the "Add" button trigger the search immediately
     if (btnAdd && ingForm) {
         btnAdd.addEventListener('click', () => {
-            // Trigger the form submit manually
             ingForm.dispatchEvent(new Event('submit'));
         });
+    }
+
+    if (document.getElementById('tutorialResultsContainer')) {
+        setupTutorialSearch();
+        loadSearchPageTutorials();
+    }
+
+    if (document.getElementById('tutorialContainer')) {
+        loadFeaturedTutorials();
+    }
+    
+    if (document.getElementById('tutorial-title')) {
+        loadTutorialDetails();
+        setupVideoModal();
     }
 });
 
@@ -118,7 +116,7 @@ async function searchByIngredients(ingredientString) {
     console.log("🔍 Searching for:", ingredientString);
 
     container.style.display = 'grid'; 
-    container.style.opacity = '1'; // Just in case it was faded out
+    container.style.opacity = '1';
 
     container.innerHTML = '<p style="text-align:center; width:100%; grid-column: span 3;">Searching...</p>';
 
@@ -130,7 +128,7 @@ async function searchByIngredients(ingredientString) {
         });
 
         const data = await response.json();
-        console.log("✅ Backend Response:", data); // Check this in console!
+        console.log("✅ Backend Response:", data);
 
         container.innerHTML = ''; 
 
@@ -144,8 +142,6 @@ async function searchByIngredients(ingredientString) {
         }
 
         data.recipes.forEach(recipe => {
-            // Use the helper function to build HTML
-            // Ensure you are passing the correct link prefix for where your HTML file is located
             const cardHTML = buildCardHTML(recipe, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
             container.innerHTML += cardHTML;
         });
@@ -153,6 +149,19 @@ async function searchByIngredients(ingredientString) {
     } catch (error) {
         console.error("❌ Search error:", error);
         container.innerHTML = '<p style="text-align:center; width:100%;">Something went wrong. Check console.</p>';
+    }
+}
+
+async function loadFeaturedTutorials() {
+    const container = document.getElementById('tutorialContainer');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
+        const tutorials = await response.json();
+        renderTutorialCards(tutorials.slice(0, 3), container);
+    } catch (error) {
+        console.error("Error loading featured:", error);
     }
 }
 
@@ -167,8 +176,6 @@ async function loadRecipes() {
         
         //  Store data globally for filtering
         allRecipesData = recipes;
-
-        // Render the first 3 (Default view)
         renderCards(recipes.slice(0, 3), container, '/Page/search/details page/');
 
     } catch (error) {
@@ -186,10 +193,7 @@ async function loadSearchPageRecipes() {
         const response = await fetch(`${BACKEND_URL}/feature/recipes`);
         const recipes = await response.json();
         
-        //  Store data globally
         allRecipesData = recipes;
-
-        //  Render ALL recipes
         renderCards(recipes, container, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
 
     } catch (error) {
@@ -276,11 +280,9 @@ async function loadRecipeDetails() {
         
         const recipe = await response.json();
         
-        // Update Text Info
         document.getElementById('detail-title').innerText = recipe.title;
         document.getElementById('detail-desc').innerText = recipe.description || recipe.subtitle;
         
-        // 🟢 FIX: Use 'cooking_time_display' (matches your Python backend)
         const timeText = recipe.cooking_time_display || (recipe.cooking_time_minutes ? recipe.cooking_time_minutes + " mins" : "Time N/A");
         if(document.getElementById('detail-time')) {
             document.getElementById('detail-time').innerText = timeText;
@@ -289,16 +291,12 @@ async function loadRecipeDetails() {
         if(document.getElementById('detail-servings')) {
             document.getElementById('detail-servings').innerText = recipe.servings ? `${recipe.servings} servings` : "-- servings";
         }
-
-        // Image Handling
         let imagePath = 'https://placehold.co/1000x500?text=No+Image';
         if (recipe.main_image) {
             const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(recipe.main_image);
             imagePath = data.publicUrl;
         }
         document.getElementById('detail-image').src = imagePath;
-
-        // Lists
         parseList(recipe.ingredients_list, 'detail-ingredients', 'ingredient');
         parseList(recipe.cooking_steps, 'detail-steps', 'step');
 
@@ -310,11 +308,8 @@ async function loadRecipeDetails() {
         const userRes = await fetch(`${BACKEND_URL}/user/profile`, { credentials: 'include' });
         if (userRes.ok) {
             const user = await userRes.json();
-            // Check if ID exists in user.saved.recipes (or tutorials)
-            // Note: Handle cases where user.saved is null
             const savedList = user.saved && user.saved.recipes ? user.saved.recipes : [];
             
-            // IF FOUND:
             if (savedList.includes(recipeId)) {
                 const btn = document.getElementById('save-btn');
                 if(btn) btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved`;
@@ -356,7 +351,6 @@ async function checkAuth() {
             const userData = await response.json();
             console.log("User logged in:", userData.username);
 
-            //  UI UPDATE: Find the "Log In" button
             const loginBtn = document.querySelector('.lg-button');
             
             if (loginBtn) {
@@ -377,18 +371,16 @@ async function logoutUser() {
     if (!confirm("Are you sure you want to log out?")) return;
 
     try {
-        // 1. Ask the backend to delete the cookies
         const response = await fetch(`${BACKEND_URL}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include' //  CRITICAL: Sends the current cookies so server can verify & delete them
+            credentials: 'include' 
         });
 
         if (response.ok) {
             alert("Logged out successfully!");
-            // 2. Redirect to login page (adjust path if needed)
             window.location.href = "/Page/Logging/login.html"; 
         } else {
             alert("Logout failed. You might already be logged out.");
@@ -449,40 +441,30 @@ function initSearchToggle() {
     const ingredientView = document.getElementById('ingredient-view');
     const resultsSection = document.getElementById('results-section');
 
-    // Safety check: Only run if elements exist (i.e. we are on the Search Page)
     if (btnRecipe && btnIngredient && recipeView && ingredientView) {
         
-        // 1. CLICK RECIPE SEARCH
         btnRecipe.addEventListener('click', (e) => {
             e.preventDefault(); // Stop page reload
             console.log("Switched to Recipe Search");
 
-            // Visuals
             btnRecipe.classList.add('active');
             btnIngredient.classList.remove('active');
 
-            // Visibility
             recipeView.style.display = 'block';
             ingredientView.style.display = 'none';
             
-            // Show results again if they were hidden
             if(resultsSection) resultsSection.style.display = 'grid';
         });
 
-        // 2. CLICK INGREDIENT SEARCH
         btnIngredient.addEventListener('click', (e) => {
             e.preventDefault();
             console.log("Switched to Ingredient Search");
 
-            // Visuals
             btnIngredient.classList.add('active');
             btnRecipe.classList.remove('active');
-
-            // Visibility
             recipeView.style.display = 'none';
             ingredientView.style.display = 'block';
             
-            // Hide results initially (clean slate)
             if(resultsSection) resultsSection.style.display = 'none';
         });
     }
@@ -492,7 +474,7 @@ const recipeSearchForm = document.getElementById('recipeSearchForm');
 
 if (recipeSearchForm) {
     recipeSearchForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Stop page reload
+        e.preventDefault();
         
         const query = document.getElementById('recipeSearchInput').value;
         await searchByTitle(query);
@@ -514,18 +496,14 @@ async function searchByTitle(titleQuery) {
         });
 
         const data = await response.json();
-        container.innerHTML = ''; // Clear loading message
+        container.innerHTML = ''; 
 
-        // Handle "No Results"
         if (!response.ok || !data.recipes || data.recipes.length === 0) {
             container.innerHTML = '<p style="text-align:center; width:100%;">No recipes found.</p>';
             return;
         }
 
-        // Render the results
         data.recipes.forEach(recipe => {
-            // Use our helper to build the card
-            // Note: 'details page/' path assumes we are on the search page
             const cardHTML = buildCardHTML(recipe, 'details page/', 's-recipe-card', 's-info', 's-meta', 's-tag', 's-btn');
             container.innerHTML += cardHTML;
         });
@@ -539,9 +517,7 @@ async function searchByTitle(titleQuery) {
 function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='recipe-info', metaClass='recipe-meta', tagClass='tag', btnClass='view-btn') {
     let imagePath = 'https://placehold.co/400x300?text=No+Image';
     
-    // Check if recipe has an image and fetch from Supabase
     if (recipe.main_image) {
-        // Ensure supabaseClient is defined at the top of your file!
         const { data } = supabaseClient
             .storage
             .from('recipe-images') 
@@ -549,7 +525,6 @@ function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='r
         imagePath = data.publicUrl;
     }
 
-    // Return the HTML string
     return `
         <div class="${cardClass}">
             <img src="${imagePath}" alt="${recipe.title}" style="width:100%; height:200px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300?text=Image+Error'">
@@ -576,7 +551,6 @@ async function loadCommunityFeed() {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/forums/home`);
         
-        // Handle empty
         if (response.status === 404 || (response.status === 200 && (await response.clone().json()).message)) {
             container.innerHTML = '<p style="text-align:center; padding:20px;">No posts yet.</p>';
             return;
@@ -585,34 +559,45 @@ async function loadCommunityFeed() {
         const posts = await response.json();
         container.innerHTML = '';
 
-        posts.forEach(post => {
-            //   : ROBUST AVATAR LOGIC 
-            // 1. Default Fallback (First letter of name)
-            let avatar = `https://placehold.co/50?text=${post.author_name.charAt(0).toUpperCase()}`;
+        const formatTime = (dateStr) => {
+            if (!dateStr) return '';
             
+            let date = new Date(dateStr);
+
+            if (isNaN(date.getTime())) {
+                date = new Date(dateStr + 'Z');
+            }
+
+            if (isNaN(date.getTime())) {
+                return dateStr; 
+            }
+
+            return date.toLocaleString(undefined, {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        };
+
+        posts.forEach(post => {
+            const dateStr = formatTime(post.created_at);
+
+            let avatar = `https://placehold.co/50?text=${post.author_name.charAt(0).toUpperCase()}`;
             if (post.author_avatar) {
-                 // Case A: Full URL (e.g. Google Auth)
                  if(post.author_avatar.startsWith('http')) {
                      avatar = post.author_avatar;
-                 } 
-                 // Case B: Supabase Path (e.g. "profiles/abc.jpg")
-                 else {
+                 } else {
                      const { data } = supabaseClient.storage
-                        .from('profile-pics') // Ensure this matches your bucket name
+                        .from('profile-pics') 
                         .getPublicUrl(post.author_avatar);
                      avatar = data.publicUrl;
                  }
             }
-
-            // 2. Media Logic
             let mediaHTML = '';
             if (post.media && post.media.url) {
                 if (post.media.type === 'image') {
                     mediaHTML = `
                         <div class="post-image-container">
-                            <img src="${post.media.url}" 
-                                 style="width:100%; height:100%; object-fit:cover;"
-                                 onerror="this.style.display='none'">
+                            <img src="${post.media.url}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'">
                         </div>`;
                 } else if (post.media.type === 'video') {
                     mediaHTML = `
@@ -624,7 +609,6 @@ async function loadCommunityFeed() {
                 }
             }
 
-            // 3. Build Card
             const postHTML = `
                 <div class="feed-card">
                     <div class="post-header">
@@ -632,7 +616,7 @@ async function loadCommunityFeed() {
                              onerror="this.src='https://placehold.co/50?text=${post.author_name.charAt(0).toUpperCase()}'">
                         <div class="poster-info">
                             <h4>${post.author_name}</h4>
-                            <span>${post.created_at}</span>
+                            <span>${dateStr}</span> 
                         </div>
                     </div>
                     
@@ -680,14 +664,13 @@ if (btnCreatePost) {
         try {
             let mediaData = null;
 
-            // 1. Upload to Supabase (if file exists)
             if (selectedFile) {
                 const fileExt = selectedFile.name.split('.').pop();
                 const fileName = `community/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
 
                 const { data, error } = await supabaseClient
                     .storage
-                    .from(forum_images) // defined at top of main.js
+                    .from(forum_images)
                     .upload(fileName, selectedFile);
 
                 if (error) throw error;
@@ -698,18 +681,15 @@ if (btnCreatePost) {
                     .getPublicUrl(fileName);
 
                 mediaData = {
-                    type: selectedType, // 'image' or 'video'
+                    type: selectedType,
                     url: urlData.publicUrl
                 };
             }
 
-            // 2. Send JSON to Backend
             const response = await fetch(`${BACKEND_URL}/feature/forums/create-post`, {
                 method: 'POST',
-                //   1: THIS HEADER PREVENTS THE 415 ERROR
                 headers: { 'Content-Type': 'application/json' }, 
                 credentials: 'include',
-                //   2: SEND AS JSON STRING
                 body: JSON.stringify({ 
                     post_content: content,
                     media: mediaData 
@@ -722,9 +702,7 @@ if (btnCreatePost) {
                 return;
             }
 
-            // 3. Handle Response
             if (response.ok) {
-                //alert("Posted successfully!");
 
                 document.getElementById('new-post-content').value = '';
                 if(document.getElementById('clear-media')) document.getElementById('clear-media').click();
@@ -732,18 +710,15 @@ if (btnCreatePost) {
                 selectedFile = null;
                 selectedType = null;
 
-                //loadCommunityFeed(); 
-
                  await loadCommunityFeed(); 
 
-                // ADD FLASH EFFECT TO THE NEWEST POST (First child)
                 const feedContainer = document.getElementById('community-feed-container');
                 const newPost = feedContainer.firstElementChild;
                 if (newPost) {
                     newPost.style.transition = "background-color 0.5s ease";
-                    newPost.style.backgroundColor = "#fff3cd"; // Light orange/yellow flash
+                    newPost.style.backgroundColor = "#fff3cd";
                     setTimeout(() => {
-                        newPost.style.backgroundColor = "#CBB9A4"; // Fade back to normal
+                        newPost.style.backgroundColor = "#CBB9A4";
                     }, 1000);
                 }
 
@@ -765,33 +740,27 @@ if (btnCreatePost) {
 
 
 async function loadCommunityInputAvatar() {
-    // 1. Select the specific avatar inside the create-post-card
     const avatarImg = document.getElementById('current-user-avatar');
     
-    // Safety check: If this element doesn't exist, stop (we are on a different page)
     if (!avatarImg) return;
 
     try {
-        // 2. Ask Backend "Who is logged in?"
         const response = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // Sends the cookie
+            credentials: 'include'
         });
 
         if (response.ok) {
             const user = await response.json();
-            
-            // 3. Define the Fallback (Letter Avatar)
+
             const letter = user.username ? user.username.charAt(0).toUpperCase() : 'U';
             const fallbackSrc = `https://placehold.co/50?text=${letter}`;
 
-            // 4. Update the Image Source
             if (user.avatar_url) {
                 if (user.avatar_url.startsWith('http')) {
                     avatarImg.src = user.avatar_url;
                 } else {
-                    // Resolve Supabase path using your bucket 'profile-pics'
                     const { data } = supabaseClient.storage
                         .from('profile-pics')
                         .getPublicUrl(user.avatar_url);
@@ -801,14 +770,12 @@ async function loadCommunityInputAvatar() {
                 avatarImg.src = fallbackSrc;
             }
 
-            // If the image fails to load (404), switch to the letter
             avatarImg.onerror = function() {
                 this.src = fallbackSrc;
                 this.onerror = null;
             };
 
         } else {
-            // If 401 Unauthorized (Not logged in), show a generic icon
             console.log("User not logged in");
             avatarImg.src = "https://placehold.co/50?text=?";
         }
@@ -819,7 +786,6 @@ async function loadCommunityInputAvatar() {
 
 async function toggleLike(postId) {
     try {
-        // Changed URL from 'create-post' to 'post' to match Python route
         const response = await fetch(`${BACKEND_URL}/feature/forums/post/${postId}/like`, {
             method: 'POST',
             headers: {
@@ -836,12 +802,10 @@ async function toggleLike(postId) {
 
         if (response.ok) {
             const data = await response.json();
-            console.log("Success:", data.message); // "Liked successfully" or "Unliked successfully"
+            console.log("Success:", data.message);
             
-            // Reload the feed to show the new number/color
             loadCommunityFeed(); 
         } else {
-            // If error, print it to console so you know why
             console.error("Like failed with status:", response.status);
             alert("Unable to like post. Check console for details.");
         }
@@ -854,34 +818,48 @@ async function toggleLike(postId) {
 
 
 
-let selectedFile = null; // Stores the file user picked
-let selectedType = null; // 'image' or 'video'
+let selectedFile = null;
+let selectedType = null;
 
-// 1. Setup File Inputs
 const btnPhoto = document.getElementById('btn-photo');
-const btnVideo = document.getElementById('btn-video');
-const inputPhoto = document.getElementById('file-input-photo');
-const inputVideo = document.getElementById('file-input-video');
-const previewArea = document.getElementById('media-preview');
+const fileInputPhoto = document.getElementById('file-input-photo');
+const mediaPreview = document.getElementById('media-preview');
 const fileNameDisplay = document.getElementById('file-name');
-const clearMediaBtn = document.getElementById('clear-media');
+const btnClearMedia = document.getElementById('clear-media');
 
-if (btnPhoto && btnVideo) {
-    // Trigger Hidden Inputs
-    btnPhoto.addEventListener('click', () => inputPhoto.click());
-    btnVideo.addEventListener('click', () => inputVideo.click());
+if (btnPhoto && fileInputPhoto) {
+    btnPhoto.addEventListener('click', () => {
+        fileInputPhoto.click(); 
+    });
+}
 
-    // Handle Image Selection
-    inputPhoto.addEventListener('change', (e) => handleFileSelect(e, 'image'));
-    inputVideo.addEventListener('change', (e) => handleFileSelect(e, 'video'));
+if (fileInputPhoto) {
+    fileInputPhoto.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                return;
+            }
 
-    // Clear Selection
-    clearMediaBtn.addEventListener('click', () => {
+            selectedFile = file;
+            selectedType = 'image';
+
+            if (fileNameDisplay) fileNameDisplay.textContent = file.name;
+            if (mediaPreview) mediaPreview.style.display = 'block';
+        }
+    });
+}
+
+if (btnClearMedia) {
+    btnClearMedia.addEventListener('click', () => {
         selectedFile = null;
         selectedType = null;
-        previewArea.style.display = 'none';
-        inputPhoto.value = ''; // Reset inputs
-        inputVideo.value = '';
+        
+        if (fileInputPhoto) fileInputPhoto.value = '';
+        
+        if (mediaPreview) mediaPreview.style.display = 'none';
     });
 }
 
@@ -890,7 +868,6 @@ function handleFileSelect(e, type) {
         selectedFile = e.target.files[0];
         selectedType = type;
         
-        // Show Preview Text
         previewArea.style.display = 'block';
         fileNameDisplay.innerText = `${type.toUpperCase()}: ${selectedFile.name}`;
     }
@@ -900,19 +877,15 @@ const ingredientSearchForm = document.getElementById('ingredientSearchForm');
 
 if (ingredientSearchForm) {
     ingForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Stop page reload
+        e.preventDefault(); 
         
-        // 1. Get the text directly from the input box
         const inputVal = document.getElementById('ingredientSearchInput').value;
         
-        // 2. Validate
         if (!inputVal || inputVal.trim() === '') {
             alert("Please enter an ingredient (e.g. Chicken)!");
             return;
         }
 
-        // 3. Run the search
-        // The backend expects comma-separated text like "chicken, garlic"
         console.log("Searching for:", inputVal);
         await searchByIngredients(inputVal);
     });
@@ -933,47 +906,39 @@ window.runIngredientSearch = async function() {
         return;
     }
     
-    // Call the existing logic
     await searchByIngredients(value);
 }
 
-// Ensure the Enter key also works
 window.handleEnterKey = function(event) {
     if (event.key === "Enter") {
-        event.preventDefault(); // Stop form submit
-        window.runIngredientSearch(); // Run search
+        event.preventDefault();
+        window.runIngredientSearch();
     }
 }
 
 async function loadUserProfile() {
-    // 1. Check for elements on EITHER Profile page OR Settings page
     const profileName = document.getElementById('profile-name');
     const settingsUsernameInput = document.getElementById('current-username');
 
-    // If neither exists, stop (we are on a different page)
     if (!profileName && !settingsUsernameInput) return;
 
     try {
-        // 2. Get User Info from Backend
-        const userResponse = await fetch(`${BACKEND_URL}/user/profile`, { // Ensure this matches your backend route
+        const userResponse = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         });
 
-        if (!userResponse.ok) return; // Not logged in
+        if (!userResponse.ok) return;
 
         const user = await userResponse.json();
 
-        // 3. Update PROFILE PAGE (If active)
         if (profileName) {
-            // A. Update Text Info
             profileName.innerText = user.username || "Chef";
             if(document.getElementById('profile-bio')) {
                 document.getElementById('profile-bio').innerText = user.bio || "No bio yet.";
             }
             
-            // B. Update Avatar
             const avatarImg = document.getElementById('profile-avatar');
             if (avatarImg && user.avatar_url) {
                  if (user.avatar_url.startsWith('http')) {
@@ -984,10 +949,8 @@ async function loadUserProfile() {
                 }
             }
 
-            // Update Cover Photo 
             const coverImg = document.querySelector('.profile-cover img');
             if (coverImg && user.cover_url) {
-                // Check if it's a full link or Supabase path
                 if (user.cover_url.startsWith('http')) {
                     coverImg.src = user.cover_url;
                 } else {
@@ -996,11 +959,9 @@ async function loadUserProfile() {
                 }
             }
 
-            // D. Load User's Posts
             loadUserPosts(user.user_id, user.username, user.avatar_url);
         }
 
-        // 4. Update Settings Page (If active)
         if (settingsUsernameInput) {
             settingsUsernameInput.value = user.username; 
         }
@@ -1014,7 +975,6 @@ async function loadUserPosts(userId, profileUsername, profileAvatar) {
     const container = document.getElementById('profile-posts-container');
     if (!container) return;
 
-    // Show loading spinner while fetching
     container.innerHTML = `
         <div style="text-align:center; padding:20px; color:#666;">
             <i class="fas fa-spinner fa-spin"></i> Loading posts...
@@ -1030,7 +990,6 @@ async function loadUserPosts(userId, profileUsername, profileAvatar) {
 
         const data = await response.json();
 
-        // Check if posts exist
         if (!data.posts || data.posts.length === 0) {
             container.innerHTML = `
                 <div style="text-align:center; padding:30px; background:white; border-radius:12px;">
@@ -1040,32 +999,50 @@ async function loadUserPosts(userId, profileUsername, profileAvatar) {
             return;
         }
 
-        container.innerHTML = ''; // Clear loader
+        const formatTime = (dateStr) => {
+            if (!dateStr) return '';
+            
+            let date = new Date(dateStr);
+            
+            if (isNaN(date.getTime())) {
+                date = new Date(dateStr + 'Z');
+            }
+
+            if (isNaN(date.getTime())) {
+                return dateStr;
+            }
+
+            return date.toLocaleString(undefined, {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        };
+
+        data.posts.sort((a, b) => {
+            const dateA = new Date(a.created_at || 0);
+            const dateB = new Date(b.created_at || 0);
+            return dateB - dateA;
+        });
+
+        container.innerHTML = '';
 
         data.posts.forEach(post => {
-            // 1. Format Date
-            const dateStr = new Date(post.created_at).toLocaleDateString(undefined, {
-                year: 'numeric', month: 'short', day: 'numeric'
-            });
+            const dateStr = formatTime(post.created_at);
 
-            // 2. Handle Avatar
             const displayAuthor = post.author_name || profileUsername || 'Chef';
-           
-            let avatar = 'https://placehold.co/50?text=U';
             
+            let avatar = 'https://placehold.co/50?text=U';
             const avatarSource = post.author_avatar || profileAvatar;
-           
+            
             if (avatarSource) {
                  if(avatarSource.startsWith('http')) {
                      avatar = avatarSource;
                  } else {
-                     // If using Supabase storage
                      const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(avatarSource);
                      avatar = data.publicUrl;
                  }
             }
 
-            // 3. Handle Media (Image/Video)
             let mediaHTML = '';
             if (post.media && post.media.url) {
                 if (post.media.type === 'video') {
@@ -1081,7 +1058,6 @@ async function loadUserPosts(userId, profileUsername, profileAvatar) {
                 }
             }
 
-            // 4. Build the HTML (Added onclick redirect and stopPropagation)
             const cardHTML = `
                 <div class="profile-feed-card" onclick="window.location.href='commentPage.html?id=${post.post_id}'">
                     <div class="p-card-header">
@@ -1117,7 +1093,7 @@ async function loadUserPosts(userId, profileUsername, profileAvatar) {
     }
 }
 
-const CORRECT_BUCKET_NAME = 'recipe-images'; // Adjust as needed
+const CORRECT_BUCKET_NAME = 'recipe-images';
 async function loadTutorialCards() {
     const container = document.getElementById('tutorialContainer');
     if (!container) return; 
@@ -1139,12 +1115,11 @@ async function loadTutorialCards() {
             if (tutorial.thumbnail) {
                 const { data } = supabaseClient
                     .storage
-                    .from('comm-media') // ✅ Correct bucket
+                    .from('comm-media')
                     .getPublicUrl(tutorial.thumbnail); 
                 
                 thumbnailPath = data.publicUrl;
                 
-                //  DEBUG: Print the link to the console
                 console.log(`Tutorial: ${tutorial.title}`);
                 console.log(`DB Filename: ${tutorial.thumbnail}`);
                 console.log(`Generated URL: ${thumbnailPath}`);
@@ -1185,7 +1160,6 @@ async function loadTutorialDetails() {
 
         const tutorial = await response.json();
 
-        // Use 'thumbnail' to match the backend
         let thumbnailPath = 'https://placehold.co/1000x500?text=No+Image';
         
         if (tutorial.thumbnail) { 
@@ -1196,24 +1170,21 @@ async function loadTutorialDetails() {
             thumbnailPath = data.publicUrl;
         }
         
-        // Update HTML Elements
         const imgElement = document.getElementById('tutorial-thumbnail');
         if (imgElement) {
             imgElement.src = thumbnailPath;
-            imgElement.onerror = null; // Stop loop if error
+            imgElement.onerror = null;
         }
 
         document.getElementById('tutorial-title').innerText = tutorial.title;
         document.getElementById('tutorial-subtitle').innerText = tutorial.subtitle || '';
         document.getElementById('tutorial-time').innerText = tutorial.duration || "-- min";
         
-        // Update Video
         const videoFrame = document.getElementById('tutorial-video-frame');
         if (videoFrame && tutorial.video_url) {
             videoFrame.src = tutorial.video_url; 
         }
 
-        // Update Content
         const contentArea = document.getElementById('tutorial-content-area');
         if (contentArea) {
              contentArea.innerHTML = `<p>${tutorial.content_steps}</p>`;
@@ -1239,26 +1210,21 @@ function setupVideoModal() {
 
     if (!modal || !btn) return;
 
-    // Open Modal
     btn.onclick = function() {
         modal.style.display = "flex";
-        // specific logic to ensure video plays or loads
         const videoSrc = iframe.getAttribute('data-src') || iframe.src;
         if (videoSrc) {
             iframe.src = videoSrc;
         }
     }
 
-    // Close Modal
     const closeModal = () => {
         modal.style.display = "none";
-        // Stop video by resetting src
         iframe.src = "about:blank"; 
     }
 
     if (closeBtn) closeBtn.onclick = closeModal;
 
-    // Close if clicking outside the video box
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
@@ -1274,68 +1240,44 @@ async function loadSearchPageTutorials() {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
         const tutorials = await response.json();
-
         renderTutorialCards(tutorials, container);
-
     } catch (error) {
         console.error("Error loading tutorials:", error);
-        container.innerHTML = '<p>Error loading content.</p>';
     }
 }
 
-async function searchTutorials(query) {
-    const container = document.getElementById('tutorialResultsContainer');
-    if (!container) return;
 
-    container.innerHTML = '<p style="text-align:center;">Searching...</p>';
-
-    try {
-        // Use the search route you defined in Python
-        const response = await fetch(`${BACKEND_URL}/feature/tutorials/search/${query}`);
-        const tutorials = await response.json();
-
-        if (tutorials.message || tutorials.length === 0) {
-            container.innerHTML = '<p style="text-align:center;">No tutorials found.</p>';
-            return;
-        }
-
-        renderTutorialCards(tutorials, container);
-
-    } catch (error) {
-        console.error("Search error:", error);
-    }
-}
-
-// Helper to draw the cards (Reused by both functions above)
 function renderTutorialCards(list, container) {
+    if (!container) return;
     container.innerHTML = '';
     
-    if (list.length === 0) {
-        container.innerHTML = '<p>No tutorials found.</p>';
+    if (!list || !Array.isArray(list)) {
+        container.innerHTML = '<p>No content available.</p>';
         return;
     }
 
     list.forEach(tutorial => {
-        let thumbnailPath = 'https://placehold.co/400x250?text=Tutorial';
+        let imageSrc = 'https://placehold.co/400x250?text=KusinaSeekr';
         
-        // Check 'thumbnail' to match your DB column name
         if (tutorial.thumbnail) {
-            const { data } = supabaseClient
-                .storage
-                .from(TUTORIAL_BUCKET)
-                .getPublicUrl(tutorial.thumbnail); 
-            thumbnailPath = data.publicUrl;
+            if (tutorial.thumbnail.startsWith('http')) {
+                imageSrc = tutorial.thumbnail;
+            } else {
+                const bucket = (typeof TUTORIAL_BUCKET !== 'undefined') ? TUTORIAL_BUCKET : 'comm-media'; 
+                const { data } = supabaseClient.storage.from(bucket).getPublicUrl(tutorial.thumbnail); 
+                imageSrc = data.publicUrl;
+            }
         }
 
         const cardHTML = `
             <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
                 <div class="tutorial-img-wrap">
-                    <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
+                    <img src="${imageSrc}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
                     <div class="play-icon">▶</div>
                 </div>
                 <div class="tutorial-details">
                     <h3>${tutorial.title}</h3>
-                    <p>${tutorial.subtitle || ''}</p>
+                    <p>${tutorial.subtitle || tutorial.short_description || ''}</p>
                 </div>
             </div>
         `;
@@ -1343,7 +1285,6 @@ function renderTutorialCards(list, container) {
     });
 }
 
-//  CONNECT THE SEARCH BAR
 const tutorialSearchForm = document.getElementById('tutorialSearchForm');
 if (tutorialSearchForm) {
     tutorialSearchForm.addEventListener('submit', (e) => {
@@ -1352,17 +1293,15 @@ if (tutorialSearchForm) {
         if (query.trim()) {
             searchTutorials(query);
         } else {
-            loadSearchPageTutorials(); // Reload all if empty
+            loadSearchPageTutorials();
         }
     });
 }
 
 async function toggleSave(id, type) {
-    // type should be 'recipes' or 'tutorials'
     const btn = document.getElementById('save-btn');
     const icon = btn.querySelector('i');
     
-    // Determine current state based on icon class (far = empty, fas = solid)
     const isSaved = icon.classList.contains('fas');
     const action = isSaved ? 'unsave' : 'save';
 
@@ -1370,7 +1309,7 @@ async function toggleSave(id, type) {
         const response = await fetch(`${BACKEND_URL}/feature/${type}/${id}/${action}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' //  Needs cookie
+            credentials: 'include'
         });
 
         if (response.status === 401) {
@@ -1380,14 +1319,11 @@ async function toggleSave(id, type) {
         }
 
         if (response.ok) {
-            // Toggle Icon Visuals
             if (isSaved) {
-                // Unsaved
                 icon.classList.remove('fas');
                 icon.classList.add('far');
                 btn.innerHTML = `<i class="far fa-bookmark"></i> Save`;
             } else {
-                // Saved
                 icon.classList.remove('far');
                 icon.classList.add('fas');
                 btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved`;
@@ -1400,19 +1336,16 @@ async function toggleSave(id, type) {
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    //  1. Handle Username Update 
     const usernameForm = document.getElementById('username-form');
 
 if (usernameForm) {
     usernameForm.addEventListener('submit', async (e) => {
         e.preventDefault(); 
 
-        // Get the data
         const currentUsernameField = document.getElementById('current-username');
         const newUsernameInput = document.getElementById('new-username');
         const newUsername = newUsernameInput.value;
 
-        // Basic validation
         if(!newUsername.trim()) {
             alert("Please enter a valid username.");
             return;
@@ -1424,15 +1357,11 @@ if (usernameForm) {
         submitBtn.disabled = true;
 
         try {
-            // URL must match your python route (@user_bp.route("/profile"))
-            // Assuming your blueprint prefix is '/user', the full path is '/user/profile'
             const response = await fetch(`${BACKEND_URL}/user/profile`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // Essential for @jwt_required() to find the user
+                credentials: 'include',
                 
-                // Send exactly what the backend expects ("username")
-                // Your backend code says: if "username" in data: user.username = data["username"]
                 body: JSON.stringify({
                     username: newUsername
                 })
@@ -1442,7 +1371,7 @@ if (usernameForm) {
 
             if (response.ok) {
                 alert('Username updated successfully!');
-                currentUsernameField.value = newUsername; // Update the display with the new name
+                currentUsernameField.value = newUsername;
                 newUsernameInput.value = ''; 
             } else {
                 alert(`Error: ${data.message || 'Failed to update'}`);
@@ -1458,14 +1387,12 @@ if (usernameForm) {
         });
     }
 
-    //  2. Handle Password Update (WITH SECURITY CHECK) 
     const passwordForm = document.getElementById('password-form');
 
 if (passwordForm) {
     passwordForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // 1. Gather Data
         const currentPassInput = document.getElementById('current-pass');
         const newPassInput = document.getElementById('new-pass');
         const confirmPassInput = document.getElementById('confirm-pass');
@@ -1474,7 +1401,6 @@ if (passwordForm) {
         const newPass = newPassInput.value;
         const confirmPass = confirmPassInput.value;
 
-        // 2. Validation
         if (newPass !== confirmPass) {
             return alert("New passwords do not match!");
         }
@@ -1488,13 +1414,10 @@ if (passwordForm) {
         submitBtn.disabled = true;
 
         try {
-            // Use '/auth/change-password' (Matches Blueprint)
-            // Use 'POST' (Matches Python route)
             const response = await fetch(`${BACKEND_URL}/auth/change-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // Important for JWT
-                // Use 'old_password' to match Python's data.get("old_password")
+                credentials: 'include',
                 body: JSON.stringify({
                     old_password: currentPass, 
                     new_password: newPass
@@ -1505,7 +1428,6 @@ if (passwordForm) {
 
             if (response.ok) {
                 alert('Password changed successfully!');
-                // Clear inputs
                 currentPassInput.value = '';
                 newPassInput.value = '';
                 confirmPassInput.value = '';
@@ -1535,24 +1457,35 @@ function setupBioEdit() {
 
     if (!btn || !bioText) return;
 
-    btn.addEventListener('click', async () => {
-        // Check if we are currently editing
+    if (btn.dataset.hasListener === "true") {
+        return;
+    }
+
+    btn.dataset.hasListener = "true";
+
+    btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
         const isEditing = btn.classList.contains('editing');
 
         if (!isEditing) {
-            //  SWITCH TO EDIT MODE 
-            const currentBio = bioText.innerText === "No bio yet." ? "" : bioText.innerText;
-            
-            // Replace text with a textarea
+            let currentBio = bioText.innerText.trim();
+            if (currentBio === "No bio yet.") currentBio = "";
+
             bioText.innerHTML = `<textarea id="bio-input" class="bio-textarea" placeholder="Tell us about your kitchen...">${currentBio}</textarea>`;
             
-            // Change button to "Save"
             btn.innerText = "Save Bio";
             btn.classList.add('editing');
             
         } else {
-            //  SAVE CHANGES 
             const input = document.getElementById('bio-input');
+            
+            if (!input) {
+                btn.classList.remove('editing');
+                btn.innerText = "Edit Bio";
+                return; 
+            }
+
             const newBio = input.value;
             const originalText = btn.innerText;
 
@@ -1560,28 +1493,25 @@ function setupBioEdit() {
             btn.disabled = true;
 
             try {
-                // Send PUT request to backend
-                // Note: We use /user/profile based on your user_bp
                 const response = await fetch(`${BACKEND_URL}/user/profile`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({ bio: newBio }) // Only sending bio!
+                    body: JSON.stringify({ bio: newBio })
                 });
 
                 if (response.ok) {
-                    // Success! Switch back to text view
                     bioText.innerHTML = newBio || "No bio yet.";
                     btn.innerText = "Edit Bio";
                     btn.classList.remove('editing');
                 } else {
                     alert("Failed to save bio.");
-                    btn.innerText = originalText;
+                    btn.innerText = "Save Bio";
                 }
             } catch (error) {
                 console.error("Bio save error:", error);
                 alert("Network error.");
-                btn.innerText = originalText;
+                btn.innerText = "Save Bio";
             } finally {
                 btn.disabled = false;
             }
@@ -1590,7 +1520,6 @@ function setupBioEdit() {
 }
 
 function setupProfileImageUploads() {
-    // 1. Select Elements
     const btnEditCover = document.querySelector('.edit-cover-btn');
     const btnEditAvatar = document.querySelector('.edit-avatar-btn');
     
@@ -1600,52 +1529,37 @@ function setupProfileImageUploads() {
     const imgCover = document.querySelector('.profile-cover img');
     const imgAvatar = document.getElementById('profile-avatar');
 
-    // Safety check to ensure elements exist
     if (!btnEditCover || !btnEditAvatar) return;
 
-    //  A. COVER PHOTO LOGIC 
-    // Clicking "Edit Cover" opens the hidden file input
     btnEditCover.addEventListener('click', () => inputCover.click());
 
-    // When a file is chosen...
     inputCover.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        // Upload to 'cover' folder
         await handleImageUpload(file, 'cover', btnEditCover, imgCover);
     });
 
-    //  B. AVATAR PHOTO LOGIC 
-    // Clicking "Camera Icon" opens the hidden file input
     btnEditAvatar.addEventListener('click', () => inputAvatar.click());
 
-    // When a file is chosen...
     inputAvatar.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        // Upload to 'profiles' folder (since you named it profiles)
         await handleImageUpload(file, 'avatar', btnEditAvatar, imgAvatar);
     });
 }
 
-//  Reusable Upload & Update Function 
 async function handleImageUpload(file, type, btnElement, imgElement) {
     const originalText = btnElement.innerHTML;
-    // Show a loading spinner on the button
     btnElement.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`; 
     btnElement.disabled = true;
 
     try {
         const fileExt = file.name.split('.').pop();
         
-        //  FOLDER MAPPING:
-        // If type is 'cover' -> use 'cover' folder
-        // If type is 'avatar' -> use 'profiles' folder
         const folderName = type === 'cover' ? 'cover' : 'profiles';
         
         const fileName = `${folderName}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
         
-        //  Upload to 'profile-pics' bucket
         const { data, error } = await supabaseClient
             .storage
             .from('profile-pics') 
@@ -1653,7 +1567,6 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
 
         if (error) throw error;
 
-        //  Get Public URL
         const { data: urlData } = supabaseClient
             .storage
             .from('profile-pics')
@@ -1661,13 +1574,10 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
 
         const publicUrl = urlData.publicUrl;
 
-        // 4. Send URL to Backend
-        // Choose the correct Python route
         const endpoint = type === 'cover' 
             ? '/user/profile-cover/update' 
             : '/user/profile-avatar/update';
         
-        // Create the correct JSON payload
         const payload = type === 'cover' 
             ? { cover_url: publicUrl } 
             : { avatar_url: publicUrl };
@@ -1680,10 +1590,8 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
         });
 
         if (response.ok) {
-            // Update the image on screen immediately
             const timestamp = new Date().getTime();
             imgElement.src = `${publicUrl}?t=${timestamp}`; 
-           // imgElement.src = publicUrl; 
             alert(`${type === 'cover' ? 'Cover' : 'Avatar'} updated successfully!`);
         } else {
             const err = await response.json();
@@ -1694,7 +1602,6 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
         console.error("Upload error:", error);
         alert("Upload failed. Check console details.");
     } finally {
-        // Reset the button text
         btnElement.innerHTML = originalText;
         btnElement.disabled = false;
     }
@@ -1722,51 +1629,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         isUserLoggedIn = loginBtn && loginBtn.innerText === "Log Out";
     }
 
-    const isRestrictedPage = window.location.href.includes('community.html') || window.location.href.includes('profile.html');
+    const isRestrictedPage = window.location.href.includes('profile.html');
     
     if (isRestrictedPage && !isUserLoggedIn) {
         alert("You need an account to access this page.");
-        // Try to redirect to Login. Since paths vary, we try an absolute path or go Home.
-        // Assuming your server serves /Page/Logging/login.html correctly:
         window.location.href = "/Page/Logging/login.html"; 
         return; // Stop execution of further loading scripts
     }
 
-    // B. Intercept clicks on links to restricted pages
     document.body.addEventListener('click', (e) => {
-        const target = e.target.closest('a'); // Find closest anchor tag
+        const target = e.target.closest('a');
         if (target) {
             const href = target.getAttribute('href');
-            if (href && (href.includes('community.html') || href.includes('profile.html'))) {
-                // We re-check the button just in case state changed (e.g. logout)
+            if (href && href.includes('profile.html')) {
                 const loginBtn = document.querySelector('.lg-button');
                 const loggedIn = loginBtn && loginBtn.innerText === "Log Out";
                 
                 if (!loggedIn) {
-                    e.preventDefault(); // Stop navigation
+                    e.preventDefault();
                     alert("You need an account to access this page.");
                 }
             }
         }
     });
-    // -----------------------------
 
-    // 2. Load Data (Only if we didn't return above)
     await loadRecipes();     
     loadSearchPageRecipes(); 
 
-    // 1. Check if we are on the comment page by looking for the specific container
     if (document.querySelector('.discussion-container')) {
         
-        // 2. Get Post ID from URL (e.g., comment.html?id=123)
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
         if (postId) {
             await loadDiscussionPage(postId);
-            setupCommentForm(postId); // Setup the submit listener
+            setupCommentForm(postId);
 
-            loadCommenterIdentity(); // Load the commenter's name and avatar
+            loadCommenterIdentity();
         } else {
             document.querySelector('.discussion-container').innerHTML = '<p>Post not found.</p>';
         }
@@ -1774,130 +1673,129 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadDiscussionPage(postId) {
+    const content = document.getElementById('discussion-container');
+    const loader = document.getElementById('loading-msg');
+
     try {
+        console.log("Fetching post:", postId); 
+
         const response = await fetch(`${BACKEND_URL}/feature/forums/post/${postId}`);
         
-        if (!response.ok) throw new Error("Failed to load post");
+        if (!response.ok) {
+            throw new Error("Failed to load post");
+        }
 
         const data = await response.json();
         const post = data.forum_content;
         const comments = data.comments;
 
-        // A. Fill in the Main Post Content
-        document.querySelector('.post-title-large').innerText = post.content.substring(0, 50) + "..."; 
-        document.querySelector('.post-body-text').innerText = post.content;
-        document.querySelector('.vote-count').innerText = post.likes;
+        const formatTime = (dateStr) => {
+            if (!dateStr) return '';
+            let date = new Date(dateStr);
+            if (isNaN(date.getTime())) date = new Date(dateStr + 'Z');
+            if (isNaN(date.getTime())) return dateStr;
+            
+            return date.toLocaleString(undefined, {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        };
 
-        // ROBUST IDENTITY HANDLING
-        const posterAvatar = document.querySelector('.expanded-post .user-avatar-sm');
+
+        const titleEl = document.querySelector('.post-title-large');
+        const bodyEl = document.querySelector('.post-body-text');
+        const voteEl = document.querySelector('.vote-count');
+        
+        if (titleEl) titleEl.innerText = post.content.substring(0, 50) + "..."; 
+        if (bodyEl) bodyEl.innerText = post.content;
+        if (voteEl) voteEl.innerText = post.likes;
+
         const posterName = document.querySelector('.expanded-post .poster-info h4');
         const posterTime = document.querySelector('.expanded-post .poster-info span');
+        const posterAvatar = document.querySelector('.expanded-post .user-avatar-sm');
 
-        // 1. Set Name & Time
-        const safeName = post.author_name || "Unknown";
-        if(posterName) posterName.innerText = safeName;
-        if(posterTime) posterTime.innerText = new Date(post.created_at).toLocaleString();
+        if (posterName) posterName.innerText = post.author_name || "Unknown";
+        if (posterTime) posterTime.innerText = formatTime(post.created_at);
 
-        // 2. Set Avatar with Debugging & Safety Net
         if (posterAvatar) {
-            console.log("Avatar Data from DB:", post.author_avatar); //  CHECK THIS IN CONSOLE
-
-            // Default Placeholder
-            const fallbackSrc = `https://placehold.co/50?text=${safeName.charAt(0).toUpperCase()}`;
+            const fallbackSrc = `https://placehold.co/50?text=${(post.author_name || 'U').charAt(0)}`;
+            let avatarSrc = fallbackSrc;
 
             if (post.author_avatar) {
-                // Case A: Full URL (e.g. Google Auth)
                 if (post.author_avatar.startsWith('http')) {
-                    posterAvatar.src = post.author_avatar;
-                } 
-                // Case B: Supabase Path (e.g. "profiles/abc.jpg")
-                else {
-                    //  ENSURE 'profile-pics' MATCHES YOUR BUCKET NAME EXACTLY
-                    const { data } = supabaseClient.storage
-                        .from('profile-pics') 
-                        .getPublicUrl(post.author_avatar);
-                    
-                    console.log("Generated Supabase URL:", data.publicUrl); //  CHECK THIS
-                    posterAvatar.src = data.publicUrl;
+                    avatarSrc = post.author_avatar;
+                } else {
+                    const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(post.author_avatar);
+                    avatarSrc = data.publicUrl;
                 }
-            } else {
-                // Case C: No data in DB
-                posterAvatar.src = fallbackSrc;
             }
-
-            //  If the image fails to load (404), switch to letter
-            posterAvatar.onerror = function() {
-                console.warn("Avatar failed to load, switching to fallback.");
-                this.src = fallbackSrc;
-                this.onerror = null; // Prevent infinite loop
-            };
+            posterAvatar.src = avatarSrc;
+            posterAvatar.onerror = () => { posterAvatar.src = fallbackSrc; };
         }
 
-        //  C. Media Handling 
         const imgContainer = document.querySelector('.post-image-container');
-        if (post.media && post.media.url) {
-            imgContainer.style.display = 'flex';
-            if (post.media.type === 'video') {
-                 imgContainer.innerHTML = `<video controls src="${post.media.url}"></video>`;
+        if (imgContainer) {
+            if (post.media && post.media.url) {
+                imgContainer.style.display = 'flex';
+                imgContainer.innerHTML = post.media.type === 'video' 
+                    ? `<video controls src="${post.media.url}" style="width:100%"></video>`
+                    : `<img src="${post.media.url}" alt="Post Image" style="width:100%">`;
             } else {
-                 imgContainer.innerHTML = `<img src="${post.media.url}" alt="Post Image">`;
+                imgContainer.style.display = 'none';
             }
-        } else {
-            imgContainer.style.display = 'none';
         }
 
-        //  D. Render Comments 
         const commentThread = document.querySelector('.comments-thread');
-        const filterHTML = document.querySelector('.comments-filter').outerHTML; 
-        commentThread.innerHTML = filterHTML; 
+        if (commentThread) {
+            const filterDiv = document.querySelector('.comments-filter');
+            commentThread.innerHTML = filterDiv ? filterDiv.outerHTML : ''; 
 
-        if (comments.length === 0) {
-            commentThread.innerHTML += '<p style="text-align:center; margin-top:20px;">No comments yet.</p>';
-        } else {
-            comments.forEach(comment => {
-                const dateStr = new Date(comment.created_at).toLocaleDateString();
-                const letter = comment.username ? comment.username.charAt(0).toUpperCase() : 'U';
-                
-                // Logic for Commenter Avatar
-                let commenterSrc = `https://placehold.co/40?text=${letter}`;
-                if (comment.commenter_avatar) {
-                     if(comment.commenter_avatar.startsWith('http')) {
-                         commenterSrc = comment.commenter_avatar;
-                     } else {
-                         const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(comment.commenter_avatar);
-                         commenterSrc = data.publicUrl;
-                     }
-                }
+            if (comments.length === 0) {
+                commentThread.innerHTML += '<p style="text-align:center; margin-top:20px;">No comments yet.</p>';
+            } else {
+                comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-                const commentHTML = `
-                    <div class="comment-node">
-                        <div class="comment-avatar">
-                            <img src="${commenterSrc}" onerror="this.src='https://placehold.co/40?text=${letter}'">
-                        </div>
-                        <div class="comment-content">
-                            <div class="comment-meta">
-                                <strong>${comment.username}</strong> • <span>${dateStr}</span>
+                comments.forEach(comment => {
+                    const dateStr = formatTime(comment.created_at);
+                    const letter = (comment.username || 'U').charAt(0).toUpperCase();
+                    
+                    let commenterSrc = `https://placehold.co/40?text=${letter}`;
+                    if (comment.commenter_avatar) {
+                        if (comment.commenter_avatar.startsWith('http')) {
+                            commenterSrc = comment.commenter_avatar;
+                        } else {
+                            const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(comment.commenter_avatar);
+                            commenterSrc = data.publicUrl;
+                        }
+                    }
+
+                    const commentHTML = `
+                        <div class="comment-node">
+                            <div class="comment-avatar">
+                                <img src="${commenterSrc}" onerror="this.src='https://placehold.co/40?text=${letter}'">
                             </div>
-                            <p>${comment.comment_text}</p>
+                            <div class="comment-content">
+                                <div class="comment-meta">
+                                    <strong>${comment.username || 'Unknown'}</strong> • <span>${dateStr}</span>
+                                </div>
+                                <p>${comment.comment_text}</p>
+                            </div>
                         </div>
-                    </div>
-                `;
-                commentThread.innerHTML += commentHTML;
-            });
+                    `;
+                    commentThread.innerHTML += commentHTML;
+                });
+            }
         }
 
-        // NEW: Unhide the content and hide the loader
-        const loader = document.getElementById('loading-msg');
-        const content = document.getElementById('discussion-container');
-        
         if (loader) loader.style.display = 'none';
         if (content) content.style.display = 'block';
 
     } catch (error) {
         console.error("Error loading discussion:", error);
+        if (loader) loader.innerText = "Error loading post. Please try again.";
     }
 }
-//  C. Handle New Comment Submission 
+
 function setupCommentForm(postId) {
     const form = document.getElementById('commentForm');
     if (!form) return;
@@ -1919,14 +1817,12 @@ function setupCommentForm(postId) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                // Changed key to 'comment_content' to match your Python code
                 body: JSON.stringify({ comment_content: text }) 
             });
 
             if (response.ok) {
-                // Reload the page content to show the new comment
                 await loadDiscussionPage(postId); 
-                textarea.value = ''; // Clear the box
+                textarea.value = '';
             } else {
                 const err = await response.json();
                 alert("Failed to post: " + (err.message || "Error"));
@@ -1942,30 +1838,24 @@ function setupCommentForm(postId) {
 }
 
 async function loadCommenterIdentity() {
-    // 1. Find the HTML element
     const nameEl = document.getElementById('commenter-name');
-    const avatarEl = document.getElementById('commenter-avatar'); // Optional: if you have an avatar img nearby
+    const avatarEl = document.getElementById('commenter-avatar');
 
-    // Safety check: Stop if we aren't on the comment page
     if (!nameEl) return;
 
     try {
-        // 2. Ask Backend for Profile
         const response = await fetch(`${BACKEND_URL}/user/profile`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include' // Sends your login cookie
+            credentials: 'include' 
         });
 
         if (response.ok) {
             const user = await response.json();
             
-            // 3. Update the Text
             nameEl.innerText = user.username; 
             
-            // Optional: Update avatar if you have one
             if (avatarEl && user.avatar_url) {
-                 // Check if it's a full link or a Supabase path
                  if (user.avatar_url.startsWith('http')) {
                      avatarEl.src = user.avatar_url;
                  } else {
@@ -1974,11 +1864,8 @@ async function loadCommenterIdentity() {
                  }
             }
         } else {
-            // 4. Handle Not Logged In
             nameEl.innerText = "Guest (Please Log In)";
             nameEl.style.color = "gray";
-            
-            // Disable the post button if they aren't logged in
             const btn = document.querySelector('.post-comment-btn');
             if (btn) {
                 btn.disabled = true;
@@ -1989,5 +1876,59 @@ async function loadCommenterIdentity() {
     } catch (error) {
         console.error("Identity load error:", error);
         nameEl.innerText = "Error loading user";
+    }
+}
+function setupTutorialSearch() {
+    const searchForm = document.getElementById('tutorialSearchForm');
+    const searchInput = document.getElementById('tutorialSearchInput');
+
+    if (searchForm && searchInput) {
+        const newForm = searchForm.cloneNode(true);
+        searchForm.parentNode.replaceChild(newForm, searchForm);
+
+        newForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const query = document.getElementById('tutorialSearchInput').value.trim();
+            if (query) {
+                searchTutorials(query);
+            } else {
+                loadSearchPageTutorials();
+            }
+        });
+    }
+}
+
+async function searchTutorials(query) {
+    const container = document.getElementById('tutorialResultsContainer');
+    if (!container) return;
+
+    container.innerHTML = '<p style="text-align:center; margin-top: 20px;">Searching...</p>';
+
+    if (typeof BACKEND_URL === 'undefined') return console.error("BACKEND_URL missing");
+
+    try {
+        const safeQuery = encodeURIComponent(query);
+        const url = `${BACKEND_URL}/feature/tutorials/search?q=${safeQuery}`;
+        
+        console.log("🚀 Fetching:", url); 
+
+        const response = await fetch(url);
+        
+        if (!response.ok) throw new Error(`Server status: ${response.status}`);
+
+        const tutorials = await response.json();
+
+
+        if (tutorials.message || (Array.isArray(tutorials) && tutorials.length === 0)) {
+            container.innerHTML = '<p style="text-align:center; margin-top: 20px;">No tutorials found.</p>';
+            return;
+        }
+
+        renderTutorialCards(tutorials, container);
+
+    } catch (error) {
+        console.error("❌ Search failed:", error);
+        container.innerHTML = `<p style="text-align:center; color: #E2725B;">Error: ${error.message}</p>`;
     }
 }
