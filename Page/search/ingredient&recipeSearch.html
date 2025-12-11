@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </head>
@@ -17,7 +18,7 @@
 
   <header class="site-header">
     <a href="../../../index.html" class="logo-container">
-        <i class="fas fa-utensils logo-icon"></i>
+      <img src="../../images/kusina-logo.jpg" alt="Logo" class="logo-img">
         <h1 class="logo-text">KusinaSeekr</h1>
     </a>
     <button class="burger-menu" id="burger-menu">&#9776;</button>
@@ -27,8 +28,8 @@
                 <li><a href="../../index.html">Home</a></li>
                 <li><a href="#" class="active" style="color: #E2725B;">Recipes</a></li>
                 <li><a href="tutorialSearch.html">Cooking Tutorials</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../community.html">Community</a></li>
+                <li><a href="../profile.html">Profile</a></li>
             </ul>
         </nav>
         <a href="../Logging/login.html" class="lg-button">Log In</a>
@@ -45,8 +46,18 @@
 
     <div id="recipe-view">
         <form class="recipe-search-container" id="recipeSearchForm">
-            <div class="search-input-wrapper">
-                <input type="text" id="recipeSearchInput" placeholder="Search Recipes (e.g. Adobo)">
+            <!-- Merged Search Bar Container -->
+            <div class="search-input-wrapper" style="display: flex; align-items: center; background: white; border: 1px solid #e0e0e0; border-radius: 50px; padding: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto;">
+                
+                <!-- Input Field (No Borders) -->
+                <input type="text" id="recipeSearchInput" placeholder="Search Recipes (e.g. Adobo)" 
+                       style="flex: 1; border: none; padding: 15px 20px; border-radius: 50px 0 0 50px; outline: none; font-size: 1rem; background: transparent;">
+                
+                <!-- Search Button (Inside the Pill) -->
+                <button type="submit" class="search-btn" 
+                        style="background-color: #E2725B; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-right: 5px;">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
         </form>
     </div>

@@ -1,8 +1,10 @@
 /* --- Base Styles (Inherits fonts from global) --- */
 .settings-main {
-    max-width: 800px;
+    max-width: 1200px; /* INCREASED: Made wider (was 1000px) to match other wide pages */
     margin: 60px auto;
     padding: 0 20px;
+    width: 100%; /* Ensure it tries to fill the space */
+    box-sizing: border-box;
 }
 
 .settings-header {
@@ -29,6 +31,8 @@
     padding: 40px;
     margin-bottom: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: 100%; /* Explicitly full width of parent */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .section-title {

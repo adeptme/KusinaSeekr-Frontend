@@ -40,6 +40,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupFilters();
     }
 
+        // 6. HOME PAGE INGREDIENT SEARCH REDIRECT
+    // Select the specific form inside the "recipe-box" on the home page
+    const homeIngForm = document.querySelector('.recipe-box form');
+    
+    if (homeIngForm) {
+        homeIngForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inputVal = document.getElementById('ingredient-input').value;
+            
+            if (inputVal.trim()) {
+                // Redirect to search page with ingredients in URL
+                // Using encodeURIComponent to handle spaces and special chars safely
+                window.location.href = `Page/search/ingredient&recipeSearch.html?ingredients=${encodeURIComponent(inputVal)}`;
+            }
+        });
+    }
+
+    // 7. AUTO-RUN INGREDIENT SEARCH FROM URL (For the Search Page)
+    const urlParams = new URLSearchParams(window.location.search);
+    const ingredientsParam = urlParams.get('ingredients');
+    
+    // Check if we are on the search page (ingInput exists) AND have params
+    if (ingredientsParam && document.getElementById('ingInput')) {
+        // Switch tab visually to "Ingredient Search"
+        const btnIngredient = document.getElementById('btn-ingredient');
+        if (btnIngredient) btnIngredient.click();
+
+        // Fill the input box with the data from the URL
+        const ingInput = document.getElementById('ingInput');
+        ingInput.value = decodeURIComponent(ingredientsParam);
+        
+        // Wait a split second for UI to settle, then run the search function
+        setTimeout(() => {
+            searchByIngredients(ingredientsParam);
+        }, 100);
+    }
+
     // 5. INGREDIENT SEARCH LISTENER (New!)
     const ingForm = document.getElementById('ingredientSearchForm');
     const btnAdd = document.getElementById('btnAddIng');
@@ -687,10 +724,30 @@ if (btnCreatePost) {
 
             // 3. Handle Response
             if (response.ok) {
-                alert("Posted successfully!");
+                //alert("Posted successfully!");
+
                 document.getElementById('new-post-content').value = '';
                 if(document.getElementById('clear-media')) document.getElementById('clear-media').click();
-                loadCommunityFeed(); 
+
+                selectedFile = null;
+                selectedType = null;
+
+                //loadCommunityFeed(); 
+
+                 await loadCommunityFeed(); 
+
+                // ADD FLASH EFFECT TO THE NEWEST POST (First child)
+                const feedContainer = document.getElementById('community-feed-container');
+                const newPost = feedContainer.firstElementChild;
+                if (newPost) {
+                    newPost.style.transition = "background-color 0.5s ease";
+                    newPost.style.backgroundColor = "#fff3cd"; // Light orange/yellow flash
+                    setTimeout(() => {
+                        newPost.style.backgroundColor = "#CBB9A4"; // Fade back to normal
+                    }, 1000);
+                }
+
+
             } else {
                 const err = await response.json();
                 alert("Failed to post: " + (err.message || err.error));
@@ -940,7 +997,7 @@ async function loadUserProfile() {
             }
 
             // D. Load User's Posts
-            loadUserPosts(user.user_id);
+            loadUserPosts(user.user_id, user.username, user.avatar_url);
         }
 
         // 4. Update Settings Page (If active)
@@ -953,7 +1010,7 @@ async function loadUserProfile() {
     }
 }
 
-async function loadUserPosts(userId) {
+async function loadUserPosts(userId, profileUsername, profileAvatar) {
     const container = document.getElementById('profile-posts-container');
     if (!container) return;
 
@@ -992,13 +1049,18 @@ async function loadUserPosts(userId) {
             });
 
             // 2. Handle Avatar
+            const displayAuthor = post.author_name || profileUsername || 'Chef';
+           
             let avatar = 'https://placehold.co/50?text=U';
-            if (post.author_avatar) {
-                 if(post.author_avatar.startsWith('http')) {
-                     avatar = post.author_avatar;
+            
+            const avatarSource = post.author_avatar || profileAvatar;
+           
+            if (avatarSource) {
+                 if(avatarSource.startsWith('http')) {
+                     avatar = avatarSource;
                  } else {
                      // If using Supabase storage
-                     const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(post.author_avatar);
+                     const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(avatarSource);
                      avatar = data.publicUrl;
                  }
             }
@@ -1019,13 +1081,13 @@ async function loadUserPosts(userId) {
                 }
             }
 
-            // 4. Build the HTML
+            // 4. Build the HTML (Added onclick redirect and stopPropagation)
             const cardHTML = `
-                <div class="profile-feed-card">
+                <div class="profile-feed-card" onclick="window.location.href='commentPage.html?id=${post.post_id}'">
                     <div class="p-card-header">
                         <img src="${avatar}" class="p-card-avatar" onerror="this.src='https://placehold.co/50?text=U'">
                         <div class="p-card-info">
-                            <h4>${post.author_name || 'Chef'}</h4>
+                            <h4>${displayAuthor}</h4>
                             <span>${dateStr}</span>
                         </div>
                     </div>
@@ -1037,10 +1099,10 @@ async function loadUserPosts(userId) {
                     ${mediaHTML}
 
                     <div class="p-card-actions">
-                        <button class="p-action-btn" onclick="toggleLike('${post.post_id}')">
+                        <button class="p-action-btn" onclick="event.stopPropagation(); toggleLike('${post.post_id}')">
                             <i class="far fa-heart"></i> ${post.likes || 0} Likes
                         </button>
-                        <button class="p-action-btn">
+                        <button class="p-action-btn" onclick="event.stopPropagation(); window.location.href='commentPage.html?id=${post.post_id}'">
                             <i class="far fa-comment"></i> Comment
                         </button>
                     </div>
@@ -1619,7 +1681,9 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
 
         if (response.ok) {
             // Update the image on screen immediately
-            imgElement.src = publicUrl; 
+            const timestamp = new Date().getTime();
+            imgElement.src = `${publicUrl}?t=${timestamp}`; 
+           // imgElement.src = publicUrl; 
             alert(`${type === 'cover' ? 'Cover' : 'Avatar'} updated successfully!`);
         } else {
             const err = await response.json();
@@ -1637,6 +1701,60 @@ async function handleImageUpload(file, type, btnElement, imgElement) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+
+    // HAMBURGER MENU LOGIC
+    const burgerMenu = document.getElementById('burger-menu');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (burgerMenu && navMenu) {
+        burgerMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // 1. Auth Check (Only if not on login/signup pages)
+    let isUserLoggedIn = false;
+    if (!document.getElementById('loginForm') && !document.getElementById('signupForm')) {
+        await checkAuth();
+
+        const loginBtn = document.querySelector('.lg-button');
+        isUserLoggedIn = loginBtn && loginBtn.innerText === "Log Out";
+    }
+
+    const isRestrictedPage = window.location.href.includes('community.html') || window.location.href.includes('profile.html');
+    
+    if (isRestrictedPage && !isUserLoggedIn) {
+        alert("You need an account to access this page.");
+        // Try to redirect to Login. Since paths vary, we try an absolute path or go Home.
+        // Assuming your server serves /Page/Logging/login.html correctly:
+        window.location.href = "/Page/Logging/login.html"; 
+        return; // Stop execution of further loading scripts
+    }
+
+    // B. Intercept clicks on links to restricted pages
+    document.body.addEventListener('click', (e) => {
+        const target = e.target.closest('a'); // Find closest anchor tag
+        if (target) {
+            const href = target.getAttribute('href');
+            if (href && (href.includes('community.html') || href.includes('profile.html'))) {
+                // We re-check the button just in case state changed (e.g. logout)
+                const loginBtn = document.querySelector('.lg-button');
+                const loggedIn = loginBtn && loginBtn.innerText === "Log Out";
+                
+                if (!loggedIn) {
+                    e.preventDefault(); // Stop navigation
+                    alert("You need an account to access this page.");
+                }
+            }
+        }
+    });
+    // -----------------------------
+
+    // 2. Load Data (Only if we didn't return above)
+    await loadRecipes();     
+    loadSearchPageRecipes(); 
+
     // 1. Check if we are on the comment page by looking for the specific container
     if (document.querySelector('.discussion-container')) {
         
@@ -1767,6 +1885,13 @@ async function loadDiscussionPage(postId) {
                 commentThread.innerHTML += commentHTML;
             });
         }
+
+        // NEW: Unhide the content and hide the loader
+        const loader = document.getElementById('loading-msg');
+        const content = document.getElementById('discussion-container');
+        
+        if (loader) loader.style.display = 'none';
+        if (content) content.style.display = 'block';
 
     } catch (error) {
         console.error("Error loading discussion:", error);

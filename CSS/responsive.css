@@ -5,13 +5,56 @@
   display: none; /* Hidden on very large screens */
 }
 
+/* Prevent horizontal scroll globally */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 /* -------------------------------------------------- */
-/* 2. LAPTOPS & TABLETS (max-width: 1280px)           */
-/* CHANGED: Increased trigger from 1024px to 1280px   */
+/* 0. GLOBAL GRID FIXES (Overrides Base CSS)          */
+/* Ensures cards don't stretch to full width on wide screens */
+/* -------------------------------------------------- */
+.search-results-grid, 
+.tutorial-grid {
+  display: grid;
+  /* Use auto-fill to keep cards compact, match Recipe Search */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
+/* -------------------------------------------------- */
+/* 1.5. LARGE LAPTOPS (max-width: 1280px)             */
+/* ADDED: Force 3 Columns as requested                */
+/* -------------------------------------------------- */
+@media (max-width: 1280px) {
+  .search-results-grid, 
+  .tutorial-grid {
+    grid-template-columns: repeat(3, 1fr); /* Exactly 3 cards */
+  }
+}
+
+/* -------------------------------------------------- */
+/* 1.6. EXTRA LARGE SCREENS (min-width: 1281px)       */
+/* ADDED: Force spread out behavior                   */
+/* -------------------------------------------------- */
+@media (min-width: 1281px) {
+  .search-results-grid, 
+  .tutorial-grid {
+    /* Force 3 columns to prevent vertical stacking and ensure spread */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 40px; 
+  }
+}
+
+/* -------------------------------------------------- */
+/* 2. LAPTOPS & TABLETS (max-width: 1080px)           */
+/* Covers iPads, small laptops, and landscape tablets */
 /* -------------------------------------------------- */
 @media (max-width: 1080px) {
   
-  /* Global Navigation Changes */
+  /* --- Global Navigation Changes --- */
   .site-header {
     flex-wrap: wrap; 
     height: auto;
@@ -21,21 +64,21 @@
     align-items: center;
   }
 
-  /* SHOW the Burger Icon */
+  /* Show the Burger Icon */
   .burger-menu {
     display: block; /* Force show */
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #3b1f16;
     background: transparent;
-    border: 2px solid #3b1f16; /* Dark border to make it visible */
+    border: 2px solid #3b1f16;
     border-radius: 5px;
     cursor: pointer;
-    padding: 2px 10px;
+    padding: 4px 10px;
     line-height: 1;
     z-index: 1000;
   }
 
-  /* HIDE the Normal Text Links */
+  /* Hide the Normal Text Links */
   .header-right {
     display: none; 
     flex-direction: column;
@@ -46,7 +89,7 @@
     align-items: center;
   }
 
-  /* Show Menu when Active */
+  /* Show Menu when Active (toggled by JS) */
   .header-right.active {
     display: flex;
   }
@@ -65,36 +108,290 @@
     display: block; 
   }
 
-  /* Layout Adjustments */
-  .detail-container, 
+  /* --- Home Page Fixes --- */
+  .community-container {
+    flex-wrap: wrap; /* Fix: Allow cards to stack */
+    gap: 30px;
+  }
+
+  /* --- Community Page Fixes --- */
+  /* Ensure width is fluid on tablets */
   .community-main {
-    max-width: 90%;
+    padding: 0 20px; 
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* FIXED: Added .s-recipe-card and .tutorial-card to ensure they shrink */
+  .create-post-card, 
+  .feed-card,
+  .s-recipe-card,
+  .tutorial-card {
+    width: 100% !important; /* Override fixed widths */
+    min-width: 0 !important; /* Fix: Allow shrinking below 300px */
+  }
+
+  /* --- Detail Pages Fixes --- */
+  .detail-container {
+    max-width: 100%;
+    padding: 0 20px;
   }
 
   .recipe-content-split {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr; /* Stack Ingredients/Instructions */
+    gap: 30px;
+  }
+
+  .recipe-hero-img {
+    height: 300px; /* Shorter hero image on tablet */
+  }
+
+  /* --- Profile Page Fixes --- */
+  .profile-grid-layout {
+    grid-template-columns: 1fr; /* Stack sidebar and feed */
+  }
+  
+  .profile-sidebar {
+    margin-bottom: 30px;
+  }
+
+  /* --- Search Page Fixes (Tablet) --- */
+  .search-page-header {
+    margin-top: 40px; /* Fix large gap on tablets */
+  }
+  
+  /* Update Grid to be 2 Columns on Tablet */
+  .search-results-grid, 
+  .tutorial-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* -------------------------------------------------- */
 /* 3. MOBILE PHONES (max-width: 768px)                */
+/* Standard mobile devices */
 /* -------------------------------------------------- */
 @media (max-width: 768px) {
-  .site-header { padding: 15px; }
-  .toggle-wrapper { flex-direction: column; width: 100%; }
-  .filters-row { flex-direction: column; }
-  .filters-row select { width: 100%; }
-  .ing-input-row { flex-direction: column; }
-  .ing-add-btn { width: 100%; }
-  .action-row { flex-direction: column; }
-  .media-btns { justify-content: space-between; }
-  .auth-container { width: 90%; padding: 30px 20px; }
+  
+  /* --- Header Fixes --- */
+  .logo-text {
+    font-size: 1.8rem; /* Scale down logo text */
+  }
+  
+  .logo-icon {
+    height: 40px; /* Scale down logo icon */
+  }
+
+  /* --- Home Page --- */
+  .intro h1 {
+    font-size: 2.2rem; /* Smaller hero text */
+  }
+  .intro p {
+    font-size: 1rem;
+  }
+  
+  /* Stack Intro Buttons Vertically */
+  .intro-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .cta-button, 
+  .cta-button-b {
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
+
+  .recipe-box {
+    padding: 25px 20px;
+  }
+  .input-group {
+    flex-direction: column; /* Stack input and button */
+  }
+  .add-btn {
+    width: 100%;
+    border-radius: 30px;
+    margin-top: 10px;
+  }
+  .input-group input {
+    border-radius: 30px;
+  }
+
+  /* --- Search Page Fixes (RECIPE SEARCH) --- */
+  .search-page-header {
+    margin-top: 20px; /* Removed large top margin */
+    padding: 15px;
+  }
+
+  /* Fix Toggle Button Stacking */
+  .toggle-wrapper {
+    flex-direction: row; /* Keep them side-by-side */
+    width: 100%;
+    max-width: 400px;
+    display: inline-flex;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+  }
+  
+  .toggle-btn {
+    width: 50%; /* Equal split */
+    padding: 10px 5px; /* Tighter padding */
+    font-size: 0.85rem; /* Smaller text to fit "Ingredient Search" */
+    white-space: nowrap;
+  }
+
+  .recipe-search-container {
+    width: 100%;
+    padding: 0 20px; /* Added padding to prevent edge touching */
+  }
+
+  .filters-row {
+    flex-direction: column;
+  }
+  .filters-row select {
+    width: 100%;
+  }
+  
+  .ingredient-search-box {
+    padding: 25px 15px; /* Reduce padding */
+  }
+
+  .ing-input-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ing-add-btn {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  /* --- Profile Page --- */
+  .profile-identity-bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -60px; /* Adjust overlap */
+    padding: 0 20px 30px;
+  }
+  
+  .avatar-container {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .profile-actions {
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .profile-name {
+    font-size: 2rem;
+  }
+
+  /* --- Recipe Detail --- */
+  .recipe-header-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .recipe-stats-row {
+    flex-direction: column; /* Stack time, servings, rating */
+    gap: 15px;
+    padding-top: 20px;
+  }
+
+  /* --- Community --- */
+  .action-row {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .media-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Spread buttons */
+    gap: 10px;
+  }
+
+  .media-btn {
+    flex: 1; /* Equal width buttons */
+    justify-content: center;
+  }
+  
+  .post-submit-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+  
+  .post-image-container {
+    height: 300px; /* Smaller image height for mobile */
+  }
+
+  /* --- Auth Pages --- */
+  .auth-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+  
+  /* GRID OVERRIDE FOR MOBILE */
+  .search-results-grid,
+  .tutorial-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Force single column on mobile */
+    gap: 20px;
+  }
 }
 
 /* -------------------------------------------------- */
 /* 4. SMALL MOBILE (max-width: 480px)                 */
+/* Small iPhones, Androids */
 /* -------------------------------------------------- */
 @media (max-width: 480px) {
-  .recipe-grid, .tutorial-grid, .search-results-grid { grid-template-columns: 1fr; }
-  .cat-btn { width: 100%; }
+  
+  /* Grids to Single Column */
+  .recipe-grid, 
+  .tutorial-grid, 
+  .search-results-grid { 
+    grid-template-columns: 1fr; 
+  }
+
+  .home-tutorial-card,
+  .recipe-card,
+  .comm-card,
+  .s-recipe-card,
+  .tutorial-card {
+    width: 100% !important; /* Full width cards */
+  }
+
+  .cat-btn {
+    width: 100%; /* Tutorial categories full width */
+    flex-direction: row; /* Icon beside text instead of top */
+    justify-content: flex-start;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  /* Fix Search Toggles on Small Screens */
+  .toggle-btn {
+    padding: 8px 4px;
+    font-size: 0.8rem;
+  }
+
+  .intro h1 {
+    font-size: 1.8rem;
+  }
+  
+  .logo-text {
+    font-size: 1.4rem; /* Smaller logo text */
+  }
+  
+  /* Ensure Search Input doesn't break */
+  .search-input-wrapper input {
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
 }

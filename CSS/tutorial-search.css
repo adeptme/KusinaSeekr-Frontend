@@ -86,13 +86,16 @@ body {
   max-width: 1200px; 
   margin: 0 auto; 
   padding: 0 20px; 
+  box-sizing: border-box; /* Ensure padding doesn't break width */
 }
 
+/* Base Grid (Mobile First / Default) */
 .tutorial-grid { 
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
   gap: 30px; 
   margin-bottom: 60px; 
+  width: 100%;
 }
 
 .tutorial-card { 
@@ -102,16 +105,20 @@ body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
   cursor: pointer; 
   transition: 0.3s; 
+  display: flex;
+  flex-direction: column;
 }
 
 .tutorial-card:hover { 
   transform: translateY(-5px); 
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* Enhanced hover shadow */
 }
 
 .tutorial-img-wrap { 
   height: 200px; 
   background: #ddd; 
   position: relative; 
+  width: 100%;
 }
 
 .tutorial-img-wrap img { 
@@ -132,6 +139,7 @@ body {
 
 .tutorial-details { 
   padding: 20px; 
+  flex: 1; /* Pushes content to fill height */
 }
 
 .tutorial-details h3 { 
@@ -155,4 +163,18 @@ footer {
   background: #f9f5f0; 
   border-top: 1px solid #ddd; 
   color: #888;
+}
+
+/* --- Large Screen Fix (1281px and up) --- */
+@media (min-width: 1281px) {
+    .container {
+        max-width: 1600px; /* Allow wider content on large screens */
+        padding: 0 60px;
+    }
+
+    .tutorial-grid {
+        /* auto-fill prefers adding columns over stretching items too wide */
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+        gap: 40px; /* More spacing */
+    }
 }

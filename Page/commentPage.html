@@ -7,7 +7,6 @@
     
     <link rel="stylesheet" href="../CSS/global.css">
     <link rel="stylesheet" href="../CSS/community.css">
-    <!-- ADDED: New Comment-Specific Stylesheet -->
     <link rel="stylesheet" href="../CSS/comment.css">
     <link rel="stylesheet" href="../CSS/responsive.css">
     
@@ -21,6 +20,7 @@
 
     <header class="site-header">
         <a href="../index.html" class="logo-container">
+            <img src="../images/kusina-logo.jpg" alt="Logo" class="logo-img">
             <h1 class="logo-text">KusinaSeekr</h1>
         </a>
         <button class="burger-menu" id="burger-menu">
@@ -42,139 +42,68 @@
 
     <main class="community-main">
         
-        <div class="discussion-container">
+        <!-- 1. LOADING INDICATOR (Visible by default) -->
+        <div id="loading-msg" style="text-align: center; padding: 100px 20px; color: #888;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2.5rem; color: #E2725B; margin-bottom: 20px;"></i>
+            <h3 style="font-family: 'Nunito', sans-serif;">Loading comments...</h3>
+        </div>
+
+        <!-- 2. MAIN CONTENT CONTAINER (Hidden by default) -->
+        <div class="discussion-container" id="discussion-container" style="display: none;">
             
-            <!-- BACK BUTTON -->
             <a href="community.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Feed</a>
 
-            <!-- ORIGINAL POST (Expanded View) -->
+            <!-- POST CARD (Empty Skeleton) -->
             <div class="feed-card expanded-post">
                 <div class="post-header">
-                    <img src="https://placehold.co/50?text=K" class="user-avatar-sm">
+                    <img src="https://placehold.co/50?text=..." class="user-avatar-sm">
                     <div class="poster-info">
-                        <h4>KusinaMaster</h4>
-                        <span>2 hours ago</span>
+                        <h4>Loading...</h4> <!-- Will be filled by JS -->
+                        <span>...</span>
                     </div>
                 </div>
                 
-                <h1 class="post-title-large">
-                    My secret to the crispiest Lechon Kawali! 🍖
-                </h1>
+                <h1 class="post-title-large"></h1> <!-- Will be filled by JS -->
 
-                <p class="post-body-text">
-                    I've tried everything from boiling with vinegar to freezing the meat before frying. 
-                    But honestly, the real secret lies in the drying process! You have to let it air dry for at least 3 hours...
-                </p>
+                <p class="post-body-text"></p> <!-- Will be filled by JS -->
 
-                <div class="post-image-container">
-                    <img src="https://placehold.co/800x600?text=Lechon" alt="Post Image">
+                <div class="post-image-container" style="display: none;">
+                    <!-- JS will insert img or video here -->
                 </div>
 
                 <div class="post-footer-line">
                     <div class="vote-pill">
-                        <button class="vote-btn up"><i class="fas fa-chevron-up"></i></button>
-                        <span class="vote-count">245</span>
-                        <button class="vote-btn down"><i class="fas fa-chevron-down"></i></button>
+                        <span class="vote-count" style="font-weight: bold; font-family: 'Nunito', sans-serif;">--</span> 
+                        <span style="font-family: 'Lato', sans-serif; color:#666;">Likes</span>
                     </div>
-                    <button class="action-icon-btn"><i class="fas fa-share-square"></i> Share</button>
-                    <button class="action-icon-btn"><i class="fas fa-bookmark"></i> Save</button>
                 </div>
             </div>
 
-            <!-- COMMENT INPUT AREA -->
+            <!-- COMMENT INPUT -->
             <div class="comment-input-section">
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-        <img id="commenter-avatar" src="https://placehold.co/40?text=..." 
-             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-        
-        <p style="margin: 0;">
-            Comment as <span id="commenter-name" style="color:#E2725B; font-weight:700;">Loading...</span>
-        </p>
-    </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <img id="commenter-avatar" src="https://placehold.co/40?text=..." 
+                         style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    
+                    <p style="margin: 0;">
+                        Comment as <span id="commenter-name" style="color:#E2725B; font-weight:700;">Loading...</span>
+                    </p>
+                </div>
 
-    <form id="commentForm">
-        <textarea class="comment-box" placeholder="What are your thoughts?"></textarea>
-        <div class="comment-actions">
-            <div class="format-tools">
-                <button type="button" title="Bold"><i class="fas fa-bold"></i></button>
-                <button type="button" title="Italic"><i class="fas fa-italic"></i></button>
-                <button type="button" title="Link"><i class="fas fa-link"></i></button>
+                <form id="commentForm">
+                    <textarea class="comment-box" placeholder="What are your thoughts?"></textarea>
+                    <div class="comment-actions">
+                        <button type="submit" class="post-comment-btn">Comment</button>
+                    </div>
+                </form>
             </div>
-            <button type="submit" class="post-comment-btn">Comment</button>
-        </div>
-    </form>
-</div>
 
             <!-- COMMENTS THREAD -->
             <div class="comments-thread">
-                
-                <!-- Filter Comments -->
                 <div class="comments-filter">
-                    <span>Sort by:</span>
-                    <select>
-                        <option>Best</option>
-                        <option>Newest</option>
-                        <option>Top</option>
-                    </select>
+                    <span>Discussion</span>
                 </div>
-
-                <!-- Comment 1 -->
-                <div class="comment-node">
-                    <div class="comment-avatar">
-                        <img src="https://placehold.co/40?text=A">
-                    </div>
-                    <div class="comment-content">
-                        <div class="comment-meta">
-                            <strong>ChefAnna</strong> • <span>1 hour ago</span>
-                        </div>
-                        <p>Have you tried pricking the skin before frying? That usually helps with the blisters!</p>
-                        <div class="comment-actions-bar">
-                            <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
-                            <span>12</span>
-                            <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
-                            <button class="reply-btn">Reply</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comment 2 (Nested) -->
-                <div class="comment-node">
-                    <div class="comment-avatar">
-                        <img src="https://placehold.co/40?text=B">
-                    </div>
-                    <div class="comment-content">
-                        <div class="comment-meta">
-                            <strong>BoyLogro</strong> • <span>45 mins ago</span>
-                        </div>
-                        <p>Great tip! The vinegar trick works too if you want that extra crunch.</p>
-                        <div class="comment-actions-bar">
-                            <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
-                            <span>5</span>
-                            <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
-                            <button class="reply-btn">Reply</button>
-                        </div>
-
-                        <!-- Reply to Comment 2 -->
-                        <div class="comment-node reply-node">
-                            <div class="comment-avatar">
-                                <img src="https://placehold.co/40?text=C">
-                            </div>
-                            <div class="comment-content">
-                                <div class="comment-meta">
-                                    <strong>NewbieCook</strong> • <span>10 mins ago</span>
-                                </div>
-                                <p>How much vinegar do I add to the water?</p>
-                                <div class="comment-actions-bar">
-                                    <button class="vote-btn-sm up"><i class="fas fa-arrow-up"></i></button>
-                                    <span>1</span>
-                                    <button class="vote-btn-sm down"><i class="fas fa-arrow-down"></i></button>
-                                    <button class="reply-btn">Reply</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- Comments injected here by JS -->
             </div>
 
         </div>

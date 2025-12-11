@@ -4,23 +4,31 @@ body {
 }
 
 .community-main {
-    max-width: 1280px; /* INCREASED: Made wider (was 700px) */
+    width: 100%; /* Ensure it takes full width initially */
+    max-width: 1280px; /* Cap width on large screens */
     margin: 40px auto;
-    padding: 0 150px;
+    padding: 0 20px; /* Consistent padding */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 /* --- Create Post Widget --- */
 .create-post-card {
-    background-color: #E6DBC9; /* Latte/Beige color from Figma */
+    /* Updated to match the beige/sand color in your image */
+    background-color: #E6DACB; 
+    border: 1px solid #d1c0b0; /* Slightly darker border for definition */
     border-radius: 20px;
-    padding: 20px;
+    padding: 25px; /* Increased padding slightly */
     margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(59, 31, 22, 0.05); /* Warmer, softer shadow */
     
-    /* ADDED: Match dimensions with feed-card */
-    width: 1000px;
-    min-width: 300px;
+    width: 100%; /* Force full width of parent */
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+
+.create-post-card:focus-within {
+    box-shadow: 0 8px 25px rgba(226, 114, 91, 0.15); /* Glows when typing */
+    border-color: #E2725B;
 }
 
 .input-row {
@@ -31,32 +39,38 @@ body {
 }
 
 .user-avatar-sm {
-    width: 45px;
-    height: 45px;
+    width: 50px; /* Slightly larger avatar */
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid white;
+    border: 2px solid #fff; /* White border to pop against the beige */
 }
 
 .post-input {
     flex: 1;
-    background: white;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
+    background: #FFFFFF; /* White input stands out on beige */
+    border: 1px solid #d1c0b0;
+    padding: 15px 20px;
+    border-radius: 30px; /* Pill shape */
     font-family: 'Lato', sans-serif;
-    font-size: 0.95rem;
-    color: #555;
+    font-size: 1rem;
+    color: #333;
     outline: none;
     resize: none; 
+    transition: 0.2s;
+}
+
+.post-input:focus {
+    background: #fff;
+    border-color: #E2725B;
 }
 
 .action-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
-    border-top: 1px solid rgba(90, 61, 43, 0.1);
+    padding-top: 15px;
+    border-top: 1px solid rgba(90, 61, 43, 0.1); /* Subtle divider */
 }
 
 .media-btns {
@@ -65,96 +79,109 @@ body {
 }
 
 .media-btn {
-    background: #E8E8E8;
-    border: none;
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+    border: 1px solid #d1c0b0;
     padding: 8px 15px;
-    border-radius: 8px;
+    border-radius: 20px;
     font-family: 'Nunito', sans-serif;
     font-weight: 700;
-    color: #3b1f16;
+    color: #555;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: 0.2s;
 }
 
 .media-btn:hover {
-    background: #d4d4d4;
+    background: #FFF; 
+    color: #E2725B;
+    border-color: #E2725B;
 }
 
 .post-submit-btn {
-    background: #E8E8E8; /* Light gray/beige from Figma */
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
+    background: transparent; /* No background as per some designs, or keep button style */
+    color: #3b1f16;
+    border: 1px solid #3b1f16;
+    padding: 10px 25px;
+    border-radius: 25px;
     font-family: 'Nunito', sans-serif;
     font-weight: 700;
-    color: #3b1f16;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    transition: transform 0.2s, background 0.2s, color 0.2s;
 }
 
 .post-submit-btn:hover {
-    background: #ccc;
+    background: #3b1f16;
+    color: white;
+    transform: translateY(-2px);
 }
 
 /* --- Feed Post Card --- */
 .feed-card {
-    background-color: #CBB9A4; /* Darker beige/brown from Figma */
+    /* Updated to match the darker beige/brown card color in your image */
+    background-color: #CBB9A4; 
+    border: none; /* Usually these cards are borderless on color backgrounds */
     border-radius: 20px;
-    padding: 20px; /* Simplified padding */
-    margin-bottom: 30px; /* More space between cards */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Stronger shadow */
-    color: #3b1f16;
+    padding: 25px; 
+    margin-bottom: 30px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    color: #2b2118;
     
-    /* UPDATED: Width constraints matching create-post-card */
-    min-width: 300px;
-    width: 100%;
+    width: 100%; 
     box-sizing: border-box;
+    
+    /* Hover Lift Effect */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feed-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(59, 31, 22, 0.1);
 }
 
 .post-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .poster-info h4 {
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    font-size: 1.1rem; /* Slightly larger */
-    margin: 0;
+    font-size: 1.1rem; 
+    margin: 0 0 3px 0;
     color: #2b2118;
 }
 
 .poster-info span {
     font-family: 'Lato', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #444; 
 }
 
 .post-title {
-    font-family: 'Merriweather', serif; /* Changed to match brand headings */
+    font-family: 'Merriweather', serif; 
     margin-bottom: 20px;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.6;
     color: #2b2118;
 }
 
 /* --- FIXED IMAGE CONTAINER --- */
 .post-image-container {
-    width: calc(100% + 40px); /* Pull edges */
-    margin-left: -20px;
+    width: calc(100% + 50px); /* Adjust for larger padding */
+    margin-left: -25px; /* Pull edges to bleed */
+    margin-right: -25px;
     margin-bottom: 15px;
     
-    /* ADDED: Fixed height logic */
-    height: 500px; /* Fixed height for the viewing window */
-    background-color: #000; /* Black bars for different aspect ratios */
+    height: 500px; 
+    background-color: #000; /* Black background for images/video */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,12 +189,11 @@ body {
 }
 
 .post-image-container img {
-    /* ADDED: Fit logic */
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* Ensures whole image is visible without cropping */
+    object-fit: contain; 
     display: block;
 }
 
@@ -177,7 +203,7 @@ body {
     padding-top: 15px;
     display: flex; 
     align-items: center;
-    gap: 15px;
+    gap: 20px; /* More spacing between buttons */
 }
 
 /* For text-only posts */
@@ -187,7 +213,7 @@ body {
 }
 
 .action-icon-btn {
-    background: rgba(255,255,255,0.3); /* Slight background */
+    background: rgba(255,255,255,0.2); /* Slight white tint for buttons on color bg */
     border: none;
     cursor: pointer;
     color: #2b2118;
@@ -200,14 +226,15 @@ body {
     align-items: center;
     gap: 8px; 
     
-    padding: 10px 15px;
-    border-radius: 20px;
-    transition: background-color 0.2s ease;
+    padding: 8px 15px;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+    text-decoration: none; /* For the link */
 }
 
 /* Hover Effect */
 .action-icon-btn:hover {
-    background-color: rgba(226, 114, 91, 0.2); 
+    background-color: rgba(255, 255, 255, 0.5); 
     color: #E2725B;
 }
 
