@@ -535,7 +535,7 @@ function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='r
                 
                 <div class="${metaClass}">
                     <span class="${tagClass}">${recipe.category}</span>
-                    <span>⏱ ${recipe.cook_time}</span>
+                    <span>⏱ ${recipe.cooking_time_display}</span>
                 </div>
                 
                 <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
