@@ -159,7 +159,7 @@ async function loadFeaturedTutorials() {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
         const tutorials = await response.json();
-        renderTutorialCards(tutorials.slice(0, 3), container);
+        renderTutorialCards(tutorials.slice(0, 3), container, 'Page/search/details page/');
     } catch (error) {
         console.error("Error loading featured:", error);
     }
@@ -328,7 +328,7 @@ function parseList(jsonString, elementId, type) {
             items.forEach(item => {
                 const li = document.createElement('li');
                 if (type === 'ingredient') {
-                    li.innerHTML = `<strong>${item.amount || ''}</strong> ${item.name} ${item.notes ? `(${item.notes})` : ''}`;
+                    li.innerHTML = `<strong>${item.amount || ''}</strong> ${'&nbsp;'} ${item.name} ${item.notes ? `(${item.notes})` : ''}`;
                 } else { li.innerHTML = `<p>${item.instruction}</p>`; }
                 container.appendChild(li);
             });
@@ -1126,12 +1126,16 @@ async function loadTutorialCards() {
             }
 
             const cardHTML = `
-                <div class="home-tutorial-card" 
-                    onclick="window.location.href='Page/search/details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
-                    
-                    <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
-                    
-                    
+                <div class="home-tutorial-card" onclick="window.location.href='Page/search/details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
+              
+                <div class="tutorial-img-wrap" style="height: 200px; width: 100%; position: relative; overflow: hidden;">
+                    <img src="${imageSrc}" alt="${tutorial.title}" 
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;" 
+                         onerror="this.src='https://placehold.co/400x250?text=Error'">
+                  
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">▶</div>
+                </div>
+
                     <div class="tut-content">
                         <h3>${tutorial.title}</h3>
                         <p>${tutorial.subtitle || ''}</p>
@@ -1241,14 +1245,14 @@ async function loadSearchPageTutorials() {
     try {
         const response = await fetch(`${BACKEND_URL}/feature/tutorials`);
         const tutorials = await response.json();
-        renderTutorialCards(tutorials, container);
+        renderTutorialCards(tutorials, container, 'details page/');
     } catch (error) {
         console.error("Error loading tutorials:", error);
     }
 }
 
 
-function renderTutorialCards(list, container) {
+function renderTutorialCards(list, container, linkPrefix = '') {
     if (!container) return;
     container.innerHTML = '';
     
@@ -1271,18 +1275,19 @@ function renderTutorialCards(list, container) {
         }
 
         const cardHTML = `
-            <div class="home-tutorial-card" 
-                onclick="window.location.href='details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
-                
-                <img src="${imageSrc}" alt="${tutorial.title}" 
-                     style="width: 100%; height: 200px; object-fit: cover;" 
-                     onerror="this.src='https://placehold.co/400x250?text=Error'">
+            <div class="home-tutorial-card" onclick="window.location.href='${linkPrefix}tutorialPage.html?id=${tutorial.tutorial_id}'">
+                <!-- Wrapper ensures fixed height for image area -->
+                <div class="tutorial-img-wrap" style="height: 200px; width: 100%; position: relative; overflow: hidden;">
+                    <img src="${imageSrc}" alt="${tutorial.title}" 
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;" 
+                         onerror="this.src='https://placehold.co/400x250?text=Error'">
+                    <!-- Play icon centered overlay -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">▶</div>
+                </div>
                 
                 <div class="tut-content">
                     <h3>${tutorial.title}</h3>
                     <p>${tutorial.subtitle || tutorial.short_description || ''}</p>
-                    <!-- Optional: Add time if available in your data -->
-                    <div class="tut-time"><span>▶ ${tutorial.duration || '-- min'} tutorial</span></div>
                 </div>
             </div>
         `;
@@ -1930,7 +1935,7 @@ async function searchTutorials(query) {
             return;
         }
 
-        renderTutorialCards(tutorials, container);
+        renderTutorialCards(tutorials, container, 'details page/');
 
     } catch (error) {
         console.error("❌ Search failed:", error);
