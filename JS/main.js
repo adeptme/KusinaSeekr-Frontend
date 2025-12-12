@@ -1131,6 +1131,7 @@ async function loadTutorialCards() {
                     
                     <img src="${thumbnailPath}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
                     
+                    
                     <div class="tut-content">
                         <h3>${tutorial.title}</h3>
                         <p>${tutorial.subtitle || ''}</p>
@@ -1270,14 +1271,18 @@ function renderTutorialCards(list, container) {
         }
 
         const cardHTML = `
-            <div class="tutorial-card" onclick="window.location.href='details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
-                <div class="tutorial-img-wrap">
-                    <img src="${imageSrc}" alt="${tutorial.title}" onerror="this.src='https://placehold.co/400x250?text=Error'">
-                    <div class="play-icon">▶</div>
-                </div>
-                <div class="tutorial-details">
+            <div class="home-tutorial-card" 
+                onclick="window.location.href='details page/tutorialPage.html?id=${tutorial.tutorial_id}'">
+                
+                <img src="${imageSrc}" alt="${tutorial.title}" 
+                     style="width: 100%; height: 200px; object-fit: cover;" 
+                     onerror="this.src='https://placehold.co/400x250?text=Error'">
+                
+                <div class="tut-content">
                     <h3>${tutorial.title}</h3>
                     <p>${tutorial.subtitle || tutorial.short_description || ''}</p>
+                    <!-- Optional: Add time if available in your data -->
+                    <div class="tut-time"><span>▶ ${tutorial.duration || '-- min'} tutorial</span></div>
                 </div>
             </div>
         `;
