@@ -128,7 +128,7 @@ async function searchByIngredients(ingredientString) {
         });
 
         const data = await response.json();
-        console.log("✅ Backend Response:", data);
+        // console.log("✅ Backend Response:", data);
 
         container.innerHTML = ''; 
 
@@ -1120,9 +1120,9 @@ async function loadTutorialCards() {
                 
                 thumbnailPath = data.publicUrl;
                 
-                console.log(`Tutorial: ${tutorial.title}`);
-                console.log(`DB Filename: ${tutorial.thumbnail}`);
-                console.log(`Generated URL: ${thumbnailPath}`);
+                // console.log(`Tutorial: ${tutorial.title}`);
+                // console.log(`DB Filename: ${tutorial.thumbnail}`);
+                // console.log(`Generated URL: ${thumbnailPath}`);
             }
 
             const cardHTML = `
