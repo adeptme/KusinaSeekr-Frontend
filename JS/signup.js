@@ -1,5 +1,4 @@
-//const AUTH_URL = 'https://kusinaseekr-backend.onrender.com';
-const AUTH_URL = 'http://localhost:5000';
+const AUTH_URL = 'https://kusinaseekr-backend.onrender.com';
 
 const signupForm = document.getElementById('signupForm');
 
