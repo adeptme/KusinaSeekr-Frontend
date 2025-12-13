@@ -1,4 +1,5 @@
-const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+//const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+const BACKEND_URL = 'http://127.0.0.1:5000';
 
 const SUPABASE_URL = 'https://qhytblgdgrwmxknjpopr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeXRibGdkZ3J3bXhrbmpwb3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5ODgwODAsImV4cCI6MjA3NTU2NDA4MH0.JKm01-hSn5mF7GVYH197j7OICSnXy-0mHExJDKhG-EU';
@@ -10,15 +11,26 @@ let allRecipesData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     
+    // 1. Auth Check
     if (!document.getElementById('loginForm') && !document.getElementById('signupForm')) {
         checkAuth();
     }
 
+    // 2. Initialize UI & Filters FIRST (Crucial for the auto-search to work)
+    if (typeof initSearchToggle === "function") {
+        initSearchToggle();
+    }
+    
+    if (typeof setupFilters === "function") {
+        setupFilters();
+    }
+
+    // 3. Load Data
     await loadRecipes();     
     loadSearchPageRecipes(); 
     loadRecipeDetails();
     
-    loadUserProfile()
+    loadUserProfile();
     setupBioEdit();
     loadCommunityFeed();
     loadCommunityInputAvatar();
@@ -28,14 +40,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupVideoModal();
     loadSearchPageTutorials();
     
-    if (typeof initSearchToggle === "function") {
-        initSearchToggle();
-    }
-    
-    if (typeof setupFilters === "function") {
-        setupFilters();
+    // 4. Setup Tutorial Search
+    if (document.getElementById('tutorialResultsContainer')) {
+        setupTutorialSearch();
+        loadSearchPageTutorials();
     }
 
+    if (document.getElementById('tutorialContainer')) {
+        loadFeaturedTutorials();
+    }
+    
+    if (document.getElementById('tutorial-title')) {
+        loadTutorialDetails();
+        setupVideoModal();
+    }
+
+    // 5. Setup Home Page Ingredient Form
     const homeIngForm = document.querySelector('.recipe-box form');
     
     if (homeIngForm) {
@@ -49,21 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const ingredientsParam = urlParams.get('ingredients');
-    
-    if (ingredientsParam && document.getElementById('ingInput')) {
-        const btnIngredient = document.getElementById('btn-ingredient');
-        if (btnIngredient) btnIngredient.click();
-
-        const ingInput = document.getElementById('ingInput');
-        ingInput.value = decodeURIComponent(ingredientsParam);
-        
-        setTimeout(() => {
-            searchByIngredients(ingredientsParam);
-        }, 100);
-    }
-
+    // 6. Setup Ingredient Search Form (Search Page)
     const ingForm = document.getElementById('ingredientSearchForm');
     const btnAdd = document.getElementById('btnAddIng');
 
@@ -90,18 +96,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    if (document.getElementById('tutorialResultsContainer')) {
-        setupTutorialSearch();
-        loadSearchPageTutorials();
-    }
-
-    if (document.getElementById('tutorialContainer')) {
-        loadFeaturedTutorials();
-    }
+    // ✅ 7. AUTO-RUN SEARCH (Moved to the end)
+    // This runs last to ensure the UI (initSearchToggle) is ready to switch tabs
+    const urlParams = new URLSearchParams(window.location.search);
+    const ingredientsParam = urlParams.get('ingredients');
     
-    if (document.getElementById('tutorial-title')) {
-        loadTutorialDetails();
-        setupVideoModal();
+    if (ingredientsParam && document.getElementById('ingInput')) {
+        const btnIngredient = document.getElementById('btn-ingredient');
+        
+        // Because initSearchToggle() ran above, this click will correctly switch the view
+        if (btnIngredient) {
+            btnIngredient.click(); 
+        }
+
+        const ingInput = document.getElementById('ingInput');
+        if (ingInput) {
+            ingInput.value = decodeURIComponent(ingredientsParam);
+            
+            // Slight delay to ensure tab animation/display is done before searching
+            setTimeout(() => {
+                searchByIngredients(ingredientsParam);
+            }, 100);
+        }
     }
 });
 
@@ -217,6 +233,9 @@ function renderCards(recipesList, container, linkPrefix, cardClass='recipe-card'
             imagePath = data.publicUrl;
         }
 
+        // ✅ NEW: Handle views (default to 0 if undefined)
+        const viewCount = recipe.views || 0;
+
         const cardHTML = `
             <div class="${cardClass}">
                 <img src="${imagePath}" alt="${recipe.title}" style="width:100%; height:200px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300?text=Image+Error'">
@@ -226,6 +245,9 @@ function renderCards(recipesList, container, linkPrefix, cardClass='recipe-card'
                     <div class="${metaClass}">
                         <span class="${tagClass}">${recipe.category}</span>
                         <span>⏱ ${recipe.cooking_time_display}</span>
+                        <span style="margin-left: 10px; color: #666; font-size: 0.9em;">
+                            <i class="fas fa-eye"></i> ${viewCount}
+                        </span>
                     </div>
                     <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
                 </div>
@@ -291,6 +313,14 @@ async function loadRecipeDetails() {
         if(document.getElementById('detail-servings')) {
             document.getElementById('detail-servings').innerText = recipe.servings ? `${recipe.servings} servings` : "-- servings";
         }
+
+        // ✅ NEW: Update Views on Details Page
+        if(document.getElementById('detail-views')) {
+            const views = recipe.views || 0;
+            // Using innerHTML to include the icon
+            document.getElementById('detail-views').innerHTML = `<i class="fas fa-eye"></i> ${views} views`;
+        }
+
         let imagePath = 'https://placehold.co/1000x500?text=No+Image';
         if (recipe.main_image) {
             const { data } = supabaseClient.storage.from('recipe-images').getPublicUrl(recipe.main_image);
@@ -525,6 +555,9 @@ function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='r
         imagePath = data.publicUrl;
     }
 
+    // ✅ NEW: Handle views
+    const viewCount = recipe.views || 0;
+
     return `
         <div class="${cardClass}">
             <img src="${imagePath}" alt="${recipe.title}" style="width:100%; height:200px; object-fit:cover;" onerror="this.src='https://placehold.co/400x300?text=Image+Error'">
@@ -535,7 +568,10 @@ function buildCardHTML(recipe, linkPrefix, cardClass='recipe-card', infoClass='r
                 
                 <div class="${metaClass}">
                     <span class="${tagClass}">${recipe.category}</span>
-                    <span>⏱ ${recipe.cooking_time_display}</span>
+                    <span>⏱ ${recipe.cooking_time_display || recipe.cook_time}</span>
+                    <span style="margin-left: 10px; color: #666; font-size: 0.9em;">
+                        <i class="fas fa-eye"></i> ${viewCount}
+                    </span>
                 </div>
                 
                 <a href="${linkPrefix}recipePage.html?id=${recipe.recipe_id}" class="${btnClass}">View Recipe</a>
