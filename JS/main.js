@@ -206,7 +206,6 @@ async function loadSearchPageRecipes() {
     if (!container) return; 
 
     try {
-        const response = await fetch(`${BACKEND_URL}/feature/recipes`);
         const recipes = await response.json();
         
         allRecipesData = recipes;
