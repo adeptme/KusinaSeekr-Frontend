@@ -123,17 +123,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function searchByIngredients(ingredientString) {
     const container = document.getElementById('results-section');
+    // ✅ Stronger Element Selection
+    const countDisplay = document.getElementById('match-count-display'); 
     
-    if (!container) {
-        console.error("❌ Error: Could not find element with ID 'results-section'");
-        return;
+    if(countDisplay) {
+        console.log("✅ Match Display Element Found");
+        countDisplay.innerText = 'Searching...';
+    } else {
+        console.warn("❌ Match Display Element MISSING in HTML");
     }
 
-    console.log("🔍 Searching for:", ingredientString);
+    if (!container) return;
 
     container.style.display = 'grid'; 
     container.style.opacity = '1';
-
     container.innerHTML = '<p style="text-align:center; width:100%; grid-column: span 3;">Searching...</p>';
 
     try {
@@ -144,17 +147,26 @@ async function searchByIngredients(ingredientString) {
         });
 
         const data = await response.json();
-        // console.log("✅ Backend Response:", data);
-
         container.innerHTML = ''; 
 
+        // Handle No Results
         if (!response.ok || !data.recipes || data.recipes.length === 0) {
+            if(countDisplay) countDisplay.innerText = 'Total Matches: 0';
+            
             container.innerHTML = `
                 <div style="text-align:center; width:100%; grid-column: span 3;">
                     <h3>No recipes found 😔</h3>
                     <p>Try searching for "Chicken" or "Pork"</p>
                 </div>`;
             return;
+        }
+
+        // ✅ UPDATE THE TEXT
+        if(countDisplay) {
+            // Check specifically for total_matches from backend, otherwise count the array
+            const count = (data.total_matches !== undefined) ? data.total_matches : data.recipes.length;
+            countDisplay.innerText = `Total Matches: ${count}`;
+            countDisplay.style.display = 'block'; // Force show
         }
 
         data.recipes.forEach(recipe => {
@@ -164,7 +176,8 @@ async function searchByIngredients(ingredientString) {
 
     } catch (error) {
         console.error("❌ Search error:", error);
-        container.innerHTML = '<p style="text-align:center; width:100%;">Something went wrong. Check console.</p>';
+        container.innerHTML = '<p style="text-align:center; width:100%;">Something went wrong.</p>';
+        if(countDisplay) countDisplay.innerText = '';
     }
 }
 
@@ -206,6 +219,7 @@ async function loadSearchPageRecipes() {
     if (!container) return; 
 
     try {
+        const response = await fetch(`${BACKEND_URL}/feature/recipes`);
         const recipes = await response.json();
         
         allRecipesData = recipes;
@@ -512,12 +526,14 @@ if (recipeSearchForm) {
 
 async function searchByTitle(titleQuery) {
     const container = document.getElementById('results-section');
+    const countDisplay = document.getElementById('match-count-display');
+
     if (!container) return;
 
+    if(countDisplay) countDisplay.innerText = 'Searching...';
     container.innerHTML = '<p style="text-align:center; width:100%;">Searching...</p>';
 
     try {
-        // Send POST to backend
         const response = await fetch(`${BACKEND_URL}/feature/search-by-title`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -528,8 +544,15 @@ async function searchByTitle(titleQuery) {
         container.innerHTML = ''; 
 
         if (!response.ok || !data.recipes || data.recipes.length === 0) {
+            if(countDisplay) countDisplay.innerText = 'Total Matches: 0';
             container.innerHTML = '<p style="text-align:center; width:100%;">No recipes found.</p>';
             return;
+        }
+
+        // ✅ UPDATE THE TEXT
+        if(countDisplay) {
+            const count = (data.total_matches !== undefined) ? data.total_matches : data.recipes.length;
+            countDisplay.innerText = `Total Matches: ${count}`;
         }
 
         data.recipes.forEach(recipe => {
@@ -540,6 +563,7 @@ async function searchByTitle(titleQuery) {
     } catch (error) {
         console.error("Search error:", error);
         container.innerHTML = '<p>Error performing search.</p>';
+        if(countDisplay) countDisplay.innerText = '';
     }
 }
 
