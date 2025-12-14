@@ -979,6 +979,7 @@ async function loadUserProfile() {
     const profileName = document.getElementById('profile-name');
     const settingsUsernameInput = document.getElementById('current-username');
 
+    // Only run if we are on a page that needs user data
     if (!profileName && !settingsUsernameInput) return;
 
     try {
@@ -992,22 +993,35 @@ async function loadUserProfile() {
 
         const user = await userResponse.json();
 
+        // --- Update Profile Page Elements ---
         if (profileName) {
+            // 1. Basic Info
             profileName.innerText = user.username || "Chef";
             if(document.getElementById('profile-bio')) {
                 document.getElementById('profile-bio').innerText = user.bio || "No bio yet.";
             }
             
+            // 2. ✅ NEW: Update Stats (Posts & Likes)
+            if (document.getElementById('profile-posts-count')) {
+                document.getElementById('profile-posts-count').innerText = user.posts_total || 0;
+            }
+            if (document.getElementById('profile-likes-count')) {
+                document.getElementById('profile-likes-count').innerText = user.likes_total || 0;
+            }
+
+            // 3. Avatar
             const avatarImg = document.getElementById('profile-avatar');
             if (avatarImg && user.avatar_url) {
                  if (user.avatar_url.startsWith('http')) {
                     avatarImg.src = user.avatar_url;
                 } else {
+                    // Make sure 'profile-pics' matches your Supabase bucket name exactly
                     const { data } = supabaseClient.storage.from('profile-pics').getPublicUrl(user.avatar_url);
                     avatarImg.src = data.publicUrl;
                 }
             }
 
+            // 4. Cover Photo
             const coverImg = document.querySelector('.profile-cover img');
             if (coverImg && user.cover_url) {
                 if (user.cover_url.startsWith('http')) {
@@ -1018,9 +1032,11 @@ async function loadUserProfile() {
                 }
             }
 
+            // 5. Load the Feed
             loadUserPosts(user.user_id, user.username, user.avatar_url);
         }
 
+        // --- Update Settings Page Elements ---
         if (settingsUsernameInput) {
             settingsUsernameInput.value = user.username; 
         }
