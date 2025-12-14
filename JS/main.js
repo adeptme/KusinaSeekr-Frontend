@@ -530,6 +530,11 @@ async function searchByTitle(titleQuery) {
 
     if (!container) return;
 
+    // ✅ FIX 1: Force the container to be visible (Grid mode)
+    // If you don't do this, the results might load but remain hidden
+    container.style.display = 'grid';
+    container.style.opacity = '1';
+
     if(countDisplay) countDisplay.innerText = 'Searching...';
     container.innerHTML = '<p style="text-align:center; width:100%;">Searching...</p>';
 
@@ -549,7 +554,7 @@ async function searchByTitle(titleQuery) {
             return;
         }
 
-        // ✅ UPDATE THE TEXT
+        // ✅ Update text
         if(countDisplay) {
             const count = (data.total_matches !== undefined) ? data.total_matches : data.recipes.length;
             countDisplay.innerText = `Total Matches: ${count}`;
