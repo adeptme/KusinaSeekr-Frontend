@@ -1,3 +1,5 @@
+BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+
 document.addEventListener('DOMContentLoaded', () => {
     loadAnalyticsData();
 });
