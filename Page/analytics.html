@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard | KusinaSeekr</title>
+    
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/responsive.css">
+    <link rel="stylesheet" href="../CSS/analytics.css"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+   <header class="site-header">
+        <a href="index.html" class="logo-container">
+            <img src="../images/kusina-logo.jpg" alt="Logo" class="logo-img">
+            <h1 class="logo-text">KusinaSeekr</h1>
+        </a>
+        <!--Hamburger-->
+        <button class="burger-menu" id="burger-menu">
+            &#9776;
+        </button>
+        <div class="header-right" id="nav-menu">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="../index.html" style="color: #E2725B;">Home</a></li>
+                    <li><a href="../Page/search/ingredient&recipeSearch.html">Recipes</a></li>
+                    <li><a href="../Page/search/tutorialSearch.html">Cooking Tutorials</a></li>
+                    <li><a href="/Page/community.html">Community</a></li>
+                    <li><a href="/Page/profile.html">Profile</a></li>
+                    <li><a href="/Page/analytics.html">Analytics</a></li>
+                </ul>
+            </nav>
+            <a href="/Page/Logging/login.html" class="lg-button">Log In</a>
+        </div>
+    </header>
+
+    <main class="analytics-container">
+        <div class="dashboard-header">
+            <h2>Analytics Dashboard</h2>
+            <p>Track your recipe performance and user engagement.</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Total Logins</h3>
+                <p id="total-logins-count">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h3>Top Recipe</h3>
+                <p id="top-recipe-name">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h3>Total Recipe Views</h3>
+                <p id="total-views-count">Loading...</p>
+            </div>
+        </div>
+
+    
+    <div class="chart-card large">
+        <div class="chart-header">
+            <h3>Daily User Logins</h3>
+        </div>
+        <canvas id="dailyLoginsChart"></canvas>
+    </div>
+
+    <div class="chart-card large"> 
+        <div class="chart-header">
+            <h3>Total Views per Recipe</h3>
+        </div>
+        <canvas id="totalViewsChart"></canvas>
+    </div>
+
+    <div class="chart-card large"> 
+        <div class="chart-header">
+            <h3>Daily Views Trend</h3>
+            <select id="recipeSelect" class="chart-select">
+                <option value="" disabled selected>Select a Recipe</option>
+            </select>
+        </div>
+        <canvas id="dailyViewsChart"></canvas>
+    </div>
+
+    </main>
+
+    <footer>
+        <p>© 2025 KusinaSeekr. All Rights Reserved.</p>
+        <hr>
+    </footer>
+
+    <script src="../JS/analytics.js"></script> 
+    <script src="../JS/main.js"></script> 
+</body>
+</html>

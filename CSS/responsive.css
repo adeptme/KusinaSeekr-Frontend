@@ -52,7 +52,7 @@ html, body {
 /* 2. LAPTOPS & TABLETS (max-width: 1080px)           */
 /* Covers iPads, small laptops, and landscape tablets */
 /* -------------------------------------------------- */
-@media (max-width: 1080px) {
+@media (max-width: 1200px) {
   
   /* --- Global Navigation Changes --- */
   .site-header {
