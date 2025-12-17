@@ -1,4 +1,4 @@
-BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
+const BACKEND_URL = 'https://kusinaseekr-backend.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAnalyticsData();
