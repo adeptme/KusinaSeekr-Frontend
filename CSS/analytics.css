@@ -8,8 +8,8 @@ body {
 /* Main Container: Forced to fill exactly the remaining screen height */
 .analytics-container {
     width: 100%;
-    height: calc(100vh - 80px); /* Adjust 80px based on your header height */
-    padding: 20px;
+    height: calc(200vh - 80px); /* Adjust 80px based on your header height */
+    padding: 20px 200px 20px 200px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;

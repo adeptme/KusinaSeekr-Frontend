@@ -23,7 +23,7 @@ async function loadAnalyticsData() {
     } catch (error) {
         console.error("Error:", error);
         document.querySelector('.analytics-container').innerHTML = 
-            `<p style="text-align:center; color:red; margin-top:50px;">Error loading data. Is the server running?</p>`;
+            `<p style="text-align:center; color:red; margin-top:50px;">Error loading data. Server error occurred.</p>`;
     }
 }
 
@@ -82,13 +82,32 @@ function renderLoginChart(loginData) {
 function renderTotalViewsChart(viewsData) {
     const ctx = document.getElementById('totalViewsChart').getContext('2d');
 
+    // Filter out recipes with 0 views if there are recipes with views >= 1
+    let filteredLabels = viewsData.labels;
+    let filteredData = viewsData.data;
+    
+    const hasNonZeroViews = viewsData.data.some(count => count > 0);
+    
+    if (hasNonZeroViews) {
+        const filtered = viewsData.labels.reduce((acc, label, index) => {
+            if (viewsData.data[index] > 0) {
+                acc.labels.push(label);
+                acc.data.push(viewsData.data[index]);
+            }
+            return acc;
+        }, { labels: [], data: [] });
+        
+        filteredLabels = filtered.labels;
+        filteredData = filtered.data;
+    }
+
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: viewsData.labels,
+            labels: filteredLabels,
             datasets: [{
                 label: 'Total Views',
-                data: viewsData.data,
+                data: filteredData,
                 backgroundColor: '#CBB9A4',
                 hoverBackgroundColor: '#E2725B',
                 borderRadius: 4,
