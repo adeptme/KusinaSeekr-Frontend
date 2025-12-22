@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    if (!document.getElementById('loginForm') && !document.getElementById('signupForm')) {
+        checkAuth();
+    }
+    
     loadAnalyticsData();
 });
 
